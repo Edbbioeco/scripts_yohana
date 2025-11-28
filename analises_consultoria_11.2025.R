@@ -203,7 +203,8 @@ eq_hill
 
 tabela_div <- div_tax |>
   dplyr::left_join(eq_hill,
-                   by = "Área")
+                   by = "Área") |>
+  dplyr::mutate(dplyr::across(.cols = 3:4, ~round(., 2)))
 
 tabela_div
 
@@ -212,7 +213,7 @@ tabela_div
 flex_dic <- tabela_div |>
   flextable::flextable() |>
   flextable::align(align = "center", part = "all") |>
-  flextable::width(width = 2, j = 4) |>
+  flextable::width(width = 1.75, j = 4) |>
   flextable::bg(bg = "white", part = "all")
 
 flex_dic
