@@ -4,8 +4,6 @@ library(readxl)
 
 library(tidyverse)
 
-library(magrittr)
-
 library(vegan)
 
 # Dados ----
@@ -20,18 +18,26 @@ dados
 
 dados |> dplyr::glimpse()
 
-## Tratando ----
+## Matriz de composição ----
 
-dados %<>%
+matriz <- dados |>
   dplyr::mutate(Especie = Especie |> stringr::str_replace("_", " ")) |>
-  tidyr::pivot_longer(cols = dplyr::contains("FT"),
-                      values_to = "Abundância",
-                      names_to = "Área") |>
-  dplyr::summarise(Abundância = Abundância |> max(),
-                   .by = c(Especie, Área)) |>
-  tidyr::pivot_wider(names_from = Área,
+  dplyr::summarise(Abundancia = Abundancia |> max(),
+                   .by = c(Especie, Area)) |>
+  tidyr::pivot_wider(names_from = Especie,
                      values_from = Abundância,
-                     values_fill = 0)
+                     values_fill = 0) |>
+  tibble::column_to_rownames(var = "Area")
+
+matriz
+
+## Dados temporais ----
+
+temp <- dados |>
+  dplyr::mutate(`Horário e data` = paste0(Data, " : ", Hora) |>
+                  lubridate::as_datetime())
+
+temp
 
 # UPGMA ----
 
