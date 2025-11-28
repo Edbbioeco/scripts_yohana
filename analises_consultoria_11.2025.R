@@ -229,7 +229,7 @@ matriz_whit |>
   geom_line(linewidth = 1) +
   scale_x_continuous(breaks = seq(1, 16, 2)) +
   scale_y_continuous(breaks = seq(1, 10, 1)) +
-  facet_wrap(~ Área, scales = "free", ncol = 2) +
+  facet_wrap(~ Área, scales = "free_x", ncol = 2) +
   theme_classic() +
   theme(axis.text = element_text(color = "black", size = 25),
         axis.title = element_text(color = "black", size = 25),
