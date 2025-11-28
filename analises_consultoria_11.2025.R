@@ -45,3 +45,12 @@ bray
 
 ## Gráfico ----
 
+# Curva de rarefação ----
+
+# Diversidade taxonômica ----
+
+## Riqueza e diversidade ----
+
+## Equitabilidade de Hill ----
+
+# Análises temporais ----
