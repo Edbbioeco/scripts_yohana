@@ -111,8 +111,9 @@ ggplot() +
        y = "Similçaridade de Bray-Curtis") +
   scale_x_continuous(breaks = 1:3,
                      labels = Área$label) +
+  scale_y_continuous(limits = c(0, 0.38), expand = FALSE) +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1,
+  theme(axis.text.x = element_text(vjust = 0,
                                    color = "black", size = 25),
         axis.text = element_text(color = "black", size = 25),
         axis.title = element_text(color = "black", size = 25),
