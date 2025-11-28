@@ -33,6 +33,15 @@ matriz <- dados |>
 
 matriz
 
+## Matriz de composição por tempo ----
+
+matriz_temp <- dados |>
+  tidyr::pivot_wider(names_from = Especie,
+                     values_from = Abundância,
+                     values_fill = 0)
+
+matriz_temp
+
 ## Dados temporais ----
 
 temp <- dados |>
@@ -100,6 +109,56 @@ ggplot() +
 ggsave(filename = "upgma.png", height = 10, width = 12)
 
 # Curva de rarefação ----
+
+## Calculando a curva pra Chao1 ----
+
+chao1 <- matriz_temp |>
+  vegan::estaccumR() |>
+  summary(display = c("S", "chao"))
+
+chao1
+
+dados_curva <- chao1$S |>
+  tibble::as_tibble() |>
+  dplyr::rename("Riqueza" = S,
+                "Número de Parcelas" = N) |>
+  dplyr::mutate(Tipo = "Observada") |>
+  dplyr::bind_rows(chao1$chao |>
+                     tibble::as_tibble() |>
+                     dplyr::rename("Riqueza" = Chao,
+                                   "Número de Dias" = N) |>
+                     dplyr::mutate(Tipo = "Estimada"))
+
+dados_curva
+
+## Gráfico ----
+
+dados_curva |>
+  ggplot(aes(`Número de dias`, Riqueza, color = Tipo, fill = Tipo)) +
+  geom_ribbon(aes(x = `Número de Parcelas`,
+                  ymin = Riqueza - Std.Dev,
+                  ymax = Riqueza + Std.Dev),
+              alpha = 0.3,
+              color = "transparent") +
+  geom_line(linewidth = 1) +
+  geom_point(color = "black", size = 5, shape = 21) +
+  scale_x_continuous(breaks = seq(1, 11, 1),
+                     limits = c(1, 11)) +
+  scale_y_continuous(breaks = seq(3, 14, 1),
+                     limits = c(3, 14)) +
+  scale_color_manual(values = c("royalblue", "orange")) +
+  scale_fill_manual(values = c("royalblue", "orange")) +
+  labs(fill = NULL,
+       color = NULL) +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 15),
+        axis.title = element_text(color = "black", size = 15),
+        legend.text = element_text(color = "black", size = 15),
+        panel.border = element_rect(color = "black"),
+        legend.position = "bottom",
+        panel.background = element_rect(color = "black", linewidth = 1))
+
+ggsave(filename = "curva_de_rarefacao.png", height = 10, width = 12)
 
 # Diversidade taxonômica ----
 
