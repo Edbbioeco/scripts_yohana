@@ -6,6 +6,8 @@ library(tidyverse)
 
 library(vegan)
 
+library(ggdendro)
+
 # Dados ----
 
 ## Importando ----
@@ -55,6 +57,20 @@ upgma <- bray |>
 upgma
 
 ## Gráfico ----
+
+### Extraindo os dados de Dendograma ----
+
+upgma_data <- upgma |>
+  as.dendrogram() |>
+  ggdendro::dendro_data()
+
+upgma_data
+
+ramos <- upgma_data$segments
+
+ramos
+
+area <- upgma_data$label
 
 # Curva de rarefação ----
 
