@@ -43,11 +43,16 @@ temp
 
 ## Calculando a similaridade de Bray-Curtis
 
-bray <- 1 - dados |> vegan::vegdist()
+bray <- 1 - matriz |> vegan::vegdist()
 
 bray
 
 ## Calculando o UPGMA ----
+
+upgma <- bray |>
+  hclust(method = "average")
+
+upgma
 
 ## Gráfico ----
 
