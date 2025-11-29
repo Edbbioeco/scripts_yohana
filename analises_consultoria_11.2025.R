@@ -108,7 +108,7 @@ ggplot() +
                                  xend = xend, yend = yend),
                linewidth = 2) +
   labs(x = NULL,
-       y = "Similçaridade de Bray-Curtis") +
+       y = "Similaridade de Bray-Curtis") +
   scale_x_continuous(breaks = 1:3,
                      labels = Área$label) +
   scale_y_continuous(limits = c(0, 0.38), expand = FALSE) +
@@ -220,7 +220,8 @@ flex_dic
 
 ### Salvanso a tabela -----
 
-flextable::save_as_docx(path = "tabela_valores_diversidade.docx")
+flex_dic |>
+  flextable::save_as_docx(path = "tabela_valores_diversidade.docx")
 
 # Diagrama de Whitaker ----
 
