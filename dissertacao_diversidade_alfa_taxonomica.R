@@ -30,7 +30,7 @@ comp  %<>%
 
 comp
 
-# Diversidade ----
+# Diversidade alfa ----
 
 ## q = 0 e q = 1 ----
 
