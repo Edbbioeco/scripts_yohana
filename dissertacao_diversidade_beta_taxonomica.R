@@ -20,6 +20,8 @@ comp <- readxl::read_xlsx("Diversidade de Shannon ABUNDANCIA.xlsx")
 
 comp
 
+comp |> dplyr::glimpse()
+
 ## Tratando ----
 
 comp  %<>%
