@@ -184,7 +184,7 @@ ggplot() +
                                       xend = xend, yend = yend),
                linewidth = 2) +
   labs(x = NULL,
-       y = "Bray-Curtis Dissimilarity") +
+       y = "Gower Dissimilarity") +
   scale_x_continuous(breaks = 1:12,
                      labels = func_nomes$label) +
   facet_wrap(~Indice) +
