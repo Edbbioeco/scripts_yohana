@@ -6,9 +6,11 @@ library(tidyverse)
 
 library(magrittr)
 
-library(vegan)
+library(FD)
 
 library(BAT)
+
+library(reshape2)
 
 # Dados ----
 
@@ -57,6 +59,14 @@ trat %<>%
 trat
 
 # Diversidade funcional -----
+
+## Distância de Gower ----
+
+gower_dist <- trat |>
+  as.data.frame() |>
+  FD::gowdis()
+
+gower_dist
 
 ## Calculando a diversidade beta funcional total ----
 
