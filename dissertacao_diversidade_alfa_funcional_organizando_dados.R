@@ -37,7 +37,7 @@ org_func <- function(id){
     dplyr::filter(Presenca > 0) |>
     dplyr::select(-Presenca) |>
     dplyr::summarise(dplyr::across(1, ~ stringr::str_c(.x, collapse = ", ")),
-                  .by = Especies)
+                     .by = Especies)
 
   assign(paste0("traco_organizado_", traco),
          trac_org,
