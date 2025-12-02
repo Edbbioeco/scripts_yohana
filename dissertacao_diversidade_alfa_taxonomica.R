@@ -8,6 +8,8 @@ library(magrittr)
 
 library(vegan)
 
+library(ggview)
+
 # Dados ----
 
 ## Importando ----

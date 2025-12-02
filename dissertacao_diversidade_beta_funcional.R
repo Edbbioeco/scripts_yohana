@@ -12,6 +12,8 @@ library(BAT)
 
 library(reshape2)
 
+library(ggview)
+
 # Dados ----
 
 ## Composição ----

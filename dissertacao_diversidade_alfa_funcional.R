@@ -12,6 +12,8 @@ library(ade4)
 
 library(picante)
 
+library(ggview)
+
 # Dados ----
 
 ## Composição ----
@@ -133,8 +135,3 @@ div_func_alfa_trat |>
   ggview::canvas(height = 10, width = 12)
 
 ggsave(filename = "dissertacao_div_alfa_func.png", height = 10, width = 12)
-
-# Diversidade funcional beta -----
-
-## Calculando os valores de diversidade funcional beta ----
-
