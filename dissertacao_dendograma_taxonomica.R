@@ -154,7 +154,7 @@ ggplot() +
                                  xend = xend, yend = yend),
                linewidth = 2) +
   labs(x = NULL,
-       y = "Similaridade de Bray-Curtis") +
+       y = "Bray-Curtis Dissimilarity") +
   scale_x_continuous(breaks = 1:12,
                      labels = taxa_nomes$label) +
   facet_wrap(~Indice) +
