@@ -60,6 +60,10 @@ trat %<>%
 
 trat
 
+# Checando diferenças ----
+
+setdiff(com |> names(), trat |> rownames())
+
 # Diversidade funcional -----
 
 ## Distânmcia de Gower ----
@@ -102,18 +106,16 @@ div_func_alfa
 div_func_alfa_trat <- div_func_alfa |>
   dplyr::bind_rows() |>
   tibble::rownames_to_column() |>
-  dplyr::select(1, 4, 6:7) |>
+  dplyr::select(1, 6:7) |>
   dplyr::rename("Local" = 1,
-                "Funcional Richness" = 2,
-                "Funcional Eveness" = 3,
-                "Funcional Diversity" = 4) |>
+                "Funcional Eveness" = 2,
+                "Funcional Divergency" = 3) |>
   dplyr::mutate(Local = com |> rownames()) |>
   tidyr::pivot_longer(cols = dplyr::where(is.numeric),
                       names_to = "indice",
                       values_to = "Funcional Diversity") |>
   dplyr::mutate(indice = indice |> forcats::fct_relevel(c("Funcional Eveness",
-                                                          "Funcional Richness",
-                                                          "Funcional Diversity")))
+                                                          "Funcional Divergency")))
 
 div_func_alfa_trat
 
