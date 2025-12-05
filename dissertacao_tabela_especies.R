@@ -100,7 +100,7 @@ comp_flex <- comp_trat |>
   flextable::italic(j = 1) |>
   flextable::italic(j = 1, i = c(1, 6, 8, 23, 31, 34), italic = FALSE) |>
   flextable::bold(i = c(1, 6, 8, 23, 31, 34)) |>
-  flextable::bg(bg = "white")
+  flextable::bg(bg = "white", part = "all")
 
 comp_flex
 
