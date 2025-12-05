@@ -84,7 +84,8 @@ c_i <- comp |>
                    .by = Espécies) |>
   dplyr::mutate(Category = dplyr::case_when(dplyr::between(CI, 0, 0.25) ~ "Accidental",
                                             dplyr::between(CI, 0.251, 0.5) ~ "Accessory",
-                                            dplyr::between(CI, 0.51, 1) ~ "Constant"))
+                                            dplyr::between(CI, 0.51, 1) ~ "Constant")) |>
+  dplyr::rename("Species" = Espécies)
 
 c_i |> as.data.frame()
 
