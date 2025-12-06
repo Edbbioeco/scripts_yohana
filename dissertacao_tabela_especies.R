@@ -44,6 +44,7 @@ comp %<>%
                                                   "Boana prasina",
                                                   "Dendropsophus minutus",
                                                   "Dendropsophus nanus",
+                                                  "Phyllomedusa tetraploidea",
                                                   "Scinax berthae",
                                                   "Scinax catharinae",
                                                   "Scinax fuscovarius",
@@ -57,7 +58,6 @@ comp %<>%
                                                   "Leptodactylus plaumanni",
                                                   "Physalaemus cuvieri",
                                                   "Physalaemus gracilis",
-                                                  "Phyllomedusa tetraploidea",
                                                   "Elachistocleis bicolor",
                                                   "Elachistocleis ovalis",
                                                   "Proceratophrys avelinoi",
@@ -78,15 +78,18 @@ comp_trat <- comp |>
   tibble::add_row(Espécies = "Craugastoridae",
                   FPR = NULL,  RIO = NULL, CAP = NULL, NBA = NULL,
                   .before = 8) |>
+  tibble::add_row(Espécies = "Hylidae",
+                  FPR = NULL,  RIO = NULL, CAP = NULL, NBA = NULL,
+                  .before = 10) |>
   tibble::add_row(Espécies = "Leptodactylidae",
                   FPR = NULL,  RIO = NULL, CAP = NULL, NBA = NULL,
-                  .before = 23) |>
+                  .before = 25) |>
   tibble::add_row(Espécies = "Microhylidae",
                   FPR = NULL,  RIO = NULL, CAP = NULL, NBA = NULL,
-                  .before = 31) |>
+                  .before = 32) |>
   tibble::add_row(Espécies = "Odontophrynidae",
                   FPR = NULL,  RIO = NULL, CAP = NULL, NBA = NULL,
-                  .before = 34) |>
+                  .before = 35) |>
   dplyr::rename("Species" = Espécies)
 
 comp_trat
@@ -98,8 +101,8 @@ comp_flex <- comp_trat |>
   flextable::align(align = "center", part = "all") |>
   flextable::width(width = 2.5, j = 1) |>
   flextable::italic(j = 1) |>
-  flextable::italic(j = 1, i = c(1, 6, 8, 23, 31, 34), italic = FALSE) |>
-  flextable::bold(i = c(1, 6, 8, 23, 31, 34)) |>
+  flextable::italic(j = 1, i = c(1, 6, 8, 10, 25, 32, 35), italic = FALSE) |>
+  flextable::bold(i = c(1, 6, 8, 10, 25, 32, 35)) |>
   flextable::bg(bg = "white", part = "all")
 
 comp_flex
@@ -115,3 +118,13 @@ comp_flex |>
 
 comp_flex |>
   flextable::save_as_image(path = "dissertacao_tabela_especies.png")
+
+# Espécies mais abundantes ----
+
+comp |>
+  tidyr::pivot_longer(cols = dplyr::where(is.numeric),
+                      names_to = "Local",
+                      values_to = "Abundância") |>
+  dplyr::summarise(Abundância = Abundância |> sum(),
+                   .by = Espécies) |>
+  dplyr::arrange(Abundância |> dplyr::desc())
