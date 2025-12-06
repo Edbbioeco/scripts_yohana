@@ -114,7 +114,7 @@ c_i_trat
 c_1_flex <- c_i_trat |>
   flextable::flextable() |>
   flextable::align(align = "center", part = "all") |>
-  flextable::width(width = 2.5, j = 1) |>
+  flextable::width(width = 2.5, j = c(1, 3)) |>
   flextable::italic(j = 1) |>
   flextable::italic(j = 1, i = c(1, 6, 8, 10, 25, 32, 35), italic = FALSE) |>
   flextable::bold(i = c(1, 6, 8, 10, 25, 32, 35)) |>
@@ -133,3 +133,10 @@ c_1_flex |>
 
 c_1_flex |>
   flextable::save_as_image(path = "dissertacao_tabela_ci.png")
+
+# Quantidade de Espécies por categoria ----
+
+c_i |>
+  dplyr::summarise(Quantidade = n(),
+                   Porcentagem = (n() / 31) |> round(2),
+                   .by = Category)
