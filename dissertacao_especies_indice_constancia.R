@@ -44,6 +44,7 @@ comp %<>%
                                                   "Boana prasina",
                                                   "Dendropsophus minutus",
                                                   "Dendropsophus nanus",
+                                                  "Phyllomedusa tetraploidea",
                                                   "Scinax berthae",
                                                   "Scinax catharinae",
                                                   "Scinax fuscovarius",
@@ -57,7 +58,6 @@ comp %<>%
                                                   "Leptodactylus plaumanni",
                                                   "Physalaemus cuvieri",
                                                   "Physalaemus gracilis",
-                                                  "Phyllomedusa tetraploidea",
                                                   "Elachistocleis bicolor",
                                                   "Elachistocleis ovalis",
                                                   "Proceratophrys avelinoi",
@@ -69,14 +69,6 @@ comp %<>%
 
 comp |> as.data.frame()
 
-## Abundância total ----
-
-abund_total <- comp |>
-  dplyr::pull(Abunância) |>
-  sum()
-
-abund_total
-
 ## Cálculo de Índice de Constância -----
 
 c_i <- comp |>
@@ -84,18 +76,48 @@ c_i <- comp |>
                    .by = Espécies) |>
   dplyr::mutate(Category = dplyr::case_when(dplyr::between(CI, 0, 0.25) ~ "Accidental",
                                             dplyr::between(CI, 0.251, 0.5) ~ "Accessory",
-                                            dplyr::between(CI, 0.51, 1) ~ "Constant")) |>
+                                            dplyr::between(CI, 0.51, 1) ~ "Constant"),
+                CI = paste0(CI * 100, "%")) |>
   dplyr::rename("Species" = Espécies)
 
 c_i |> as.data.frame()
 
+## Adicionando as informações de família ----
+
+c_i_trat <- c_i |>
+  tibble::add_row(Species = "Bufonidae",
+                  CI = NULL, Category = NULL,
+                  .before = 1) |>
+  tibble::add_row(Species = "Centrolenidae",
+                  CI = NULL, Category = NULL,
+                  .before = 6) |>
+  tibble::add_row(Species = "Craugastoridae",
+                  CI = NULL, Category = NULL,
+                  .before = 8) |>
+  tibble::add_row(Species = "Hylidae",
+                  CI = NULL, Category = NULL,
+                  .before = 10) |>
+  tibble::add_row(Species = "Leptodactylidae",
+                  CI = NULL, Category = NULL,
+                  .before = 25) |>
+  tibble::add_row(Species = "Microhylidae",
+                  CI = NULL, Category = NULL,
+                  .before = 32) |>
+  tibble::add_row(Species = "Odontophrynidae",
+                  CI = NULL, Category = NULL,
+                  .before = 35)
+
+c_i_trat
+
 ## Tabela flextable ----
 
-c_1_flex <- c_i |>
+c_1_flex <- c_i_trat |>
   flextable::flextable() |>
   flextable::align(align = "center", part = "all") |>
   flextable::width(width = 2.5, j = 1) |>
   flextable::italic(j = 1) |>
+  flextable::italic(j = 1, i = c(1, 6, 8, 10, 25, 32, 35), italic = FALSE) |>
+  flextable::bold(i = c(1, 6, 8, 10, 25, 32, 35)) |>
   flextable::bg(bg = "white", part = "all")
 
 c_1_flex
