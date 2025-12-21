@@ -175,6 +175,7 @@ ggsave(filename = "curva_de_rarefacao.png", height = 10, width = 12)
 
 # Diversidade taxonômica ----
 
+<<<<<<< HEAD
 ## Shannon-Wiener, Gini-Simpson e Equitabilidade de Pielou ----
 
 ### Riqueza ----
@@ -228,6 +229,8 @@ div_df_flex
 div_df_flex |>
   flextable::save_as_docx(path = "tabela_diversidade_novo.docx")
 
+=======
+>>>>>>> 8656e017870f143bf4234eb179a88c763bf6eaa6
 ## Riqueza e diversidade ----
 
 div_tax <- matriz |>
