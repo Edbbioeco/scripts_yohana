@@ -187,7 +187,7 @@ df_rare
 ggplot() +
   geom_line(data = df_rare,
             aes(x = `Número de locais`, y = Riqueza + sd,
-                linetype = "Desvio Padrção"),
+                linetype = "Desvio Padrão"),
             color = "black",
             linewidth = 2) +
   geom_line(data = df_rare,
@@ -197,7 +197,7 @@ ggplot() +
             linewidth = 2) +
   geom_line(data = df_rare,
             aes(x = `Número de locais`, y = Riqueza - sd,
-                linetype = "Desvio Padrção"),
+                linetype = "Desvio Padrão"),
             color = "black",
             linewidth = 2) +
   labs(x = "Campanhas",
