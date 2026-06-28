@@ -103,7 +103,7 @@ dados_unidos |> dplyr::glimpse()
 
 ### Calcular rarefação ----
 
-rarefacao <- dados_trat |>
+rarefacao <- dados_unidos |>
   dplyr::select(1:3) |>
   tidyr::pivot_wider(names_from = 2,
                      values_from = 3,
@@ -112,7 +112,7 @@ rarefacao <- dados_trat |>
   colSums() |>
   iNEXT::iNEXT(q = 0,
                datatype = "abundance",
-               endpoint = 20)
+               endpoint = 40)
 
 rarefacao
 
