@@ -58,6 +58,12 @@ dados_bru
 
 dados_bru |> dplyr::glimpse()
 
+### Tratar os dados ----
+
+dados_bru |>
+  dplyr::summarise(Abundância = dplyr::n(),
+                   .by = c(`Nome Científico`, Área))
+
 # Curvas ----
 
 ## Rarefação ----
