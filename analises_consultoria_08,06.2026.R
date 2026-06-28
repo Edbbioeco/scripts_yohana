@@ -286,7 +286,9 @@ indices <- purrr::map(c("shannon", "simpson"),
                              vegan::specnumber())) |>
   tidyr::pivot_longer(cols = dplyr::where(is.numeric),
                       values_to = "Diversidade",
-                      names_to = "Índice")
+                      names_to = "Índice") |>
+  dplyr::mutate(Estação = Estação |>
+                  forcats::fct_relevel("Verão 2026", "Outono 2026"))
 
 indices
 
