@@ -143,7 +143,7 @@ ggsave(filename = "consultoria_08.06.2026/rarefacao.png",
 
 ### Calcular ----
 
-riqueza <- dados_trat |>
+riqueza <- dados_unidos |>
   dplyr::select(1:3) |>
   tidyr::pivot_wider(names_from = 2,
                      values_from = 3,
@@ -154,7 +154,7 @@ riqueza <- dados_trat |>
 
 riqueza
 
-sd <- dados_trat |>
+sd <- dados_unidos |>
   dplyr::select(1:3) |>
   tidyr::pivot_wider(names_from = 2,
                      values_from = 3,
@@ -165,7 +165,7 @@ sd <- dados_trat |>
 
 sd
 
-jack1 <- dados_trat |>
+jack1 <- dados_unidos |>
   dplyr::select(1:3) |>
   tidyr::pivot_wider(names_from = 2,
                      values_from = 3,
