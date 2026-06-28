@@ -263,9 +263,10 @@ indices <- purrr::map(c("shannon", "simpson"),
                             tibble::column_to_rownames(var = "Área") |>
                             vegan::diversity(index = indice)
 
-                          tibble::tibble(div = div) |>
-                            dplyr::mutate(Estação = estacao) |>
-                            dplyr::rename(!!indice := 1)
+                          tibble::tibble(Área = LETTERS[1:2],
+                                         div = div) |>
+                            dplyr::mutate(Estação = estacao,
+                                          tipo = indice)
 
                         })
 
