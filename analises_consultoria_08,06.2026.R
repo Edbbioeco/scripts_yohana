@@ -178,7 +178,7 @@ jack1
 
 df_rare <- tibble::tibble(`Número de locais` = 0:2,
                           `Riqueza` = c(0, riqueza),
-                          sd = c(sd[1], sd))
+                          sd = c(0, rep(sd[1], 2)))
 
 df_rare
 
