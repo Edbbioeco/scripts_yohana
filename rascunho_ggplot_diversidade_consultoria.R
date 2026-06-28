@@ -10,6 +10,7 @@ df <- data.frame(
   h        = c(0, 0.301, 0.8451, 0.7782)
 )
 
+# Modelo de gráfico ----
 
 ggplot(df, aes(x=campanha, y=h, fill=area)) +
   annotate("segment", x=0.6, xend=2.6, y= seq(0, 1, 0.1), yend= seq(0, 1, 0.1),
