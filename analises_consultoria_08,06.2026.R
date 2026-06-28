@@ -276,13 +276,14 @@ indices <- purrr::map(c("shannon", "simpson"),
   dplyr::bind_rows() |>
   tidyr::pivot_wider(names_from = tipo,
                      values_from = div) |>
-  dplyr::mutate(pielou = shannon / log(dados_unidos |>
-                                         dplyr::select(1:3) |>
-                                         tidyr::pivot_wider(names_from = 2,
-                                                            values_from = 3,
-                                                            values_fill = 0) |>
-                                         tibble::column_to_rownames(var = "Área") |>
-                                          vegan::specnumber())) |>
+  dplyr::mutate(
+    pielou = shannon / log(dados_unidos |>
+                             dplyr::select(1:3) |>
+                             tidyr::pivot_wider(names_from = 2,
+                                                values_from = 3,
+                                                values_fill = 0) |>
+                             tibble::column_to_rownames(var = "Área") |>
+                             vegan::specnumber())) |>
   tidyr::pivot_longer(cols = dplyr::where(is.numeric),
                       values_to = "Diversidade",
                       names_to = "Índice")
