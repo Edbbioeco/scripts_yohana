@@ -245,16 +245,28 @@ ggsave(filename = "consultoria_08.06.2026/estimador_Jackknife1.png",
 indices <- purrr::map(c("shannon", "simpson"),
                       \(indice){
 
-                        div <- dados_unidos |>
-                          dplyr::select(1:3) |>
-                          tidyr::pivot_wider(names_from = 2,
-                                             values_from = 3,
-                                             values_fill = 0) |>
-                          tibble::column_to_rownames(var = "Área") |>
-                          vegan::diversity(index = indice)
+                        purrr::imap(list(dados_ini_trat,
+                                         dados_bru_trat |>
+                                           dplyr::mutate(
+                                             Abundância = Abundância |>
+                                               as.numeric())) |>
+                                      setNames(c("Outono 2026",
+                                                 "Verão 2026")),
+                                   \(dados, estacao){
 
-                        tibble::tibble(div = div) |>
-                          dplyr::rename(!!indice := 1)
+                          div <- dados |>
+                            dplyr::select(1:3) |>
+                            tidyr::pivot_wider(names_from = 2,
+                                               values_from = 3,
+                                               values_fill = 0) |>
+                            tibble::column_to_rownames(var = "Área") |>
+                            vegan::diversity(index = indice)
+
+                          tibble::tibble(div = div) |>
+                            dplyr::mutate(Estação = estacao) |>
+                            dplyr::rename(!!indice := 1)
+
+                        })
 
                       },
                       .progress = TRUE) |>
