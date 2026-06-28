@@ -272,9 +272,10 @@ indices <- purrr::map(c("shannon", "simpson"),
 
                       },
                       .progress = TRUE) |>
-  dplyr::bind_cols() |>
-  dplyr::mutate(Área = LETTERS[1:2],
-                .before = shannon) |>
+  purrr::list_flatten() |>
+  dplyr::bind_rows() |>
+  tidyr::pivot_wider(names_from = tipo,
+                     values_from = div) |>
   dplyr::mutate(pielou = shannon / log(dados_unidos |>
                                          dplyr::select(1:3) |>
                                          tidyr::pivot_wider(names_from = 2,
