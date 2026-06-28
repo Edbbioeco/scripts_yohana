@@ -245,7 +245,7 @@ ggsave(filename = "consultoria_08.06.2026/estimador_Jackknife1.png",
 indices <- purrr::map(c("shannon", "simpson"),
                       \(indice){
 
-                        div <- dados_trat |>
+                        div <- dados_unidos |>
                           dplyr::select(1:3) |>
                           tidyr::pivot_wider(names_from = 2,
                                              values_from = 3,
@@ -261,7 +261,7 @@ indices <- purrr::map(c("shannon", "simpson"),
   dplyr::bind_cols() |>
   dplyr::mutate(Área = LETTERS[1:2],
                 .before = shannon) |>
-  dplyr::mutate(pielou = shannon / log(dados_trat |>
+  dplyr::mutate(pielou = shannon / log(dados_unidos |>
                                          dplyr::select(1:3) |>
                                          tidyr::pivot_wider(names_from = 2,
                                                             values_from = 3,
