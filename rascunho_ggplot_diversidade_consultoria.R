@@ -1,3 +1,7 @@
+# Pacotes ----
+
+library(tidyverse)
+
 df <- data.frame(
   campanha = rep(c("Primavera 2025", "Verão 2026"), each=2),
   area     = rep(c("Área A", "Área B"), times=2),
