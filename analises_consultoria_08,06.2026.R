@@ -65,7 +65,7 @@ dados_bru_trat <- dados_bru |>
                    .by = c(`Nome Científico`, Área)) |>
   dplyr::left_join(dados_bru |>
                      dplyr::select(`Nome Científico`,
-                                   `Status br`,
+                                   `Status BR`,
                                    `Status IUCN`),
                    by = "Nome Científico") |>
   dplyr::rename("Espécie" = 1) |>
@@ -75,6 +75,27 @@ dados_bru_trat <- dados_bru |>
 dados_bru_trat
 
 dados_bru_trat |> dplyr::glimpse()
+
+## Unir os dados ----
+
+dados_unidos <- ls(pattern = "_trat$") |>
+  mget(env = globalenv()) |>
+  dplyr::bind_rows() |>
+  dplyr::summarise(Abundância = Abundância |> sum(),
+                   .by = c(Área, Espécie)) |>
+  dplyr::left_join(ls(pattern = "_trat$") |>
+                     mget(env = globalenv()) |>
+                     dplyr::bind_rows() |>
+                     dplyr::select(Espécie,
+                                   `Status BR`,
+                                   `Status IUCN`) |>
+                     dplyr::distinct(Espécie, .keep_all = TRUE),
+                   by = "Espécie") |>
+  dplyr::arrange(Área)
+
+dados_unidos
+
+dados_unidos |> dplyr::glimpse()
 
 # Curvas ----
 
