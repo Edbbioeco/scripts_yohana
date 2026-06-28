@@ -184,36 +184,59 @@ df_rare
 
 ### Gráfico ----
 
-df_rare |>
-  ggplot(aes(`Número de locais`, Riqueza)) +
-  geom_ribbon(aes(ymin = Riqueza - sd, ymax = Riqueza + sd),
-              alpha = 0.5) +
-  geom_line(linewidth = 1) +
-  geom_hline(yintercept = jack1,
-             linewidth = 1,
-             linetype = "dashed") +
-  geom_label(aes(x = 0,
-                 y = jack1,
-                 label = "Rqueza estimada por Jackknife 1"),
-             color = "black",
-             size = 7.5,
-             linewidth = 1,
-             fill = "gray",
-             hjust = 0) +
-  scale_x_continuous(breaks = seq(0, 2, 1)) +
-  scale_y_continuous(breaks = seq(0, 6, 1)) +
-  theme_bw() +
-  theme(axis.text = element_text(size = 20, color = "black"),
-        axis.title = element_text(size = 20, color = "black"),
-        legend.text = element_text(size = 20, color = "black"),
+ggplot() +
+  geom_line(data = df_rare,
+            aes(x = `Número de locais`, y = Riqueza + sd,
+                linetype = "Desvio Padrção"),
+            color = "black",
+            linewidth = 2) +
+  geom_line(data = df_rare,
+            aes(x = `Número de locais`, y = Riqueza,
+                linetype = "Curva de Acumulação de Espécies"),
+            color = "black",
+            linewidth = 2) +
+  geom_line(data = df_rare,
+            aes(x = `Número de locais`, y = Riqueza - sd,
+                linetype = "Desvio Padrção"),
+            color = "black",
+            linewidth = 2) +
+  labs(x = "Campanhas",
+       y = "Espécies",
+       title = "Curva do coletor",
+       linetype = NULL) +
+  scale_x_continuous(breaks = seq(0, 2, 1),
+                     limits = c(0, 2),
+                     expand = FALSE) +
+  scale_y_continuous(breaks = seq(0, 12, 2),
+                     limits = c(0, 12),
+                     expand = FALSE) +
+  guides(linetype = guide_legend(keywidth = unit(90, "pt"))) +
+  theme_classic() +
+  theme(plot.background = element_rect(fill = "white", color = NA),
+        panel.grid.major = element_line(color = "grey88", linewidth = 0.4),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black", size = 25),
+        axis.text.x = element_text(margin = margin(t = 20)),
+        axis.text.y = element_text(margin = margin(r = 20)),
+        axis.title = element_text(color = "black", size = 25),
+        axis.title.y = element_text(margin = margin(r = 6)),
+        axis.title.x = element_text(margin = margin(t = 6)),
+        plot.title = element_text(hjust = 0.5, size = 45,
+                                  face = "plain", margin = margin(b = 8)),
+        legend.background = element_rect(fill = "white", color = NA),
+        legend.key = element_rect(fill = "white", color = NA),
+        legend.key.width = unit(28, "pt"),
+        legend.text = element_text(size = 25),
         legend.title = element_blank(),
         legend.position = "bottom",
-        panel.grid = element_line(color = "gray50", linetype = "dashed"),
-        panel.border = element_rect(color = "black", linewidth = 1)) +
-  ggview::canvas(height = 10, width = 12)
+        legend.direction = "horizontal",
+        legend.spacing.x = unit(12, "pt"),
+        plot.margin = margin(10, 14, 8, 8)) +
+  ggview::canvas(height = 10, width = 20)
 
 ggsave(filename = "consultoria_08.06.2026/estimador_Jackknife1.png",
-       height = 10, width = 12)
+       height = 10, width = 20)
 
 # ìndicesd de diversidade ----
 
