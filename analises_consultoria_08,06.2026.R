@@ -60,9 +60,21 @@ dados_bru |> dplyr::glimpse()
 
 ### Tratar os dados ----
 
-dados_bru |>
+dados_bru_trat <- dados_bru |>
   dplyr::summarise(Abundância = dplyr::n(),
-                   .by = c(`Nome Científico`, Área))
+                   .by = c(`Nome Científico`, Área)) |>
+  dplyr::left_join(dados_bru |>
+                     dplyr::select(`Nome Científico`,
+                                   `Status br`,
+                                   `Status IUCN`),
+                   by = "Nome Científico") |>
+  dplyr::rename("Espécie" = 1) |>
+  dplyr::relocate(Área,
+                  .before = Espécie)
+
+dados_bru_trat
+
+dados_bru_trat |> dplyr::glimpse()
 
 # Curvas ----
 
