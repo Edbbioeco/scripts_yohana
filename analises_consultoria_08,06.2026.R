@@ -66,7 +66,8 @@ dados_bru_trat <- dados_bru |>
   dplyr::left_join(dados_bru |>
                      dplyr::select(`Nome Científico`,
                                    `Status BR`,
-                                   `Status IUCN`),
+                                   `Status IUCN`) |>
+                     dplyr::distinct(`Nome Científico`, .keep_all = TRUE),
                    by = "Nome Científico") |>
   dplyr::rename("Espécie" = 1) |>
   dplyr::relocate(Área,
