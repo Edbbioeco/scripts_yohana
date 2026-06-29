@@ -261,7 +261,8 @@ indices <- purrr::map(c("shannon", "simpson"),
                                                values_from = 3,
                                                values_fill = 0) |>
                             tibble::column_to_rownames(var = "Área") |>
-                            vegan::specnumber()
+                            vegan::specnumber() |>
+                            (\(x) x[sort(names(x))])()
 
                           div <- dados |>
                             dplyr::select(1:3) |>
@@ -269,7 +270,8 @@ indices <- purrr::map(c("shannon", "simpson"),
                                                values_from = 3,
                                                values_fill = 0) |>
                             tibble::column_to_rownames(var = "Área") |>
-                            vegan::diversity(index = indice)
+                            vegan::diversity(index = indice) |>
+                            (\(x) x[sort(names(x))])()
 
                           tibble::tibble(Área = LETTERS[1:2],
                                          div = div,
@@ -286,7 +288,10 @@ indices <- purrr::map(c("shannon", "simpson"),
   tidyr::pivot_wider(names_from = tipo,
                      values_from = div) |>
   dplyr::mutate(
-    pielou = shannon / log(Riqueza)) |>
+    pielou = shannon / log(Riqueza),
+    pielou = dplyr::if_else(pielou |> is.nan(),
+                            0,
+                            pielou)) |>
   tidyr::pivot_longer(cols = dplyr::where(is.numeric),
                       values_to = "Diversidade",
                       names_to = "Índice") |>
@@ -359,7 +364,7 @@ purrr::map2(
            aes(x = Estação, y = Diversidade, fill = Área)) +
       annotate("segment",
                x = 0.6, xend = 2.6, y = indice_seq, yend = indice_seq,
-               linewidth=0.4, color="gray") +
+               linewidth = 0.4, color = "gray") +
       geom_col(position = "dodge", width = 0.5) +
       scale_fill_manual(values=c("A" = "grey30",
                                  "B" = "grey75")) +
