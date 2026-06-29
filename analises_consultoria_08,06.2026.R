@@ -650,8 +650,7 @@ graficos <- purrr::map2(
             axis.line.y = element_blank(),
             axis.line.x = element_blank(),
             plot.margin = margin(t=10, r=14, b=20, l=50),
-            plot.title = element_text(hjust = 0.5, size = 35)) +
-      ggview::canvas(height = 10, width = 16)
+            plot.title = element_text(hjust = 0.5, size = 35))
 
   },
   .progress = TRUE)
