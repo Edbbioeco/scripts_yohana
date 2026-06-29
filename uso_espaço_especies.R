@@ -30,3 +30,23 @@ uso_trat <- uso |>
                    .by = c(Espécie, Habitat))
 
 uso_trat
+
+## Gráfico ----
+
+ggplot(data = uso_trat,
+       aes(Habitat, `Número de indivíduos`)) +
+  geom_col() +
+  facet_wrap(~Espécie) +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.text.x = element_text(color = "black", size = 20,
+                                   angle = 45, hjust = 1),
+        axis.title = element_text(color = "black", size = 20),
+        strip.text = element_text(color = "black", size = 20,
+                                  face = "italic"),
+        strip.background = element_rect(color = "black", linewidth = 1),
+        panel.background = element_rect(color = "black", linewidth = 1)) +
+  ggview::canvas(height = 10, width = 12)
+
+ggsave(filename = "uso_habitat_especies.png",
+       height = 10, width = 12)
