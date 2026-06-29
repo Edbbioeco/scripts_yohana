@@ -255,6 +255,14 @@ indices <- purrr::map(c("shannon", "simpson"),
                                                  "Verão 2026")),
                                    \(dados, estacao){
 
+                          riqueza <- dados |>
+                            dplyr::select(1:3) |>
+                            tidyr::pivot_wider(names_from = 2,
+                                               values_from = 3,
+                                               values_fill = 0) |>
+                            tibble::column_to_rownames(var = "Área") |>
+                            vegan::specnumber()
+
                           div <- dados |>
                             dplyr::select(1:3) |>
                             tidyr::pivot_wider(names_from = 2,
@@ -264,7 +272,8 @@ indices <- purrr::map(c("shannon", "simpson"),
                             vegan::diversity(index = indice)
 
                           tibble::tibble(Área = LETTERS[1:2],
-                                         div = div) |>
+                                         div = div,
+                                         Riqueza = riqueza) |>
                             dplyr::mutate(Estação = estacao,
                                           tipo = indice)
 
@@ -277,13 +286,7 @@ indices <- purrr::map(c("shannon", "simpson"),
   tidyr::pivot_wider(names_from = tipo,
                      values_from = div) |>
   dplyr::mutate(
-    pielou = shannon / log(dados_unidos |>
-                             dplyr::select(1:3) |>
-                             tidyr::pivot_wider(names_from = 2,
-                                                values_from = 3,
-                                                values_fill = 0) |>
-                             tibble::column_to_rownames(var = "Área") |>
-                             vegan::specnumber())) |>
+    pielou = shannon / log(Riqueza)) |>
   tidyr::pivot_longer(cols = dplyr::where(is.numeric),
                       values_to = "Diversidade",
                       names_to = "Índice") |>
