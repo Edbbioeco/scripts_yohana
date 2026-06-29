@@ -656,4 +656,4 @@ purrr::map2(graficos,
                                      .y,
                                      ".png"),
                    height = 10,
-                   width = 12))
+                   width = 16))
