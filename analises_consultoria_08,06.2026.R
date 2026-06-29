@@ -298,9 +298,9 @@ indices
 
 purrr::map2(
   c("shannon", "simpson", "pielou"),
-  c("ìndice de Diversidade de Shannon-Wiener",
-    "ìndice de Diversidade de Gini-Simpson",
-    "ìndice de Equitabilidade de Pielou"),
+  c("Índice de Diversidade de Shannon-Wiener",
+    "Índice de Diversidade de Gini-Simpson",
+    "Índice de Equitabilidade de Pielou"),
   \(indice, indicex){
 
     indice_a_verao <- indices |>
@@ -474,9 +474,9 @@ purrr::map2(
 
 graficos <- purrr::map2(
   c("shannon", "simpson", "pielou"),
-  c("ìndice de Diversidade de Shannon-Wiener",
-    "ìndice de Diversidade de Gini-Simpson",
-    "ìndice de Equitabilidade de Pielou"),
+  c("Índice de Diversidade de Shannon-Wiener",
+    "Índice de Diversidade de Gini-Simpson",
+    "Índice de Equitabilidade de Pielou"),
   \(indice, indicex){
 
     indice_a_verao <- indices |>
