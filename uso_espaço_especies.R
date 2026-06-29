@@ -27,7 +27,18 @@ uso_trat <- uso |>
                       names_to = "Habitat",
                       values_to = "Presença") |>
   dplyr::summarise(`Número de indivíduos` = Presença |> sum(),
-                   .by = c(Espécie, Habitat))
+                   .by = c(Espécie, Habitat)) |>
+  dplyr::mutate(Espécie = dplyr::if_else(
+    Espécie |> stringr::str_detect("americanus"),
+    "Odontophrynus asper",
+    Espécie) |>
+      forcats::fct_relevel(c("Rhinella crucifer",
+                             "Rhinella icterica",
+                             "Boana faber",
+                             "Phyllomedusa tetraploidea",
+                             "Leptodactylus mystacinus",
+                             "Odontophrynus asper"))) |>
+  as.data.frame()
 
 uso_trat
 
