@@ -345,7 +345,7 @@ purrr::map2(
 
       } else {
 
-        c(-0.67, 1)
+        c(-0.67, 1.05)
 
       }
 
@@ -521,7 +521,7 @@ graficos <- purrr::map2(
 
     } else {
 
-      c(-0.67, 1)
+      c(-0.67, 1.05)
 
     }
 
@@ -540,7 +540,7 @@ graficos <- purrr::map2(
            aes(x = Estação, y = Diversidade, fill = Área)) +
       annotate("segment",
                x = 0.6, xend = 2.6, y = indice_seq, yend = indice_seq,
-               linewidth=0.4, color="gray") +
+               linewidth = 0.4, color = "gray") +
       geom_col(position = "dodge", width = 0.5) +
       scale_fill_manual(values=c("A" = "grey30",
                                  "B" = "grey75")) +
@@ -650,7 +650,8 @@ graficos <- purrr::map2(
             axis.line.y = element_blank(),
             axis.line.x = element_blank(),
             plot.margin = margin(t=10, r=14, b=20, l=50),
-            plot.title = element_text(hjust = 0.5, size = 35))
+            plot.title = element_text(hjust = 0.5, size = 35)) +
+      ggview::canvas(height = 10, width = 16)
 
   },
   .progress = TRUE)
