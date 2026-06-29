@@ -296,60 +296,356 @@ indices
 
 ### Gerar ----
 
-purrr::map2(c("shannon", "simpson", "pielou"),
-            c("Diversidade de Shannon-Wiener",
-              "Diversidade de Gini-Simpson",
-              "Equitabilidade de Pielou"),
-            \(indice, indicex){
+purrr::map2(
+  c("shannon", "simpson", "pielou"),
+  c("ìndice de Diversidade de Shannon-Wiener",
+    "ìndice de Diversidade de Gini-Simpson",
+    "ìndice de Equitabilidade de Pielou"),
+  \(indice, indicex){
 
-              indices |>
-                dplyr::filter(Índice == indice) |>
-                ggplot(aes(Área, Diversidade)) +
-                geom_col(color = "black", width = 0.5) +
-                labs(y = indicex) +
-                theme_bw() +
-                theme(axis.text = element_text(size = 20,
-                                               color = "black"),
-                      axis.title = element_text(size = 20,
-                                                color = "black"),
-                      legend.text = element_text(size = 20,
-                                                 color = "black"),
-                      legend.title = element_blank(),
-                      legend.position = "bottom",
-                      panel.grid = element_line(color = "gray50",
-                                                linetype = "dashed"),
-                      panel.border = element_rect(color = "black",
-                                                  linewidth = 1)) +
-                ggview::canvas(height = 10, width = 12)
+    indice_a_verao <- indices |>
+                dplyr::filter(Índice == indice &
+                                Estação == "Verão 2026" &
+                                Área == "A") |>
+      dplyr::pull(Diversidade) |>
+      round(2)
 
-            })
+    indice_b_verao <- indices |>
+      dplyr::filter(Índice == indice &
+                      Estação == "Verão 2026" &
+                      Área == "B") |>
+      dplyr::pull(Diversidade) |>
+      round(2)
 
-graficos <- purrr::map2(c("shannon", "simpson", "pielou"),
-                        c("Diversidade de Shannon-Wiener",
-                          "Diversidade de Gini-Simpson",
-                          "Equitabilidade de Pielou"),
-                        \(indice, indicex){
+    indice_a_outono <- indices |>
+      dplyr::filter(Índice == indice &
+                      Estação == "Outono 2026" &
+                      Área == "A") |>
+      dplyr::pull(Diversidade) |>
+      round(2)
 
-                         indices |>
-                           dplyr::filter(Índice == indice) |>
-                           ggplot(aes(Área, Diversidade)) +
-                           geom_col(color = "black", width = 0.5) +
-                           labs(y = indicex) +
-                           theme_bw() +
-                           theme(axis.text = element_text(size = 20,
-                                                          color = "black"),
-                                 axis.title = element_text(size = 20,
-                                                           color = "black"),
-                                 legend.text = element_text(size = 20,
-                                                            color = "black"),
-                                 legend.title = element_blank(),
-                                 legend.position = "bottom",
-                                 panel.grid = element_line(color = "gray50",
-                                                           linetype = "dashed"),
-                                 panel.border = element_rect(color = "black",
-                                                             linewidth = 1))
+    indice_b_outono <- indices |>
+      dplyr::filter(Índice == indice &
+                      Estação == "Outono 2026" &
+                      Área == "B") |>
+      dplyr::pull(Diversidade) |>
+      round(2)
 
-                         })
+    indice_range <- if(indice == "shannon"){
+
+      c(-0.67, 1.7)
+
+      } else {
+
+        c(-0.67, 1)
+
+      }
+
+    indice_seq <- if(indice == "shannon"){
+
+      seq(0, 1.7, 0.1)
+
+      } else {
+
+        seq(0, 1, 0.1)
+
+        }
+
+    ggplot(indices |>
+             dplyr::filter(Índice == indice),
+           aes(x = Estação, y = Diversidade, fill = Área)) +
+      annotate("segment",
+               x = 0.6, xend = 2.6, y = indice_seq, yend = indice_seq,
+               linewidth=0.4, color="gray") +
+      geom_col(position = "dodge", width = 0.5) +
+      scale_fill_manual(values=c("A" = "grey30",
+                                 "B" = "grey75")) +
+      scale_x_discrete(expand = c(0, 0.4)) +
+      scale_y_continuous(
+        breaks = indice_seq,
+        labels = indice_seq |>
+          as.character() |>
+          stringr::str_replace("\\.", ","),
+        limits = indice_range,
+        expand = c(0, 0)
+      ) +
+      # Labels do eixo y redesenhados junto ao geom_vline
+      annotate("text",
+               x = 0.575,
+               y = indice_seq,
+               label = indice_seq |>
+                 as.character() |>
+                 stringr::str_replace("\\.", ","),
+               size=7.5,
+               hjust = 1, size = 3, color = "black"
+      ) +
+      # Linhas horizontais da tabela
+      annotate("segment",
+               x = 0.6, xend = 2.6, y = 0.00, yend = 0.00,
+               linewidth = 0.4, color="grey75") +
+      annotate("segment",
+               x = 0.20, xend = 2.6, y = -0.22, yend = -0.22,
+               linewidth=0.4, color="grey75") +
+      annotate("segment",
+               x = 0.20, xend = 2.6, y = -0.44, yend = -0.44,
+               linewidth = 0.4, color = "grey75") +
+      annotate("segment",
+               x = 0.20, xend = 2.6, y = -0.66, yend = -0.66,
+               linewidth = 0.4, color = "grey75") +
+      # Linhas verticais da tabela
+      annotate("segment",
+               x = 0.2, xend = 0.2, y = -0.67, yend = -0.22,
+               linewidth = 0.4, color = "grey75") +
+      annotate("segment",
+               x = 0.6, xend = 0.6, y = -0.67, yend = -0,
+               linewidth = 0.4, color = "grey75") +
+      annotate("segment",
+               x = 1.55, xend = 1.55, y = -0.66, yend = 0,
+               inewidth = 0.4, color = "grey75") +
+      annotate("segment",
+               x = 2.60, xend = 2.60, y = -0.66, yend = 0,
+               linewidth = 0.4, color = "grey75") +
+      # Cabeçalho
+      annotate("text",
+               x = 1, y = -0.11, label = "Verão 2026",
+               hjust = 0.5, size = 9.5, color = "black", hjust = 0.5) +
+      annotate("text",
+               x = 2, y = -0.11, label = "Outono 2026",
+               hjust = 0.5, size = 9.5, color = "black") +
+      # Quadradinhos
+      annotate("rect",
+               xmin = 0.25, xmax = 0.4, ymin = -0.415, ymax = -0.245,
+               fill = "grey30", color = NA) +
+      annotate("rect",
+               xmin = 0.25, xmax = 0.4, ymin = -0.635, ymax = -0.465,
+               fill = "grey75", color = NA) +
+      # Rótulos das áreas
+      annotate("text",
+               x = 0.425, y = -0.33, label = "Área A",
+               hjust = 0, size = 7.5, color = "black") +
+      annotate("text",
+               x = 0.425, y = -0.55, label = "Área B",
+               hjust = 0, size = 7.5, color = "black") +
+      # Valores
+      annotate("text",
+               x = 1, y = -0.33, label = indice_a_verao,
+               hjust = 0.5, size = 9.5, color = "black") +
+      annotate("text",
+               x = 1, y = -0.55, label = indice_b_verao,
+               hjust = 0.5, size = 9.5, color = "black") +
+      annotate("text",
+               x = 2, y = -0.33, label = indice_a_outono,
+               hjust = 0.5, size = 9.5, color = "black") +
+      annotate("text",
+               x = 2, y = -0.55, label = indice_b_outono,
+               hjust = 0.5, size = 9.5, color = "black") +
+      labs(title = indicex,
+           x = NULL, y = NULL) +
+      coord_cartesian(clip="off") +
+      theme_classic() +
+      theme(plot.background = element_rect(fill = "white", color = NA),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.grid.major.x = element_blank(),
+            axis.text = element_text(color = "black", size = 25),
+            axis.title = element_text(color = "black", size = 25),
+            axis.title.y = element_text(margin = margin(r = 6)),
+            axis.title.x = element_text(margin = margin(t = 6)),
+            legend.background = element_rect(fill = "white", color = NA),
+            legend.key = element_rect(fill = "white", color = NA),
+            legend.key.width = unit(28, "pt"),
+            legend.text = element_text(size = 25),
+            legend.title = element_blank(),
+            legend.position = "none",
+            legend.direction = "horizontal",
+            legend.spacing.x = unit(12, "pt"),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            axis.text.y = element_blank(),   # suprime labels originais
+            axis.ticks.y = element_blank(),   # suprime ticks originais
+            axis.line.y = element_blank(),
+            axis.line.x = element_blank(),
+            plot.margin = margin(t=10, r=14, b=20, l=50),
+            plot.title = element_text(hjust = 0.5, size = 35)) +
+      ggview::canvas(height = 10, width = 16)
+
+    },
+  .progress = TRUE)
+
+graficos <- purrr::map2(
+  c("shannon", "simpson", "pielou"),
+  c("ìndice de Diversidade de Shannon-Wiener",
+    "ìndice de Diversidade de Gini-Simpson",
+    "ìndice de Equitabilidade de Pielou"),
+  \(indice, indicex){
+
+    indice_a_verao <- indices |>
+      dplyr::filter(Índice == indice &
+                      Estação == "Verão 2026" &
+                      Área == "A") |>
+      dplyr::pull(Diversidade) |>
+      round(2)
+
+    indice_b_verao <- indices |>
+      dplyr::filter(Índice == indice &
+                      Estação == "Verão 2026" &
+                      Área == "B") |>
+      dplyr::pull(Diversidade) |>
+      round(2)
+
+    indice_a_outono <- indices |>
+      dplyr::filter(Índice == indice &
+                      Estação == "Outono 2026" &
+                      Área == "A") |>
+      dplyr::pull(Diversidade) |>
+      round(2)
+
+    indice_b_outono <- indices |>
+      dplyr::filter(Índice == indice &
+                      Estação == "Outono 2026" &
+                      Área == "B") |>
+      dplyr::pull(Diversidade) |>
+      round(2)
+
+    indice_range <- if(indice == "shannon"){
+
+      c(-0.67, 1.7)
+
+    } else {
+
+      c(-0.67, 1)
+
+    }
+
+    indice_seq <- if(indice == "shannon"){
+
+      seq(0, 1.7, 0.1)
+
+    } else {
+
+      seq(0, 1, 0.1)
+
+    }
+
+    ggplot(indices |>
+             dplyr::filter(Índice == indice),
+           aes(x = Estação, y = Diversidade, fill = Área)) +
+      annotate("segment",
+               x = 0.6, xend = 2.6, y = indice_seq, yend = indice_seq,
+               linewidth=0.4, color="gray") +
+      geom_col(position = "dodge", width = 0.5) +
+      scale_fill_manual(values=c("A" = "grey30",
+                                 "B" = "grey75")) +
+      scale_x_discrete(expand = c(0, 0.4)) +
+      scale_y_continuous(
+        breaks = indice_seq,
+        labels = indice_seq |>
+          as.character() |>
+          stringr::str_replace("\\.", ","),
+        limits = indice_range,
+        expand = c(0, 0)
+      ) +
+      # Labels do eixo y redesenhados junto ao geom_vline
+      annotate("text",
+               x = 0.575,
+               y = indice_seq,
+               label = indice_seq |>
+                 as.character() |>
+                 stringr::str_replace("\\.", ","),
+               size=7.5,
+               hjust = 1, size = 3, color = "black"
+      ) +
+      # Linhas horizontais da tabela
+      annotate("segment",
+               x = 0.6, xend = 2.6, y = 0.00, yend = 0.00,
+               linewidth = 0.4, color="grey75") +
+      annotate("segment",
+               x = 0.20, xend = 2.6, y = -0.22, yend = -0.22,
+               linewidth=0.4, color="grey75") +
+      annotate("segment",
+               x = 0.20, xend = 2.6, y = -0.44, yend = -0.44,
+               linewidth = 0.4, color = "grey75") +
+      annotate("segment",
+               x = 0.20, xend = 2.6, y = -0.66, yend = -0.66,
+               linewidth = 0.4, color = "grey75") +
+      # Linhas verticais da tabela
+      annotate("segment",
+               x = 0.2, xend = 0.2, y = -0.67, yend = -0.22,
+               linewidth = 0.4, color = "grey75") +
+      annotate("segment",
+               x = 0.6, xend = 0.6, y = -0.67, yend = -0,
+               linewidth = 0.4, color = "grey75") +
+      annotate("segment",
+               x = 1.55, xend = 1.55, y = -0.66, yend = 0,
+               inewidth = 0.4, color = "grey75") +
+      annotate("segment",
+               x = 2.60, xend = 2.60, y = -0.66, yend = 0,
+               linewidth = 0.4, color = "grey75") +
+      # Cabeçalho
+      annotate("text",
+               x = 1, y = -0.11, label = "Verão 2026",
+               hjust = 0.5, size = 9.5, color = "black", hjust = 0.5) +
+      annotate("text",
+               x = 2, y = -0.11, label = "Outono 2026",
+               hjust = 0.5, size = 9.5, color = "black") +
+      # Quadradinhos
+      annotate("rect",
+               xmin = 0.25, xmax = 0.4, ymin = -0.415, ymax = -0.245,
+               fill = "grey30", color = NA) +
+      annotate("rect",
+               xmin = 0.25, xmax = 0.4, ymin = -0.635, ymax = -0.465,
+               fill = "grey75", color = NA) +
+      # Rótulos das áreas
+      annotate("text",
+               x = 0.425, y = -0.33, label = "Área A",
+               hjust = 0, size = 7.5, color = "black") +
+      annotate("text",
+               x = 0.425, y = -0.55, label = "Área B",
+               hjust = 0, size = 7.5, color = "black") +
+      # Valores
+      annotate("text",
+               x = 1, y = -0.33, label = indice_a_verao,
+               hjust = 0.5, size = 9.5, color = "black") +
+      annotate("text",
+               x = 1, y = -0.55, label = indice_b_verao,
+               hjust = 0.5, size = 9.5, color = "black") +
+      annotate("text",
+               x = 2, y = -0.33, label = indice_a_outono,
+               hjust = 0.5, size = 9.5, color = "black") +
+      annotate("text",
+               x = 2, y = -0.55, label = indice_b_outono,
+               hjust = 0.5, size = 9.5, color = "black") +
+      labs(title = indicex,
+           x = NULL, y = NULL) +
+      coord_cartesian(clip="off") +
+      theme_classic() +
+      theme(plot.background = element_rect(fill = "white", color = NA),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.grid.major.x = element_blank(),
+            axis.text = element_text(color = "black", size = 25),
+            axis.title = element_text(color = "black", size = 25),
+            axis.title.y = element_text(margin = margin(r = 6)),
+            axis.title.x = element_text(margin = margin(t = 6)),
+            legend.background = element_rect(fill = "white", color = NA),
+            legend.key = element_rect(fill = "white", color = NA),
+            legend.key.width = unit(28, "pt"),
+            legend.text = element_text(size = 25),
+            legend.title = element_blank(),
+            legend.position = "none",
+            legend.direction = "horizontal",
+            legend.spacing.x = unit(12, "pt"),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            axis.text.y = element_blank(),   # suprime labels originais
+            axis.ticks.y = element_blank(),   # suprime ticks originais
+            axis.line.y = element_blank(),
+            axis.line.x = element_blank(),
+            plot.margin = margin(t=10, r=14, b=20, l=50),
+            plot.title = element_text(hjust = 0.5, size = 35))
+
+  },
+  .progress = TRUE)
 
 ### Salvar ----
 
