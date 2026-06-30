@@ -667,3 +667,14 @@ purrr::map2(graficos,
                                      ".png"),
                    height = 10,
                    width = 16))
+
+# Diversidade beta ----
+
+dados_unidos |>
+  dplyr::select(Área, Espécie, Abundância) |>
+  tidyr::pivot_wider(names_from = Espécie,
+                     values_from = Abundância,
+                     values_fill = 0) |>
+  tibble::column_to_rownames(var = "Área") |>
+  vegan::decostand(method = "pa") |>
+  betapart::beta.multi(index.family = "jaccard")
