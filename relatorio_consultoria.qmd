@@ -50,16 +50,10 @@ Ao longo da campanha de amostragem, não foi registrada nenhuma espécie ripíco
 
 ## 4.3.7. Suficiência Amostral e Riqueza
 
-As amostragens detectaram 5 espécies ao todo, distribuídas em 3 espécies na Área A e 5 espécies na Área B. O estimador de Jackknife 1 [@Burnham1978] (Figura 2 & Equação 1) estimou 6 espécies, mas sem previsão de estabilização, indicando pouca complementariedade das amostragens. Com base nos resultados obtidos, não foi observado que a amostragem contemplou a totalidade das espécies de mamíferos da região. Isto pode ser explicado pela baixa quantidade de áreas anaplisadas (2) e o período menos contemplativo da estação (5 dias). Estes resultados mostaram que o esforço amostral não foi adequado o bastante para detectar a totalidade espécies da região. 
+As amostragens detectaram 8 espécies ao todo, distribuídas em 6 espécies na Área A e 2 novas espécies na área B espécies na Área B. O estimador de Bootstrap [@Smith1984] (Figura 2) estimou 9 espécies, mas sem previsão de estabilização, indicando pouca complementariedade das amostragens. Com base nos resultados obtidos, não foi observado que a amostragem contemplou a totalidade das espécies de mamíferos da região. Isto pode ser explicado pela baixa quantidade de áreas anaplisadas (2) e o período menos contemplativo da estação (5 dias). Estes resultados mostaram que o esforço amostral não foi adequado o bastante para detectar a totalidade espécies da região. 
 
 ![Figura 2. Curva de rarefação de espécies. Linha preta: riqueza observada. Sombra cinza: valores do desvio padrão. Linha superior tracejada: riqueza estimada através do etimador de Jackknife 1.](consultoria_08.06.2026/estimador_jackknife1.png)
 
-::: {#eq-jack1}
-
-$$S_{jack1} = S_{obs} + Q_1 \left(\frac{m - 1}{m}\right)$$
-
-Equação 1. Descrição do Ínndice de Jackknife. $S_{obs}$ = riqueza observada. $Q_1$ = riqueza observadas em uma amostra. $m$ = número de mostras.
-:::
 
 Para a metrificação da diversidade das espécuies detectadas, foi usada uma comparação dos índices de Shannon-Wiener, Gini-Siumpson e Equitabilidade de Pielou. O índice de Shannon-Wiener explica o grau de incerteza de um indivíduo detectado pertencer a uma espécie em espécifico, cujo o aumento da incerteza representa maiores valores de diversidade, pois maiores diversidade de comunidades são representadas por espécies com abundâncias semelhantes [@Shannon1948]. Já o índice de Gini-Simpson é um índice que mede a chance de dois indinvíduos detectados aleatoriamente poderem ser de espécies distintas, variando de 0 (a comunidade apresenta apenas uma única espécie) a 1 (todas as espécies da comunidade apresentam a mesma abundância e chances de os indivíduos serem de espécies distintas)  [@Simpson1949]. Por fim, o índice de Equitabilidade de Pielou mede as chances que suas espécies dioferentes de forma aleatória serem detctados ao acaso em uma amostragem, variando de 0 (a comunidade só tem uma única espécie) a 1 (todas as espécies apresentam as mesmas chances de serem detectadas, pois apresentam as mesmas abundâncias) [@Pielou1966]. Os valores do índice de diversidade de Shannon-Wiener (Figura 3 & Equação 2), Gini-Simpson (Figura 4 & Equação 3) e Pielou (Figur 5 & Equação 4) para as áreas A e B foram 1,05 e 1,55, 0,64 e 0,78 e 0,96 e 0,963, respectivamente, indicando que a área B apresentou maior diversidade que a área A para os três índices. 
 
