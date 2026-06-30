@@ -12,6 +12,8 @@ library(ggview)
 
 library(betapart)
 
+library(vegan)
+
 # Dados ----
 
 ## Amostragem inicial ----
