@@ -18,7 +18,7 @@ Mamíferos são vertebrados terrestres vitais na estruturação de diversas comu
 
 Devido ao fato de que diversas espécies de mamíferos atuam como espécies chaves em diversos ecossistemas, sendo muitas vezes meso e topo predadores, estes animais são bioindicadores de modificações ambientais [@Gama-Matos2020; @Vale2023]. Isto faz que sua amostragem em estudo de impactos ambientais seja de extrema importância para avaliar áreas de prioridade e possíveis impactos ambientais.
 
-Foi realizada uma campanha de amostragem, abrangendo duas áreas, durante 5 dias de amostragem. Foram utilizados os métodos de amostragem através de armadilha Sherman iscada, focada em pequenos mamíferos terrestres [@Auricchio2002], o uso de armadilhas fotográficas [@MCCleery2014], a observação de pegadas, revisadas baseadas em @Becker2013 e fezes baseadas em @Prist2020, e o uso de redes de neblina, focada em morcegos [@Kunz2009]. Após a captura das espécies, estas foram identificadas com o auxílio de chaves de identificação, e poisteriomente liberados.
+Foram realizadas duas campanha de amostragens, abrangendo o verão e o outono de 2026, abrangendo duas áreas, durante 5 dias de amostragem cada. Foram utilizados os métodos de amostragem através de armadilha Sherman iscada, focada em pequenos mamíferos terrestres [@Auricchio2002], o uso de armadilhas fotográficas [@MCCleery2014], a observação de pegadas, revisadas baseadas em @Becker2013 e fezes baseadas em @Prist2020, e o uso de redes de neblina, focada em morcegos [@Kunz2009]. Após a captura das espécies, estas foram identificadas com o auxílio de chaves de identificação, e poisteriomente liberados.
 
 Ao total, foram registradas cinco espécies, distribuidos em quatro famílias (Figura 1, Tabela 1).
 
