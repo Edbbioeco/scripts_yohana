@@ -59,30 +59,10 @@ Para a metrificação da diversidade das espécuies detectadas, foi usada uma co
 
 ![Figura 3. Valores de diversidade do índice de Shannon-Wiener ao longo das duas áreas amostradas.](consultoria_08.06.2026/shannon.png)
 
-::: {#eq-shannon}
-
-$$H' = - \sum_{ì = 1}^{S}{p_i * \ln{p_i}}$$
-
-Equação 2. Descrição do índice de diversidade Shannon-Wiener. $p_{i}$ = abundância relativa da espécie $_i$. $\ln$ = logarítimo natural.
-:::
 
 ![Figura 4. Valores de diversidade do índice de Gini-Simpson ao longo das duas áreas amostradas.](consultoria_08.06.2026/simpson.png)
 
-::: {#eq-simpson}
-
-$$D = \sum_{ì = 1}^{S}{p_i^2}$$
-
-Equação 3. Descrição do índice de diversidade Gini-Simpson. $p_{i}$ = abundância relativa da espécie $_i$.
-:::
-
 ![Figura 5. Valores de diversidade da Equitabilidade de Pielou ao longo das duas áreas amostradas.](consultoria_08.06.2026/pielou.png)
-
-::: {#eq-pielou}
-
-$$J = \frac{H´}{\ln{\left(S\right)}}$$
-
-Equação 4. Descrição do índice de equitabilidade de Pielou. $H'$ = índice de Shannon-Wiener. $\ln$ = logarítimo natural. $S$ = riqueza de espécies.
-:::
 
 ## 4.3.8. Considerações Finais
 
