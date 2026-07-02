@@ -70,6 +70,11 @@ imagens_letras <- purrr::imap(imagens,
                               ~ggplot() +
                                 tidyterra::geom_spatraster_rgb(data = .x) +
                                 coord_sf(expand = FALSE) +
+                                geom_point(data = df_letras |>
+                                             dplyr::filter(id == .y),
+                                           aes(x, y),
+                                           size = 14,
+                                           color = "white") +
                                 geom_text(data = df_letras |>
                                             dplyr::filter(id == .y),
                                           aes(x, y, label = letra),
