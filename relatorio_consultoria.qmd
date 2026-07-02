@@ -64,6 +64,8 @@ Para a metrificação da diversidade das espécuies detectadas, foi usada uma co
 
 ![Figura 5. Valores de diversidade da Equitabilidade de Pielou ao longo das duas áreas amostradas.](consultoria_08.06.2026/pielou.png)
 
+Os resultados indicam que as áreas apresentaram uma dissimilaridade moderada a elevada na composição de espécies de mamíferos. A maior similaridade foi observada entre as áreas A e B (J = 0,625), indicando que cerca de 66,25% das espécies registradas não são compartilhadas entre essas áreas [@Jaccard1901], sugerindo que as áreas A e B possuem composição de mastofauna menos semelhante. Isso pode ser explicado pelas diferenças nas características do habitat e na disponibilidade de recursos para as espécies registradas [@Jaccard1912; @Robinson1986; @Michalski2005].
+
 ## 4.3.8. Considerações Finais
 
 A curva do coletor feita indica que a amostragem realizada nas áreas não foi o suficiente parar detectar a diversidade de espécies de mamíferos potenciamente presentes na área. É recomendado que sejam feitas campanhas posteriores de amostragem, com maior abrangência temporal e espacial, a fim de detectar espécies com detectabilidade ocasional, especialmente raras e difíceis de serem amostradas em campnhas menores. Esta recomendação se basea no fato que é importante uma amostragem que detecte o máximo de espécies, sobretudo as espécies mais raras e ocasionais, a fim de melhor descrever a mastofauna da região.
