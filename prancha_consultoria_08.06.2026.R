@@ -20,8 +20,8 @@ imagens <- purrr::map(list.files(path = "./imagens_consultoria_08.06.2026/",
   setNames(list.files(path = "./imagens_consultoria_08.06.2026/") |>
              stringr::str_replace_all("_", " ") |>
              stringr::str_remove_all(".jpeg|.png") |>
-             stringr::word(start = 3,
-                           end = 4))
+             stringr::word(start = 2,
+                           end = 3))
 
 imagens
 
