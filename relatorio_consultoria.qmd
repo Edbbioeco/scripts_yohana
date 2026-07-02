@@ -20,9 +20,9 @@ Devido ao fato de que diversas espécies de mamíferos atuam como espécies chav
 
 Foram realizadas duas campanha de amostragens, abrangendo o verão e o outono de 2026, abrangendo duas áreas, durante 5 dias de amostragem cada. Foram utilizados os métodos de amostragem através de armadilha Sherman iscada, focada em pequenos mamíferos terrestres [@Auricchio2002], o uso de armadilhas fotográficas [@MCCleery2014], a observação de pegadas, revisadas baseadas em @Becker2013 e fezes baseadas em @Prist2020, e o uso de redes de neblina, focada em morcegos [@Kunz2009]. Após a captura das espécies, estas foram identificadas com o auxílio de chaves de identificação, e poisteriomente liberados.
 
-Ao total, foram registradas cinco espécies, distribuidos em quatro famílias (Figura 1, Tabela 1).
+Ao total, foram registradas oito espécies, distribuidos em cinco famílias (Figura 1, Tabela 1).
 
-![Figura 1. Espécies detectadas na amostragem feita. A: _Sturnira lilium_. B: _Didelphis albiventris_. C: _Canis lupus_. D: _Cerdocyon thous_. E: _Leopardus trigrinus_.](consultoria_08.06.2026/prancha_especies.png)
+![Figura 1. Espécies detectadas na amostragem feita. A: _Caluromys_ sp. B: _Didelphis albiventris_. C: _Leopardus tigrinus_. D: _Cerdocyon thous_. E: _Canis lupus_. F: _Sturnira lilium_. G: _Akodon_ sp.](consultoria_08.06.2026/prancha_especies.png)
 
 ## 4.3.1. Espécies Endêmicas
 
