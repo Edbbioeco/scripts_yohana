@@ -51,7 +51,7 @@ df_letras <- purrr::pmap(list(imagens,
 
                            x_pos <- extenc[2]/8
 
-                           y_pos <- (extenc[2]/8)*7
+                           y_pos <- (extenc[4]/8)*7
 
                            tibble::tibble(x = x_pos,
                                           y = y_pos,
@@ -74,7 +74,7 @@ imagens_letras <- purrr::imap(imagens,
                                             dplyr::filter(id == .y),
                                           aes(x, y, label = letra),
                                           size = 10,
-                                          color = "white",
+                                          color = "black",
                                           fontface = "bold") +
                                 theme_void(),
                               .progress = TRUE) |>
@@ -86,7 +86,7 @@ imagens_letras
 
 prancha <- imagens_letras |>
   patchwork::wrap_plots() +
-  theme(plot.tag = element_text(face = "bold", size = 20, hjust = -0.5),
+  theme(plot.tag = element_text(face = "bold", size = 60, hjust = -0.5),
         plot.tag.position = c(0, 1))
 
 prancha
