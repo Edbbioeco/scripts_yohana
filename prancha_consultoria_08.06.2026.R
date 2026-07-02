@@ -42,8 +42,8 @@ df_letras <- purrr::pmap(list(imagens,
                               list.files(path = "./imagens_consultoria_08.06.2026/") |>
                                 stringr::str_replace_all("_", " ") |>
                                 stringr::str_remove_all(".jpeg|.png") |>
-                                stringr::word(start = 3,
-                                              end = 4),
+                                stringr::word(start = 2,
+                                              end = 3),
                               LETTERS[1:length(imagens)]),
                          \(fotos_unidas, nome_especies, letras){
 
@@ -70,7 +70,6 @@ imagens_letras <- purrr::imap(imagens,
                               ~ggplot() +
                                 tidyterra::geom_spatraster_rgb(data = .x) +
                                 coord_sf(expand = FALSE) +
-                                coord_equal() +
                                 geom_text(data = df_letras |>
                                             dplyr::filter(id == .y),
                                           aes(x, y, label = letra),
