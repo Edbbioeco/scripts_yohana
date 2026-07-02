@@ -90,9 +90,7 @@ imagens_letras
 ## Unir figuras ----
 
 prancha <- imagens_letras |>
-  patchwork::wrap_plots() +
-  theme(plot.tag = element_text(face = "bold", size = 60, hjust = -0.5),
-        plot.tag.position = c(0, 1))
+  patchwork::wrap_plots()
 
 prancha
 
