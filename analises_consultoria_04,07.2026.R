@@ -58,6 +58,30 @@ riqueza_camapnha
 
 riqueza_camapnha |> dplyr::glimpse()
 
+## Gráfico ----
+
+riqueza_camapnha |>
+  ggplot(aes(Campanha, riqueza)) +
+  geom_col(color = "#4472C4", fill = "#4472C4", width = 0.5) +
+  labs(x = NULL,
+       y = "N° de espécies por campanha") +
+  scale_y_continuous(limits = c(0, 40),
+                     expand = expansion(mult = c(0, 0.05))) +
+  theme(panel.background = element_rect(color = "white", fill = "white"),
+        axis.text = element_text(color = "black", size = 30),
+        axis.text.x = element_text(vjust = -2),
+        axis.text.y = element_text(hjust = 0),
+        axis.title.y = element_text(vjust = 2),
+        axis.title = element_text(color = "black", size = 30),
+        axis.ticks = element_blank(),
+        axis.line.x = element_line(color = "black", linewidth = 1),
+        plot.background = element_rect(color = "black", linewidth = 1),
+        plot.margin = margin(t = 10, r = 10, b = 25, l = 15)) +
+  ggview::canvas(height = 12, width = 20)
+
+ggsave(filename = "./consultoria_04.07.2026/riqueza_campanha.png",
+       height = 12, width = 20)
+
 # Curva de rarefação ----
 
 ## Calcular ----
