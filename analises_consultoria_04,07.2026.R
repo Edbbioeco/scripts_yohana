@@ -330,3 +330,27 @@ flex_quiro
 
 flex_quiro |>
   flextable::save_as_docx(path = "./consultoria_04.07.2026/tabela_diversidade_quiropteros.docx")
+
+# Dendogramas de similaridade ----
+
+## Mamíferos terrestres ----
+
+### Calcular similaridade ----
+
+similaridade_terrestres <- dados_trat[dados_trat |>
+                                        names() |>
+                                        stringr::str_detect("terrestre")] |>
+  dplyr::bind_rows() |>
+  dplyr::summarise(Abundância = Abundância |> sum(),
+                   .by = c(`Área Amostral`,
+                           `Nome científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome científico`,
+                     values_from = Abundância,
+                     values_fill = 0) |>
+  dplyr::arrange(`Área Amostral`) |>
+  tibble::column_to_rownames(var = "Área Amostral") |>
+  vegan::vegdist(method = "jaccard")
+
+similaridade_terrestres <- 1 - similaridade_terrestres
+
+similaridade_terrestres
