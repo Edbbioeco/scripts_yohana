@@ -138,7 +138,7 @@ ggsave(filename = "./consultoria_04.07.2026/jackknife.png",
 
 ### Shannon-Wiener ----
 
-dados_trat[dados_trat |> stringr::str_detect("terrestre")] |>
+shannon_terrestre <- dados_trat[dados_trat |> stringr::str_detect("terrestre")] |>
   dplyr::bind_rows() |>
   dplyr::summarise(Abundância = Abundância |> sum(),
                    .by = c(Campanha,
@@ -150,3 +150,5 @@ dados_trat[dados_trat |> stringr::str_detect("terrestre")] |>
   dplyr::mutate(Campanha = paste0(Campanha, "ª Campanha")) |>
   tibble::column_to_rownames(var = "Campanha") |>
   vegan::diversity()
+
+shannon_terrestre
