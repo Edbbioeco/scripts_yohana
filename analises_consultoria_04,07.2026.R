@@ -35,7 +35,8 @@ dados_trat <- purrr::map(dados,
                              dplyr::summarise(Abundância = dplyr::n(),
                                               .by = c(Campanha,
                                                       `Nome científico`,
-                                                      Grupo))
+                                                      Grupo)) |>
+                             dplyr::mutate(Campanha = Campanha |> as.character())
                          ),
                          .progress = TRUE) |>
   setNames(list.files(path = "./consultoria_04.07.2026/") |>
