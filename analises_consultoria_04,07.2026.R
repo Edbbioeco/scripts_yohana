@@ -43,3 +43,17 @@ dados_trat <- purrr::map(dados,
              stringr::str_remove_all("dados_|.xlsx"))
 
 dados_trat
+
+# Curva de rarefação ----
+
+## Calcular ----
+
+dados_trat |>
+  dplyr::bind_rows() |>
+  dplyr::summarise(Abundância = Abundância |> sum(),
+                   .by = c(Campanha,
+                           `Nome científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome científico`,
+                     values_from = Abundância,
+                     values_fill = 0) |>
+  tibble::column_to_rownames(var = "Campanha")
