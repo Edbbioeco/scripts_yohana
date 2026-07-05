@@ -44,6 +44,20 @@ dados_trat <- purrr::map(dados,
 
 dados_trat
 
+# Gráfico de riqueza por campanha ----
+
+## Calcular riqueza por campanha ----
+
+riqueza_camapnha <- dados_trat |>
+  dplyr::bind_rows() |>
+  dplyr::summarise(riqueza = dplyr::n(),
+                   .by = Campanha) |>
+  dplyr::mutate(Campanha = paste0(Campanha, "ª Campanha"))
+
+riqueza_camapnha
+
+riqueza_camapnha |> dplyr::glimpse()
+
 # Curva de rarefação ----
 
 ## Calcular ----
