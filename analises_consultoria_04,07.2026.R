@@ -400,3 +400,69 @@ ggplot() +
 ggsave(filename = "./consultoria_04.07.2026/dendrograma_terrestres.png",
        height = 12, width = 20)
 
+## Quirópteros ----
+
+### Calcular similaridade ----
+
+similaridade_quiro <- dados_trat[dados_trat |>
+                                   names() |>
+                                   stringr::str_detect("quiropteros")] |>
+  dplyr::bind_rows() |>
+  dplyr::summarise(Abundância = Abundância |> sum(),
+                   .by = c(`Área Amostral`,
+                           `Nome científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome científico`,
+                     values_from = Abundância,
+                     values_fill = 0) |>
+  dplyr::arrange(`Área Amostral`) |>
+  tibble::column_to_rownames(var = "Área Amostral") |>
+  vegan::vegdist(method = "jaccard")
+
+similaridade_quiro <- 1 - similaridade_quiro
+
+similaridade_quiro
+
+### Calcular o dendograma ----
+
+dendro_quiro <- similaridade_quiro |>
+  hclust()
+
+dendro_quiro
+
+### Visualizar o dendrograma ----
+
+dendro_dados_quiro <- dendro_quiro |>
+  as.dendrogram() |>
+  ggdendro::dendro_data()
+
+dendro_dados_quiro
+
+ggplot() +
+  geom_segment(data = dendro_dados_quiro$segments, aes(x = x,
+                                                       y = y,
+                                                       xend = xend,
+                                                       yend = yend),
+               linewidth = 1) +
+  labs(x = NULL,
+       y = "Similaridade") +
+  scale_x_continuous(breaks = 1:9,
+                     labels = dendro_dados_quiro$labels$label,
+                     position = "top") +
+  scale_y_reverse(expand = expansion(mult = c(0, 0)),
+                  position = "right",
+                  limits = c(0, 0.42)) +
+  coord_flip() +
+  theme(panel.background = element_rect(color = "white", fill = "white"),
+        axis.text = element_text(color = "black", size = 30),
+        axis.text.x.top = element_text(vjust = 0.5, hjust = 10, angle = 270),
+        axis.title = element_text(color = "black", size = 30),
+        axis.line.x = element_line(color = "black", linewidth = 1),
+        axis.ticks.y = element_blank(),
+        axis.ticks.x = element_line(color = "black", linewidth = 1),
+        axis.ticks.length = unit(0.3, "cm"),
+        plot.background = element_rect(color = "black", linewidth = 1),
+        plot.margin = margin(t = 10, r = 10, b = 25, l = 15)) +
+  ggview::canvas(height = 12, width = 20)
+
+ggsave(filename = "./consultoria_04.07.2026/dendrograma_quiro.png",
+       height = 12, width = 20)
