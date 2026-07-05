@@ -174,3 +174,18 @@ shannon_terrestre
 pielou_terrestre <- shannon_terrestre / log(riqueza_terrestre)
 
 pielou_terrestre
+
+### Data frame dos valores ----
+
+df_div_terrestre <- tibble::tibble(area_amostral = riqueza_terrestre |> names(),
+                                   shannon = shannon_terrestre,
+                                   Índices = "Shannon_H") |>
+  tidyr::pivot_wider(names_from = area_amostral,
+                     values_from = shannon) |>
+  dplyr::bind_rows(tibble::tibble(area_amostral = riqueza_terrestre |> names(),
+                                  pielou = pielou_terrestre,
+                                  Índices = "Equitabilidade_J") |>
+                     tidyr::pivot_wider(names_from = area_amostral,
+                                        values_from = pielou))
+
+df_div_terrestre
