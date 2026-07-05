@@ -70,3 +70,26 @@ dados_jackknife <- dados_trat |>
 dados_jackknife
 
 dados_jackknife |> dplyr::glimpse()
+
+## Gráfico ----
+
+dados_jackknife |>
+  ggplot(aes(N, riqueza, linetype = tipo)) +
+  geom_line(linewidth = 1) +
+  labs(x = NULL,
+       y = NULL,
+       linetype = NULL) +
+  scale_linetype(breaks = c("Sobs", "Jackknife 1")) +
+  guides(linetype = guide_legend(keywidth = unit(45, "pt"))) +
+  theme(panel.background = element_rect(color = "white", fill = "white"),
+        axis.text = element_text(color = "black", size = 30),
+        axis.text.x = element_text(angle = 45, hjust = 3),
+        axis.ticks = element_blank(),
+        axis.line.x = element_line(color = "black", linewidth = 1),
+        legend.text = element_text(color = "black", size = 30),
+        legend.position = "bottom",
+        plot.background = element_rect(color = "black", linewidth = 1)) +
+    ggview::canvas(height = 12, width = 20)
+
+ggsave(filename = "./consultoria_04.07.2026/jackknife.png",
+       height = 12, width = 20)
