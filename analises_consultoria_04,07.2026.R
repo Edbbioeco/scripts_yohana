@@ -168,3 +168,9 @@ shannon_terrestre <- dados_trat[dados_trat |> stringr::str_detect("terrestre")] 
   vegan::diversity()
 
 shannon_terrestre
+
+### Equitabilidade de Pielou ----
+
+pielou_terrestre <- shannon_terrestre / log(riqueza_terrestre)
+
+pielou_terrestre
