@@ -361,3 +361,42 @@ dendro_terrestres <- similaridade_terrestres |>
   hclust()
 
 dendro_terrestres
+
+### Visualizar o dendrograma ----
+
+dendro_dados_terrestres <- dendro_terrestres |>
+  as.dendrogram() |>
+  ggdendro::dendro_data()
+
+dendro_dados_terrestres
+
+ggplot() +
+  geom_segment(data = dendro_dados_terrestres$segments, aes(x = x,
+                                                            y = y,
+                                                            xend = xend,
+                                                            yend = yend),
+               linewidth = 1) +
+  labs(x = NULL,
+       y = "Similaridade") +
+  scale_x_continuous(breaks = 1:10,
+                     labels = dendro_dados_terrestres$labels$label,
+                     position = "top") +
+  scale_y_reverse(expand = expansion(mult = c(0, 0)),
+                  position = "right",
+                  limits = c(0, 0.358)) +
+  coord_flip() +
+  theme(panel.background = element_rect(color = "white", fill = "white"),
+        axis.text = element_text(color = "black", size = 30),
+        axis.text.x.top = element_text(vjust = 0.5, hjust = 10, angle = 270),
+        axis.title = element_text(color = "black", size = 30),
+        axis.line.x = element_line(color = "black", linewidth = 1),
+        axis.ticks.y = element_blank(),
+        axis.ticks.x = element_line(color = "black", linewidth = 1),
+        axis.ticks.length = unit(0.3, "cm"),
+        plot.background = element_rect(color = "black", linewidth = 1),
+        plot.margin = margin(t = 10, r = 10, b = 25, l = 15)) +
+  ggview::canvas(height = 12, width = 20)
+
+ggsave(filename = "./consultoria_04.07.2026/dendrograma_terrestres.png",
+       height = 12, width = 20)
+
