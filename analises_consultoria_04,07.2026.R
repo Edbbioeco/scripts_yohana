@@ -189,3 +189,40 @@ df_div_terrestre <- tibble::tibble(area_amostral = riqueza_terrestre |> names(),
                                         values_from = pielou))
 
 df_div_terrestre
+
+### Tabela flextable ----
+
+flex_terrestre <- df_div_terrestre |>
+  flextable::flextable() |>
+  flextable::fontsize(part = "all",
+                      size = 8) |>
+  flextable::add_header_row(values = c("Índices", "Áreas amostrais"),
+                            colwidths = c(1, 10),
+                            top = TRUE) |>
+  flextable::merge_v(part = "header", j = "Índices") |>
+  flextable::align(align = "center", part = "header") |>
+  flextable::align(align = "center", j = 2:11, part = "body") |>
+  flextable::bg(bg = "#1F3864", part = "header") |>
+  flextable::color(color = "white", part = "header") |>
+  flextable::bold(part = "header") |>
+  flextable::border_remove() |>
+  flextable::hline(i = 1,
+                   part = "header",
+                   border = officer::fp_border(color = "black", width = 1)) |>
+  flextable::hline_bottom(part = "header",
+                          border = officer::fp_border(color = "black",
+                                                      width = 1.5)) |>
+  flextable::hline_bottom(part = "body",
+                          border = officer::fp_border(color = "black",
+                                                      width = 1.5)) |>
+  flextable::vline(j = 1, part = "header",
+                   border = officer::fp_border(color = "black",
+                                               width = 1)) |>
+  flextable::vline(j = 2:11, part = "header",
+                   border = officer::fp_border(color = "black",
+                                               width = 1))
+
+flex_terrestre
+
+flex_terrestre |>
+  flextable::save_as_docx(path = "./consultoria_04.07.2026/tabela_diversidade_terrestres.docx")
