@@ -34,13 +34,12 @@ dados_trat <- purrr::map(dados,
                            ~.x |>
                              dplyr::summarise(Abundância = dplyr::n(),
                                               .by = c(Campanha,
+                                                      `Área Amostral`,
                                                       `Nome científico`,
                                                       Grupo)) |>
                              dplyr::mutate(Campanha = Campanha |> as.character())
                          ),
-                         .progress = TRUE) |>
-  setNames(list.files(path = "./consultoria_04.07.2026/") |>
-             stringr::str_remove_all("dados_|.xlsx"))
+                         .progress = TRUE)
 
 dados_trat
 
