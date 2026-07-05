@@ -139,7 +139,9 @@ ggsave(filename = "./consultoria_04.07.2026/jackknife.png",
 
 ### Riqueza ----
 
-riqueza_terrestre <- dados_trat[dados_trat |> stringr::str_detect("terrestre")] |>
+riqueza_terrestre <- dados_trat[dados_trat |>
+                                  names() |>
+                                  stringr::str_detect("terrestre")] |>
   dplyr::bind_rows() |>
   dplyr::summarise(Abundância = Abundância |> sum(),
                    .by = c(`Área Amostral`,
@@ -155,7 +157,9 @@ riqueza_terrestre
 
 ### Shannon-Wiener ----
 
-shannon_terrestre <- dados_trat[dados_trat |> stringr::str_detect("terrestre")] |>
+shannon_terrestre <- dados_trat[dados_trat |>
+                                  names() |>
+                                  stringr::str_detect("terrestre")] |>
   dplyr::bind_rows() |>
   dplyr::summarise(Abundância = Abundância |> sum(),
                    .by = c(`Área Amostral`,
