@@ -15,9 +15,11 @@ library(ggdendro)
 ## Importar ----
 
 dados <- purrr::map(list.files(path = "./consultoria_04.07.2026/",
+                               pattern = ".xlsx$",
                                full.names = TRUE),
                     readxl::read_xlsx) |>
-  setNames(list.files(path = "./consultoria_04.07.2026/") |>
+  setNames(list.files(path = "./consultoria_04.07.2026/",
+                      pattern = ".xlsx$") |>
              stringr::str_remove_all("dados_|.xlsx"))
 
 ## Visualizar ----
@@ -140,7 +142,7 @@ ggsave(filename = "./consultoria_04.07.2026/jackknife.png",
 shannon_terrestre <- dados_trat[dados_trat |> stringr::str_detect("terrestre")] |>
   dplyr::bind_rows() |>
   dplyr::summarise(Abundância = Abundância |> sum(),
-                   .by = c(Campanha,
+                   .by = c(`Área Amostral`,
                            `Nome científico`)) |>
   tidyr::pivot_wider(names_from = `Nome científico`,
                      values_from = Abundância,
