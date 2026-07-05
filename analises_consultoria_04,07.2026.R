@@ -8,6 +8,10 @@ library(vegan)
 
 library(ggview)
 
+library(flextable)
+
+library(officer)
+
 library(ggdendro)
 
 # Dados ----
