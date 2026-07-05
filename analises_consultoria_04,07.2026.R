@@ -48,7 +48,7 @@ dados_trat
 
 ## Calcular ----
 
-dados_trat |>
+dados_jackknife <- dados_trat |>
   dplyr::bind_rows() |>
   dplyr::summarise(Abundância = Abundância |> sum(),
                    .by = c(Campanha,
@@ -59,4 +59,14 @@ dados_trat |>
   dplyr::arrange(Campanha) |>
   tibble::column_to_rownames(var = "Campanha") |>
   vegan::poolaccum(minsize = 1) |>
-  summary(display = c("S", "jack1"))
+  summary(display = c("S", "jack1")) |>
+  setNames(c("Sobs", "Jackknife 1")) |>
+  purrr::imap(~.x |>
+                tibble::as_tibble() |>
+                dplyr::rename(riqueza = 2) |>
+                dplyr::mutate(tipo = .y)) |>
+  dplyr::bind_rows()
+
+dados_jackknife
+
+dados_jackknife |> dplyr::glimpse()
