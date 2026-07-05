@@ -131,3 +131,22 @@ dados_jackknife |>
 
 ggsave(filename = "./consultoria_04.07.2026/jackknife.png",
        height = 12, width = 20)
+
+## Índices de diversidade ----
+
+## Mamíferos terrestres ----
+
+### Shannon-Wiener ----
+
+dados_trat[dados_trat |> stringr::str_detect("terrestre")] |>
+  dplyr::bind_rows() |>
+  dplyr::summarise(Abundância = Abundância |> sum(),
+                   .by = c(Campanha,
+                           `Nome científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome científico`,
+                     values_from = Abundância,
+                     values_fill = 0) |>
+  dplyr::arrange(Campanha) |>
+  dplyr::mutate(Campanha = paste0(Campanha, "ª Campanha")) |>
+  tibble::column_to_rownames(var = "Campanha") |>
+  vegan::diversity()
