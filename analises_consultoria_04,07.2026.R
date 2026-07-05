@@ -56,4 +56,7 @@ dados_trat |>
   tidyr::pivot_wider(names_from = `Nome científico`,
                      values_from = Abundância,
                      values_fill = 0) |>
-  tibble::column_to_rownames(var = "Campanha")
+  dplyr::arrange(Campanha) |>
+  tibble::column_to_rownames(var = "Campanha") |>
+  vegan::poolaccum(minsize = 1) |>
+  summary(display = c("S", "jack1"))
