@@ -91,6 +91,46 @@ riqueza_camapnha_terrestres |>
 ggsave(filename = "./consultoria_04.07.2026/riqueza_campanha_terrestres.png",
        height = 12, width = 20)
 
+## Quirópteros ----
+
+##@ Calcular riqueza por campanha ----
+
+riqueza_camapnha_quiro <- dados_trat[dados_trat |>
+                                       names() |>
+                                       stringr::str_detect("quiropteros")] |>
+  dplyr::bind_rows() |>
+  dplyr::summarise(riqueza = dplyr::n(),
+                   .by = Campanha) |>
+  dplyr::mutate(Campanha = paste0(Campanha, "ª Campanha"))
+
+riqueza_camapnha_quiro
+
+riqueza_camapnha_quiro |> dplyr::glimpse()
+
+#@# Gráfico ----
+
+riqueza_camapnha_quiro |>
+  ggplot(aes(Campanha, riqueza)) +
+  geom_col(color = "#4472C4", fill = "#4472C4", width = 0.5) +
+  labs(x = NULL,
+       y = "N° de espécies por campanha") +
+  scale_y_continuous(limits = c(0, 30),
+                     expand = expansion(mult = c(0, 0.05))) +
+  theme(panel.background = element_rect(color = "white", fill = "white"),
+        axis.text = element_text(color = "black", size = 30),
+        axis.text.x = element_text(vjust = -2),
+        axis.text.y = element_text(hjust = 0),
+        axis.title.y = element_text(vjust = 2),
+        axis.title = element_text(color = "black", size = 30),
+        axis.ticks = element_blank(),
+        axis.line.x = element_line(color = "black", linewidth = 1),
+        plot.background = element_rect(color = "black", linewidth = 1),
+        plot.margin = margin(t = 10, r = 10, b = 25, l = 15)) +
+  ggview::canvas(height = 12, width = 20)
+
+ggsave(filename = "./consultoria_04.07.2026/riqueza_campanha_quiropteros.png",
+       height = 12, width = 20)
+
 # Curva de rarefação ----
 
 ## Calcular ----
