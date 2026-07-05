@@ -226,3 +226,99 @@ flex_terrestre
 
 flex_terrestre |>
   flextable::save_as_docx(path = "./consultoria_04.07.2026/tabela_diversidade_terrestres.docx")
+
+## Quirópteros ----
+
+### Riqueza ----
+
+riqueza_quiro <- dados_trat[dados_trat |>
+                              names() |>
+                              stringr::str_detect("_quiropteros_")] |>
+  dplyr::bind_rows() |>
+  dplyr::summarise(Abundância = Abundância |> sum(),
+                   .by = c(`Área Amostral`,
+                           `Nome científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome científico`,
+                     values_from = Abundância,
+                     values_fill = 0) |>
+  dplyr::arrange(`Área Amostral`) |>
+  tibble::column_to_rownames(var = "Área Amostral") |>
+  vegan::specnumber()
+
+riqueza_terrestre
+
+### Shannon-Wiener ----
+
+shannon_quiro <- dados_trat[dados_trat |>
+                              names() |>
+                              stringr::str_detect("_quiropteros_")] |>
+  dplyr::bind_rows() |>
+  dplyr::summarise(Abundância = Abundância |> sum(),
+                   .by = c(`Área Amostral`,
+                           `Nome científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome científico`,
+                     values_from = Abundância,
+                     values_fill = 0) |>
+  dplyr::arrange(`Área Amostral`) |>
+  tibble::column_to_rownames(var = "Área Amostral") |>
+  vegan::diversity()
+
+shannon_quiro
+
+### Equitabilidade de Pielou ----
+
+pielou_quiro <- shannon_quiro / log(riqueza_quiro)
+
+pielou_quiro
+
+### Data frame dos valores ----
+
+df_div_quiro <- tibble::tibble(area_amostral = riqueza_terrestre |> names(),
+                               shannon = shannon_terrestre |> round(2),
+                               Índices = "Shannon_H") |>
+  tidyr::pivot_wider(names_from = area_amostral,
+                     values_from = shannon) |>
+  dplyr::bind_rows(tibble::tibble(area_amostral = riqueza_terrestre |> names(),
+                                  pielou = pielou_terrestre |> round(2),
+                                  Índices = "Equitabilidade_J") |>
+                     tidyr::pivot_wider(names_from = area_amostral,
+                                        values_from = pielou))
+
+df_div_quiro
+
+### Tabela flextable ----
+
+flex_quiro <- df_div_quiro |>
+  flextable::flextable() |>
+  flextable::fontsize(part = "all",
+                      size = 8) |>
+  flextable::add_header_row(values = c("Índices", "Áreas amostrais"),
+                            colwidths = c(1, 10),
+                            top = TRUE) |>
+  flextable::merge_v(part = "header", j = "Índices") |>
+  flextable::align(align = "center", part = "header") |>
+  flextable::align(align = "center", j = 2:11, part = "body") |>
+  flextable::bg(bg = "#1F3864", part = "header") |>
+  flextable::color(color = "white", part = "header") |>
+  flextable::bold(part = "header") |>
+  flextable::border_remove() |>
+  flextable::hline(i = 1,
+                   part = "header",
+                   border = officer::fp_border(color = "black", width = 1)) |>
+  flextable::hline_bottom(part = "header",
+                          border = officer::fp_border(color = "black",
+                                                      width = 1.5)) |>
+  flextable::hline_bottom(part = "body",
+                          border = officer::fp_border(color = "black",
+                                                      width = 1.5)) |>
+  flextable::vline(j = 1, part = "header",
+                   border = officer::fp_border(color = "black",
+                                               width = 1)) |>
+  flextable::vline(j = 2:11, part = "header",
+                   border = officer::fp_border(color = "black",
+                                               width = 1))
+
+flex_quiro
+
+flex_quiro |>
+  flextable::save_as_docx(path = "./consultoria_04.07.2026/tabela_diversidade_quiropteros.docx")
