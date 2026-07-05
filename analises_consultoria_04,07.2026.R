@@ -51,26 +51,30 @@ dados_trat
 
 # Gráfico de riqueza por campanha ----
 
-## Calcular riqueza por campanha ----
+## Mamíferos terrestres ----
 
-riqueza_camapnha <- dados_trat |>
+##@ Calcular riqueza por campanha ----
+
+riqueza_camapnha_terrestres <- dados_trat[dados_trat |>
+                                            names() |>
+                                            stringr::str_detect("terrestre")] |>
   dplyr::bind_rows() |>
   dplyr::summarise(riqueza = dplyr::n(),
                    .by = Campanha) |>
   dplyr::mutate(Campanha = paste0(Campanha, "ª Campanha"))
 
-riqueza_camapnha
+riqueza_camapnha_terrestres
 
-riqueza_camapnha |> dplyr::glimpse()
+riqueza_camapnha_terrestres |> dplyr::glimpse()
 
-## Gráfico ----
+#@# Gráfico ----
 
-riqueza_camapnha |>
+riqueza_camapnha_terrestres |>
   ggplot(aes(Campanha, riqueza)) +
   geom_col(color = "#4472C4", fill = "#4472C4", width = 0.5) +
   labs(x = NULL,
        y = "N° de espécies por campanha") +
-  scale_y_continuous(limits = c(0, 40),
+  scale_y_continuous(limits = c(0, 65),
                      expand = expansion(mult = c(0, 0.05))) +
   theme(panel.background = element_rect(color = "white", fill = "white"),
         axis.text = element_text(color = "black", size = 30),
@@ -84,7 +88,7 @@ riqueza_camapnha |>
         plot.margin = margin(t = 10, r = 10, b = 25, l = 15)) +
   ggview::canvas(height = 12, width = 20)
 
-ggsave(filename = "./consultoria_04.07.2026/riqueza_campanha.png",
+ggsave(filename = "./consultoria_04.07.2026/riqueza_campanha_terrestres.png",
        height = 12, width = 20)
 
 # Curva de rarefação ----
