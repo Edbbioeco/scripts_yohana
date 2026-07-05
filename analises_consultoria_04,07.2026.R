@@ -285,13 +285,13 @@ pielou_quiro
 
 ### Data frame dos valores ----
 
-df_div_quiro <- tibble::tibble(area_amostral = riqueza_terrestre |> names(),
-                               shannon = shannon_terrestre |> round(2),
+df_div_quiro <- tibble::tibble(area_amostral = riqueza_quiro |> names(),
+                               shannon = shannon_quiro |> round(2),
                                Índices = "Shannon_H") |>
   tidyr::pivot_wider(names_from = area_amostral,
                      values_from = shannon) |>
-  dplyr::bind_rows(tibble::tibble(area_amostral = riqueza_terrestre |> names(),
-                                  pielou = pielou_terrestre |> round(2),
+  dplyr::bind_rows(tibble::tibble(area_amostral = riqueza_quiro |> names(),
+                                  pielou = pielou_quiro |> round(2),
                                   Índices = "Equitabilidade_J") |>
                      tidyr::pivot_wider(names_from = area_amostral,
                                         values_from = pielou))
@@ -305,11 +305,11 @@ flex_quiro <- df_div_quiro |>
   flextable::fontsize(part = "all",
                       size = 8) |>
   flextable::add_header_row(values = c("Índices", "Áreas amostrais"),
-                            colwidths = c(1, 10),
+                            colwidths = c(1, 9),
                             top = TRUE) |>
   flextable::merge_v(part = "header", j = "Índices") |>
   flextable::align(align = "center", part = "header") |>
-  flextable::align(align = "center", j = 2:11, part = "body") |>
+  flextable::align(align = "center", j = 2:9, part = "body") |>
   flextable::bg(bg = "#1F3864", part = "header") |>
   flextable::color(color = "white", part = "header") |>
   flextable::bold(part = "header") |>
@@ -326,7 +326,7 @@ flex_quiro <- df_div_quiro |>
   flextable::vline(j = 1, part = "header",
                    border = officer::fp_border(color = "black",
                                                width = 1)) |>
-  flextable::vline(j = 2:11, part = "header",
+  flextable::vline(j = 2:9, part = "header",
                    border = officer::fp_border(color = "black",
                                                width = 1))
 
