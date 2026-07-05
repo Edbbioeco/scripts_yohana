@@ -137,6 +137,22 @@ ggsave(filename = "./consultoria_04.07.2026/jackknife.png",
 
 ## Mamíferos terrestres ----
 
+### Riqueza ----
+
+riqueza_terrestre <- dados_trat[dados_trat |> stringr::str_detect("terrestre")] |>
+  dplyr::bind_rows() |>
+  dplyr::summarise(Abundância = Abundância |> sum(),
+                   .by = c(`Área Amostral`,
+                           `Nome científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome científico`,
+                     values_from = Abundância,
+                     values_fill = 0) |>
+  dplyr::arrange(`Área Amostral`) |>
+  tibble::column_to_rownames(var = "Área Amostral") |>
+  vegan::specnumber()
+
+riqueza_terrestre
+
 ### Shannon-Wiener ----
 
 shannon_terrestre <- dados_trat[dados_trat |> stringr::str_detect("terrestre")] |>
