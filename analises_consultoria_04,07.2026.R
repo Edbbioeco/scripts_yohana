@@ -354,3 +354,10 @@ similaridade_terrestres <- dados_trat[dados_trat |>
 similaridade_terrestres <- 1 - similaridade_terrestres
 
 similaridade_terrestres
+
+### Calcular o dendograma ----
+
+dendro_terrestres <- similaridade_terrestres |>
+  hclust()
+
+dendro_terrestres
