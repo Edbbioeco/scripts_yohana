@@ -147,9 +147,8 @@ shannon_terrestre <- dados_trat[dados_trat |> stringr::str_detect("terrestre")] 
   tidyr::pivot_wider(names_from = `Nome científico`,
                      values_from = Abundância,
                      values_fill = 0) |>
-  dplyr::arrange(Campanha) |>
-  dplyr::mutate(Campanha = paste0(Campanha, "ª Campanha")) |>
-  tibble::column_to_rownames(var = "Campanha") |>
+  dplyr::arrange(`Área Amostral`) |>
+  tibble::column_to_rownames(var = "Área Amostral") |>
   vegan::diversity()
 
 shannon_terrestre
