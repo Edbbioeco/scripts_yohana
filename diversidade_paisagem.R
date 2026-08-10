@@ -47,3 +47,16 @@ uso_solo <- terra::rast("https://storage.googleapis.com/mapbiomas-public/initiat
   terra::crop(uc_bbox) |>
   terra::mask(uc_bbox) |>
   terra::as.factor()
+
+## Visualiza ----
+
+## Cores das classes ----
+
+source("https://raw.github.com/Edbbioeco/mapbiomas_classes/main/cor_classes_funcao.R")
+
+cores <- vetorizar_cores(classes = uso_solo |>
+                           terra::values() |>
+                           as.character() |>
+                           unique())
+
+cores
