@@ -93,3 +93,7 @@ ggplot() +
         legend.title = element_text(color = "black", size = 20),
         legend.position = "bottom") +
   ggview::canvas(height = 10, width = 20)
+
+## Diversidade da paisagem ----
+
+uso_solo |> landscapemetrics::lsm_l_sidi()
