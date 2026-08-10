@@ -38,4 +38,10 @@ ggplot() +
   geom_sf(data = uc_bbox, color = "red") +
   geom_sf(data = uc, color = "black")
 
+# Raster de uso e cobertura do solo ----
 
+## Importar ----
+
+uso_solo <- terra::rast("https://storage.googleapis.com/mapbiomas-public/initiatives/brasil/collection_10/lulc/coverage/brazil_coverage_2024.tif") |>
+  terra::crop(uc_bbox) |>
+  terra::mask(uc_bbox)
