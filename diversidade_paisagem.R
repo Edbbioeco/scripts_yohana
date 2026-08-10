@@ -25,3 +25,17 @@ uc
 
 ggplot() +
   geom_sf(data = uc, color = "black")
+
+## Área bbox da uc ----
+
+uc_bbox <- uc |>
+  sf::st_bbox() |>
+  sf::st_as_sfc()
+
+uc_bbox
+
+ggplot() +
+  geom_sf(data = uc_bbox, color = "red") +
+  geom_sf(data = uc, color = "black")
+
+
