@@ -60,3 +60,14 @@ cores <- vetorizar_cores(classes = uso_solo |>
                            unique())
 
 cores
+
+## Nomes das classes ----
+
+source("https://raw.github.com/Edbbioeco/mapbiomas_classes/main/nome_classe_funcao.R")
+
+nomes <- vetorizar_classes(classes = uso_solo |>
+                             terra::values() |>
+                             as.character() |>
+                             unique())
+
+nomes
