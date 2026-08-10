@@ -45,4 +45,5 @@ ggplot() +
 
 uso_solo <- terra::rast("https://storage.googleapis.com/mapbiomas-public/initiatives/brasil/collection_10/lulc/coverage/brazil_coverage_2024.tif") |>
   terra::crop(uc_bbox) |>
-  terra::mask(uc_bbox)
+  terra::mask(uc_bbox) |>
+  terra::as.factor()
