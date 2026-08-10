@@ -30,7 +30,8 @@ ggplot() +
 
 uc_bbox <- uc |>
   sf::st_bbox() |>
-  sf::st_as_sfc()
+  sf::st_as_sfc() |>
+  sf::st_as_sf()
 
 uc_bbox
 
