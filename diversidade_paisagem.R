@@ -50,7 +50,7 @@ uso_solo <- terra::rast("https://storage.googleapis.com/mapbiomas-public/initiat
 
 ## Visualiza ----
 
-## Cores das classes ----
+### Cores das classes ----
 
 source("https://raw.github.com/Edbbioeco/mapbiomas_classes/main/cor_classes_funcao.R")
 
@@ -61,7 +61,7 @@ cores <- vetorizar_cores(classes = uso_solo |>
 
 cores
 
-## Nomes das classes ----
+### Nomes das classes ----
 
 source("https://raw.github.com/Edbbioeco/mapbiomas_classes/main/nome_classe_funcao.R")
 
