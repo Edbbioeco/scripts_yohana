@@ -71,3 +71,25 @@ nomes <- vetorizar_classes(classes = uso_solo |>
                              unique())
 
 nomes
+
+### Mapa ----
+
+ggplot() +
+  tidyterra::geom_spatraster(data = uso_solo) +
+  scale_fill_manual(values = cores,
+                    labels = nomes,
+                    na.translate = FALSE,
+                    guide = guide_legend(title.position = "top",
+                                         title.hjust = 0.5)) +
+  geom_sf(data = uc,
+          color = "black",
+          fill = "transparent",
+          linewidth = 1) +
+  coord_sf(expand = FALSE) +
+  labs(fill = "Classes de uso e cobertura do solo") +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(color = "black", size = 20),
+        legend.position = "bottom") +
+  ggview::canvas(height = 10, width = 20)
