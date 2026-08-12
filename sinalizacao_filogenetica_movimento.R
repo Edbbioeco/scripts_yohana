@@ -150,14 +150,16 @@ df_area_medias <- df_area |>
   dplyr::summarise(dplyr::across(.cols = dplyr::where(is.numeric),
                                  .fns = ~mean(.)),
                    .by = Espécie) |>
-  dplyr::mutate(Espécie = Espécie |> forcats::fct_relevel(arvore$tip.label |>
-                                                            rev() |>
-                                                            stringr::str_replace("_",
-                                                                                 " "))) |>
-  dplyr::arrange(Espécie = Espécie |> forcats::fct_relevel(arvore$tip.label |>
-                                                             rev() |>
-                                                             stringr::str_replace("_",
-                                                                                  " ")))
+  dplyr::mutate(Espécie = Espécie |>
+                  forcats::fct_relevel(arvore$tip.label |>
+                                         rev() |>
+                                         stringr::str_replace("_",
+                                                              " "))) |>
+  dplyr::arrange(Espécie = Espécie |>
+                   forcats::fct_relevel(arvore$tip.label |>
+                                          rev() |>
+                                          stringr::str_replace("_",
+                                                               " ")))
 
 df_area_medias
 
