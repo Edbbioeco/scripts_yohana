@@ -97,18 +97,18 @@ plot_tortuosidade <- diversidade |>
        x = "Hill's Diversity (q = 1)") +
   facet_wrap(~k, nrow = 1, scales = "free_x") +
   theme_minimal() +
-  theme(axis.text = element_text(size = 17, color = "black"),
-        axis.text.y = element_text(size = 17, color = "black",
+  theme(axis.text = element_text(size = 20, color = "black"),
+        axis.text.y = element_text(size = 20, color = "black",
                                    hjust = 0,
                                    face = "bold.italic"),
         legend.text = element_text(size = 15, color = "black"),
-        legend.title = element_text(size = 17, color = "black"),
+        legend.title = element_text(size = 20, color = "black"),
         legend.position = "none",
-        axis.title = element_text(size = 17, color = "black"),
+        axis.title = element_text(size = 20, color = "black"),
         axis.line.x = element_line(color = "black", linewidth = 1),
         plot.title = element_text(size = 20, color = "black",
                                   hjust = 0.5),
-        strip.text = element_text(size = 17, color = "black"),
+        strip.text = element_text(size = 20, color = "black"),
         strip.background = element_rect(color = "black", fill = "gray")) +
   ggview::canvas(height = 10, width = 12)
 
