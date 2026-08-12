@@ -109,88 +109,34 @@ ggplot() +
 
 ## Calculando o movimento ----
 
-areas_vida <- function(id){
+df_area <- purrr::map_dfr(
+  ind,
+  purrr::in_parallel(
 
-  mcp_100 <- sf_dados |>
-    dplyr::filter(ID == id) |>
-    sf::st_transform(crs = 32725) |>
-    sf::as_Spatial() |>
-    adehabitatHR::mcp(percent = 100) |>
-    sf::st_as_sf() |>
-    sf::st_area() |>
-    as.numeric()
+    ~tibble::tibble(area_kernel95 = sf_dados |>
+                      dplyr::filter(ID == .x) |>
+                      sf::st_transform(crs = 32725) |>
+                      sf::as_Spatial() |>
+                      adehabitatHR::kernelUD(h = "href",
+                                             extent = 3) |>
+                      adehabitatHR::getverticeshr(percent = 95) |>
+                      sf::st_as_sf() |>
+                      sf::st_area() |>
+                      as.numeric(),
+                    area_kernel50 = sf_dados |>
+                      dplyr::filter(ID == .x) |>
+                      sf::st_transform(crs = 32725) |>
+                      sf::as_Spatial() |>
+                      adehabitatHR::kernelUD(h = "href",
+                                             extent = 3) |>
+                      adehabitatHR::getverticeshr(percent = 50) |>
+                      sf::st_as_sf() |>
+                      sf::st_area() |>
+                      as.numeric()) |>
+      dplyr::mutate(ID = .x)
 
-  mcp_095 <- sf_dados |>
-    dplyr::filter(ID == id) |>
-    sf::st_transform(crs = 32725) |>
-    sf::as_Spatial() |>
-    adehabitatHR::mcp(percent = 95) |>
-    sf::st_as_sf() |>
-    sf::st_area() |>
-    as.numeric()
-
-  kernel_95 <- sf_dados |>
-    dplyr::filter(ID == id) |>
-    sf::st_transform(crs = 32725) |>
-    sf::as_Spatial() |>
-    adehabitatHR::kernelUD(h = "href",
-                           extent = 3) |>
-    adehabitatHR::getverticeshr(percent = 95) |>
-    sf::st_as_sf() |>
-    sf::st_area() |>
-    as.numeric()
-
-  kernel_50 <- sf_dados |>
-    dplyr::filter(ID == id) |>
-    sf::st_transform(crs = 32725) |>
-    sf::as_Spatial() |>
-    adehabitatHR::kernelUD(h = "href",
-                           extent = 3) |>
-    adehabitatHR::getverticeshr(percent = 50) |>
-    sf::st_as_sf() |>
-    sf::st_area() |>
-    as.numeric()
-
-  area_mcp100 <<- c(area_mcp100, mcp_100)
-
-  area_mcp095 <<- c(area_mcp095, mcp_095)
-
-  area_kernel95 <<- c(area_kernel95, kernel_95)
-
-  area_kernel50 <<- c(area_kernel50, kernel_50)
-
-}
-
-area_mcp100 <- c()
-
-area_mcp095 <- c()
-
-area_kernel95 <- c()
-
-area_kernel50 <- c()
-
-ind <- sf_dados |>
-  dplyr::pull(ID) |>
-  unique()
-
-ind
-
-purrr::map(ind, areas_vida)
-
-area_mcp100
-
-area_mcp095
-
-area_kernel95
-
-area_kernel50
-
-## Unindo os dados ----
-
-df_area <- ls(pattern = "^area_") |>
-  mget(envir = globalenv()) |>
-  dplyr::bind_cols() |>
-  dplyr::mutate(ID = ind) |>
+    ),
+  .progress = TRUE) |>
   dplyr::left_join(sps_mov_dados |>
                      dplyr::select(ID, Espécie) |>
                      dplyr::distinct(ID, .keep_all = TRUE),
