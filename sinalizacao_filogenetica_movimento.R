@@ -167,35 +167,27 @@ df_area_medias
 
 ## Calculando ----
 
-calcular_sinalizacao <- function(var){
-
-  k_phy <- phytools::phylosig(tree = arvore,
-                              x = df_area_medias[[var]],
-                              method = "K")
-
-  phy_df <- tibble::tibble(k = paste0("k = ",
-                                      k_phy |> as.numeric() |> round(2)),
-                           Variable = var)
-
-  assign(paste0("df_phy_", var),
-         phy_df,
-         envir = globalenv())
-
-}
-
 var <- df_area_medias |>
-  dplyr::select(2:5) |>
+  dplyr::select(2:3) |>
   names()
 
 var
 
-purrr::map(var, calcular_sinalizacao)
+var_df_phy <- purrr::map_dfr(
+  var,
+  purrr::in_parallel(
 
-## Unindo os dados ----
+    ~tibble::tibble(k = paste0(
+      "k = ",
+      phytools::phylosig(tree = arvore,
+                         x = df_area_medias[[.x]],
+                         method = "K") |>
+        as.numeric() |>
+        round(2)),
+      Variable = .x)
 
-var_df_phy <- ls(pattern = "^df_phy_") |>
-  mget(envir = globalenv()) |>
-  dplyr::bind_rows()
+    ),
+  .progress = TRUE)
 
 var_df_phy
 
