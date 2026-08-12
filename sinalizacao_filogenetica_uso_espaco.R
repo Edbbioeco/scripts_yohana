@@ -50,14 +50,16 @@ diversidade |> dplyr::glimpse()
 ## Tratando ----
 
 diversidade <- diversidade |>
-  dplyr::mutate(Espécie = Espécie |> forcats::fct_relevel(arvore$tip.label |>
-                                                            rev() |>
-                                                            stringr::str_replace("_",
-                                                                                 " "))) |>
-  dplyr::arrange(Espécie = Espécie |> forcats::fct_relevel(arvore$tip.label |>
-                                                             rev() |>
-                                                             stringr::str_replace("_",
-                                                                                  " ")))
+  dplyr::mutate(Espécie = Espécie |>
+                  forcats::fct_relevel(arvore$tip.label |>
+                                         rev() |>
+                                         stringr::str_replace("_",
+                                                              " "))) |>
+  dplyr::arrange(Espécie = Espécie |>
+                   forcats::fct_relevel(arvore$tip.label |>
+                                          rev() |>
+                                          stringr::str_replace("_",
+                                                               " ")))
 
 diversidade
 
