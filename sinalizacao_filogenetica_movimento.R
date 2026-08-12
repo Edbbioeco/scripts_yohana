@@ -209,7 +209,8 @@ plot_tortuosidade <- df_area_medias |>
                       values_to = "Area value") |>
   dplyr::left_join(var_df_phy,
                    by = "Variable") |>
-  dplyr::mutate(Variable = paste0(Variable |> stringr::str_remove("area_"),
+  dplyr::mutate(Variable = paste0(Variable |>
+                                    stringr::str_remove("area_"),
                                   " = ",
                                   k)) |>
   ggplot(aes(`Area value`, Espécie,
