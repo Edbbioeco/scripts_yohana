@@ -213,13 +213,11 @@ plot_tortuosidade <- df_area_medias |>
                                     stringr::str_remove("area_"),
                                   " = ",
                                   k)) |>
-  ggplot(aes(`Area value`, Espécie,
-             fill = `Area value`)) +
+  ggplot(aes(`Area value`, Espécie)) +
   geom_col(color = "black",
            width = 0.1) +
   scale_y_discrete(position = "right") +
   #scale_x_continuous(limits = c(0, 1)) +
-  scale_fill_viridis_c() +
   labs(y = NULL,
        x = "Area (m)") +
   facet_wrap(~Variable, nrow = 1, scales = "free_x") +
