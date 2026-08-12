@@ -88,13 +88,11 @@ plot_arvore
 plot_tortuosidade <- diversidade |>
   dplyr::mutate(k = paste0("k = ",
                            sinal |> round(2))) |>
-  ggplot(aes(Diversidade, Espécie,
-             fill = Diversidade)) +
+  ggplot(aes(Diversidade, Espécie)) +
   geom_col(color = "black",
            width = 0.1) +
   scale_y_discrete(position = "right") +
   #scale_x_continuous(limits = c(0, 1)) +
-  scale_fill_viridis_c() +
   labs(y = NULL,
        x = "Hill's Diversity (q = 1)") +
   facet_wrap(~k, nrow = 1, scales = "free_x") +
