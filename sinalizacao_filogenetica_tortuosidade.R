@@ -207,28 +207,27 @@ plot_arvore
 plot_tortuosidade <- tortuosidade_phy |>
   dplyr::mutate(k_tortuosidade = paste0("k = ",
                                         sinal |> as.numeric() |> round(2))) |>
-  ggplot(aes(Tortuosidade, Espécie, fill = Tortuosidade)) +
+  ggplot(aes(Tortuosidade, Espécie)) +
   geom_col(color = "black",
            width = 0.1) +
   scale_y_discrete(position = "right") +
   scale_x_continuous(limits = c(0, 1)) +
-  scale_fill_viridis_c() +
   labs(y = NULL,
        x = "Tortuosity") +
   facet_wrap(~k_tortuosidade) +
   theme_minimal() +
-  theme(axis.text = element_text(size = 17, color = "black"),
-        axis.text.y = element_text(size = 17, color = "black",
+  theme(axis.text = element_text(size = 20, color = "black"),
+        axis.text.y = element_text(size = 20, color = "black",
                                    hjust = 0,
                                    face = "bold.italic"),
         legend.text = element_text(size = 15, color = "black"),
-        legend.title = element_text(size = 17, color = "black"),
+        legend.title = element_text(size = 20, color = "black"),
         legend.position = "none",
-        axis.title = element_text(size = 17, color = "black"),
+        axis.title = element_text(size = 20, color = "black"),
         axis.line.x = element_line(color = "black", linewidth = 1),
         plot.title = element_text(size = 20, color = "black",
                                               hjust = 0.5),
-        strip.text = element_text(size = 17, color = "black"),
+        strip.text = element_text(size = 20, color = "black"),
         strip.background = element_rect(color = "black", fill = "gray")) +
   ggview::canvas(height = 10, width = 12)
 
