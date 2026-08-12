@@ -45,17 +45,6 @@ ggtree::ggtree(arvore, layout = "circular") +
 
 ### Importando ----
 
-importar_mov <- function(especies){
-
-  dados <- readxl::read_xlsx(paste0("Dados ", especies, ".xlsx")) |>
-    dplyr::mutate(Espécie = especies)
-
-  assign(paste0("dados_mov_", especies |> stringr::word(2)),
-         dados,
-         envir = globalenv())
-
-}
-
 especies <- c("Boana faber",
               "Phyllomedusa tetraploidea",
               "Rhinella crucifer",
@@ -63,18 +52,13 @@ especies <- c("Boana faber",
               "Odontophrynus asper",
               "Leptodactylus mystacinus")
 
-purrr::map(especies, importar_mov)
+sps_mov_dados <- purrr::map_dfr(
+  especies,
+  ~readxl::read_xlsx(paste0("Dados ", .x, ".xlsx")) |>
+    dplyr::mutate(Espécie = .x),
+  .progress = TRUE)
 
 ### Visualizando ----
-
-ls(pattern = "dados_mov_") |>
-  mget(envir = globalenv())
-
-### Unindo os dados ----
-
-sps_mov_dados <- ls(pattern = "dados_mov_") |>
-  mget(envir = globalenv()) |>
-  dplyr::bind_rows()
 
 sps_mov_dados
 
