@@ -76,24 +76,26 @@ sps_mov_dados
 
 ## Completando as coordenadas ----
 
-convertendo_coords <- function(x){
+purrr::map(
+  1:nrow(sps_mov_dados),
+  \(x){
 
-  if(sps_mov_dados$Longitude[x] |> is.na() | sps_mov_dados$Latitude[x] |> is.na()){
+    if(sps_mov_dados$Longitude[x] |> is.na() | sps_mov_dados$Latitude[x] |> is.na()){
 
-    dest <- geosphere::destPoint(c(sps_mov_dados$Longitude[x-1],
-                                   sps_mov_dados$Latitude[x-1]),
-                                 sps_mov_dados$`Angulo de virada`[x-1],
-                                 sps_mov_dados$`Distância (m)`[x-1])
+      dest <- geosphere::destPoint(
+        c(sps_mov_dados$Longitude[x-1],
+          sps_mov_dados$Latitude[x-1]),
+        sps_mov_dados$`Angulo de virada`[x-1],
+        sps_mov_dados$`Distância (m)`[x-1])
 
-    sps_mov_dados$Longitude[x] <<- dest[1]
+      sps_mov_dados$Longitude[x] <<- dest[1]
 
-    sps_mov_dados$Latitude[x] <<- dest[2]
+      sps_mov_dados$Latitude[x] <<- dest[2]
 
-  }
+    }
 
-}
-
-purrr::map(1:nrow(sps_mov_dados), convertendo_coords)
+  },
+  .progress = TRUE)
 
 sps_mov_dados |> as.data.frame()
 
