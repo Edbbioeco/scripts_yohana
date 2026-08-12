@@ -222,19 +222,19 @@ plot_tortuosidade <- df_area_medias |>
        x = "Area (m)") +
   facet_wrap(~Variable, nrow = 1, scales = "free_x") +
   theme_minimal() +
-  theme(axis.text.x = element_text(size = 17, color = "black", angle = 90,
+  theme(axis.text.x = element_text(size = 20, color = "black", angle = 90,
                                    hjust = 1),
-        axis.text.y = element_text(size = 17, color = "black",
+        axis.text.y = element_text(size = 20, color = "black",
                                    hjust = 0,
                                    face = "bold.italic"),
         legend.text = element_text(size = 15, color = "black"),
-        legend.title = element_text(size = 17, color = "black"),
+        legend.title = element_text(size = 20, color = "black"),
         legend.position = "none",
-        axis.title = element_text(size = 17, color = "black"),
+        axis.title = element_text(size = 20, color = "black"),
         axis.line.x = element_line(color = "black", linewidth = 1),
         plot.title = element_text(size = 20, color = "black",
                                   hjust = 0.5),
-        strip.text = element_text(size = 10, color = "black"),
+        strip.text = element_text(size = 20, color = "black"),
         strip.background = element_rect(color = "black", fill = "gray")) +
   ggview::canvas(height = 10, width = 12)
 
