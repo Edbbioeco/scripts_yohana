@@ -13,3 +13,9 @@ library(writexl)
 ## Importar ----
 
 dados <- readxl::read_xlsx("./caminho_dos_dados/nome_do_arquivo.xlsx")
+
+## Visualizar ----
+
+dados
+
+dados |> dplyr::glimpse()
