@@ -1,8 +1,8 @@
 # Pacotes ----
 
-library(readxl)
-
 library(tidyverse)
+
+library(readxl)
 
 library(sf)
 
