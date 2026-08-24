@@ -34,3 +34,13 @@ sps_mov_dados <- purrr::map_dfr(
 sps_mov_dados
 
 sps_mov_dados |> dplyr::glimpse()
+
+# Tratar coordenadas ----
+
+## Converter as coordenadas para decimal ----
+
+sps_mov_dados %<>%
+  dplyr::mutate(Longitude = Longitude |> parzer::parse_lon(),
+                Latitude = Latitude |> parzer::parse_lat())
+
+sps_mov_dados
