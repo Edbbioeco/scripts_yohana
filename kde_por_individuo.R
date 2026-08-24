@@ -28,3 +28,9 @@ sps_mov_dados <- purrr::map_dfr(
   ~readxl::read_xlsx(paste0("Dados ", .x, ".xlsx")) |>
     dplyr::mutate(Espécie = .x),
   .progress = TRUE)
+
+## Visualizar ----
+
+sps_mov_dados
+
+sps_mov_dados |> dplyr::glimpse()
