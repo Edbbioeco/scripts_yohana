@@ -34,3 +34,8 @@ dados_sf <- dados |>
                 "Longitude" = Y)
 
 dados_sf
+
+## Exportar os dados ----
+
+dados_sf |>
+  writexl::write_xlsx("./caminho_dos_dados/coordenadas_convertidas.xlsx")
