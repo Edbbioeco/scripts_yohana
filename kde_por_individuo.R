@@ -10,6 +10,8 @@ library(adehabitatHR)
 
 library(writexl)
 
+library(flextable)
+
 # Dados ----
 
 ## Importar ----
