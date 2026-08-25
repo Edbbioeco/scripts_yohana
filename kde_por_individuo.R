@@ -177,3 +177,7 @@ kde_sps_ind_media_flex <- kde_sps_ind_media |>
                     part = "body")
 
 kde_sps_ind_media_flex
+
+### Exportar a tabela ----
+
+kde_sps_ind_media_flex |> flextable::save_as_docx(path = "./kde_area_media.docx")
