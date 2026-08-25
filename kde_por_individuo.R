@@ -8,6 +8,8 @@ library(magrittr)
 
 library(parzer)
 
+library(geosphere)
+
 library(sf)
 
 library(adehabitatHR)
