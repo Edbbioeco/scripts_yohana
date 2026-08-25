@@ -104,7 +104,7 @@ kde_sps_ind <- purrr::map_dfr(
       ind,
       \(ind){
 
-        tibble::tibble(area_kernel95 = sf_dados |>
+        tibble::tibble(KDE95 = sf_dados |>
                          dplyr::filter(ID == ind) |>
                          sf::st_transform(crs = 32725) |>
                          sf::as_Spatial() |>
@@ -114,7 +114,7 @@ kde_sps_ind <- purrr::map_dfr(
                          sf::st_as_sf() |>
                          sf::st_area() |>
                          as.numeric(),
-                       area_kernel50 = sf_dados |>
+                      KDE50 = sf_dados |>
                          dplyr::filter(ID == ind) |>
                          sf::st_transform(crs = 32725) |>
                          sf::as_Spatial() |>
