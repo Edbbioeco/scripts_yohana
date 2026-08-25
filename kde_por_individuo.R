@@ -88,3 +88,50 @@ sf_dados
 
 ggplot() +
   geom_sf(data = sf_dados, aes(color = Espécie))
+
+## Calcular área de cada espécie por indivíduo ----
+
+kde_sps_ind <- purrr::map_dfr(
+  especies,
+  \(sps){
+
+    ind <- sps_mov_dados |>
+      dplyr::filter(Espécie == sps) |>
+      dplyr::pull(ID) |>
+      unique()
+
+    purrr::map(
+      ind,
+      \(ind){
+
+        tibble::tibble(area_kernel95 = sf_dados |>
+                         dplyr::filter(ID == ind) |>
+                         sf::st_transform(crs = 32725) |>
+                         sf::as_Spatial() |>
+                         adehabitatHR::kernelUD(h = "href",
+                                                extent = 3) |>
+                         adehabitatHR::getverticeshr(percent = 95) |>
+                         sf::st_as_sf() |>
+                         sf::st_area() |>
+                         as.numeric(),
+                       area_kernel50 = sf_dados |>
+                         dplyr::filter(ID == ind) |>
+                         sf::st_transform(crs = 32725) |>
+                         sf::as_Spatial() |>
+                         adehabitatHR::kernelUD(h = "href",
+                                                extent = 3) |>
+                         adehabitatHR::getverticeshr(percent = 50) |>
+                         sf::st_as_sf() |>
+                         sf::st_area() |>
+                         as.numeric()) |>
+          dplyr::mutate(Espécie = sps,
+                        ID = ind)
+
+      }
+
+    )
+
+  },
+  .progress = TRUE)
+
+kde_sps_ind
