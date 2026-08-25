@@ -75,3 +75,16 @@ purrr::map(
   .progress = TRUE)
 
 sps_mov_dados |> as.data.frame()
+
+# KDE ----
+
+## Transformar os dados em shapefile ----
+
+sf_dados <- sps_mov_dados |>
+  sf::st_as_sf(coords = c("Longitude", "Latitude"),
+               crs = 4674)
+
+sf_dados
+
+ggplot() +
+  geom_sf(data = sf_dados, aes(color = Espécie))
