@@ -150,3 +150,19 @@ kde_sps_ind_media
 ## Exportar com planilha ----
 
 kde_sps_ind_media |> writexl::write_xlsx("./kde_area_media.xlsx")
+
+## Exportar como tabela ----
+
+### Unir as colunas ----
+
+kde_sps_ind_media %<>%
+  dplyr::mutate(dplyr::across(.cols = dplyr::where(is.numeric),
+                              .fns = ~.x |> round(2))) |>
+  tidyr::unite(2:3,
+               sep = " ± ",
+               col = "KDE 95%") |>
+  tidyr::unite(3:4,
+               sep = " ± ",
+               col = "KDE 50%")
+
+kde_sps_ind_media
