@@ -166,3 +166,14 @@ kde_sps_ind_media <- kde_sps_ind_media |>
                col = "KDE 50%")
 
 kde_sps_ind_media
+
+### Criar tabela flextable ----
+
+kde_sps_ind_media_flex <- kde_sps_ind_media |>
+  flextable::flextable() |>
+  flextable::align(align = "center", part = "all") |>
+  flextable::width(width = 1.75) |>
+  flextable::italic(j = 1,
+                    part = "body")
+
+kde_sps_ind_media_flex
