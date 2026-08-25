@@ -146,3 +146,7 @@ kde_sps_ind_media <- kde_sps_ind |>
                                  .names = "{.col}_{.fn}"))
 
 kde_sps_ind_media
+
+## Exportar com planilha ----
+
+kde_sps_ind_media |> writexl::write_xlsx("./kde_area_media.xlsx")
