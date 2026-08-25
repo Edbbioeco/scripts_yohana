@@ -135,3 +135,14 @@ kde_sps_ind <- purrr::map_dfr(
   .progress = TRUE)
 
 kde_sps_ind
+
+## Calcular média por espécie ----
+
+kde_sps_ind_media <- kde_sps_ind |>
+  dplyr::group_by(Espécie) |>
+  dplyr::summarise(dplyr::across(.cols = dplyr::where(is.numeric),
+                                 .fns = c(Média = ~.x |> mean(),
+                                          `SD` = ~.x |> sd()),
+                                 .names = "{.col}_{.fn}"))
+
+kde_sps_ind_media
