@@ -155,7 +155,7 @@ kde_sps_ind_media |> writexl::write_xlsx("./kde_area_media.xlsx")
 
 ### Unir as colunas ----
 
-kde_sps_ind_media %<>%
+kde_sps_ind_media <- kde_sps_ind_media |>
   dplyr::mutate(dplyr::across(.cols = dplyr::where(is.numeric),
                               .fns = ~.x |> round(2))) |>
   tidyr::unite(2:3,
