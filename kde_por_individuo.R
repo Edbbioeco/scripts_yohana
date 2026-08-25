@@ -6,6 +6,8 @@ library(readxl)
 
 library(magrittr)
 
+library(parzer)
+
 library(sf)
 
 library(adehabitatHR)
