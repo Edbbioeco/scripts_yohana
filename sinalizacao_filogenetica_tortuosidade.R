@@ -188,7 +188,8 @@ tortuosidade_phy
 
 sinal <- phytools::phylosig(tree = arvore,
                             x = tortuosidade_phy$Tortuosidade,
-                            method = "K")
+                            method = "K",
+                            test = TRUE)
 
 sinal
 
