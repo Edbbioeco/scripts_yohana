@@ -207,7 +207,9 @@ plot_arvore
 
 plot_tortuosidade <- tortuosidade_phy |>
   dplyr::mutate(k_tortuosidade = paste0("k = ",
-                                        sinal |> as.numeric() |> round(2))) |>
+                                        sinal$K |> as.numeric() |> round(2),
+                                        ", p = ",
+                                        sinal$P)) |>
   ggplot(aes(Tortuosidade, Espécie)) +
   geom_col(color = "black",
            width = 0.1) +
