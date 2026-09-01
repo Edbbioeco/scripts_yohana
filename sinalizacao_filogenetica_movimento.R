@@ -116,6 +116,10 @@ ggplot() +
 
 ## Calculando o movimento ----
 
+ind <- sf_dados |>
+  dplyr::pull(ID) |>
+  unique()
+
 df_area <- purrr::map_dfr(
   ind,
   purrr::in_parallel(
