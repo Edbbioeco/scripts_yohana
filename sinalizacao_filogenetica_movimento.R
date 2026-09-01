@@ -251,7 +251,7 @@ plot_tortuosidade <- df_area_medias |>
         axis.line.x = element_line(color = "black", linewidth = 1),
         plot.title = element_text(size = 20, color = "black",
                                   hjust = 0.5),
-        strip.text = element_text(size = 20, color = "black"),
+        strip.text = element_text(size = 13.5, color = "black"),
         strip.background = element_rect(color = "black", fill = "gray")) +
   ggview::canvas(height = 10, width = 12)
 
