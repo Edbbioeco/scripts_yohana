@@ -69,7 +69,8 @@ diversidade
 
 sinal <- phytools::phylosig(tree = arvore,
                             x = diversidade$Diversidade,
-                            method = "K")
+                            method = "K",
+                            test = TRUE)
 
 sinal
 
