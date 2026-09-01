@@ -187,16 +187,23 @@ var
 var_df_phy <- purrr::map_dfr(
   var,
   purrr::in_parallel(
+    \(var){
 
-    ~tibble::tibble(k = paste0(
-      "k = ",
-      phytools::phylosig(tree = arvore,
-                         x = df_area_medias[[.x]],
-                         method = "K") |>
-        as.numeric() |>
-        round(2)),
-      Variable = .x)
+      sinal <- phytools::phylosig(tree = arvore,
+                                  x = df_area_medias[[var]],
+                                  method = "K",
+                                  test = TRUE)
 
+      tibble::tibble(Variable = paste0(
+        var,
+        ": K = ",
+        sinal$K |> round(2),
+        ", p = ",
+        sinal$P |> round(2)
+      ))
+
+
+      }
     ),
   .progress = TRUE)
 
