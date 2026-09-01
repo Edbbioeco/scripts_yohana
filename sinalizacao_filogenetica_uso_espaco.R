@@ -88,7 +88,9 @@ plot_arvore
 
 plot_tortuosidade <- diversidade |>
   dplyr::mutate(k = paste0("k = ",
-                           sinal |> round(2))) |>
+                           sinal$K |> as.numeric() |> round(2),
+                           ", p = ",
+                           sinal$P)) |>
   ggplot(aes(Diversidade, Espécie)) +
   geom_col(color = "black",
            width = 0.1) +
