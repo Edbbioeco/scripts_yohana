@@ -237,7 +237,7 @@ plot_tortuosidade <- df_area_medias |>
   #scale_x_continuous(limits = c(0, 1)) +
   labs(y = NULL,
        x = "Area (m)") +
-  facet_wrap(~Variable, nrow = 1, scales = "free_x") +
+  facet_wrap(~Sinal, nrow = 1, scales = "free_x") +
   theme_minimal() +
   theme(axis.text.x = element_text(size = 20, color = "black", angle = 90,
                                    hjust = 1),
