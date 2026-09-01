@@ -194,13 +194,14 @@ var_df_phy <- purrr::map_dfr(
                                   method = "K",
                                   test = TRUE)
 
-      tibble::tibble(Variable = paste0(
+      tibble::tibble(Sinal = paste0(
         var,
         ": K = ",
         sinal$K |> round(2),
         ", p = ",
         sinal$P |> round(2)
-      ))
+      ),
+        Variable = var)
 
 
       }
