@@ -47,6 +47,13 @@ ggtree::ggtree(arvore, layout = "circular") +
 
 ### Importando ----
 
+especies <- c("Boana faber",
+              "Phyllomedusa tetraploidea",
+              "Rhinella crucifer",
+              "Rhinella icterica",
+              "Odontophrynus asper",
+              "Leptodactylus mystacinus")
+
 sps_mov_dados <- purrr::map_dfr(
   especies,
   ~readxl::read_xlsx(paste0("Dados ", .x, ".xlsx")) |>
