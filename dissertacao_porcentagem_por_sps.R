@@ -18,7 +18,7 @@ com |> dplyr::glimpse()
 
 # Estatística descritiva ----
 
-## AbundÂncia total ----
+## Abundância total ----
 
 nt <- com |>
   tidyr::pivot_longer(cols = dplyr::everything(),
@@ -28,3 +28,15 @@ nt <- com |>
   dplyr::pull(nt)
 
 nt
+
+## % por espécie ----
+
+com |>
+  tidyr::pivot_longer(cols = dplyr::everything(),
+                      names_to = "especie",
+                      values_to = "abundancia") |>
+  dplyr::summarise(abundancia = abundancia |> sum(),
+                   .by = especie) |>
+  dplyr::summarise(abundancia = ((abundancia / nt) * 100) |> round(2),
+                   .by = especie) |>
+  as.data.frame()
