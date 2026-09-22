@@ -9,3 +9,9 @@ library(tidyverse)
 ## Importando ----
 
 comp <- readxl::read_xlsx("Diversidade de Shannon ABUNDANCIA.xlsx")
+
+## Visualizando ----
+
+comp
+
+comp |> dplyr::glimpse()
