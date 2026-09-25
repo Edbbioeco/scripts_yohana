@@ -4,9 +4,9 @@ library(tidyverse)
 
 library(readxl)
 
-library(sf)
-
 library(parzer)
+
+library(sf)
 
 library(geosphere)
 
