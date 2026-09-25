@@ -43,3 +43,11 @@ reg <- purrr::map_dfr(
 reg
 
 reg |> dplyr::glimpse()
+
+### Tratar os dados ----
+
+reg <- reg |>
+  dplyr::mutate(Longitude = parzer::parse_lon(Longitude),
+                Latitude  = parzer::parse_lat(Latitude))
+
+reg
