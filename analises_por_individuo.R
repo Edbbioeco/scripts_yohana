@@ -44,10 +44,11 @@ reg
 
 reg |> dplyr::glimpse()
 
-### Tratar os dados ----
+### Converter dados de longitude e latitude ----
 
 reg <- reg |>
   dplyr::mutate(Longitude = parzer::parse_lon(Longitude),
                 Latitude  = parzer::parse_lat(Latitude))
 
 reg
+
