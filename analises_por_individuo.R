@@ -37,3 +37,9 @@ reg <- purrr::map_dfr(
     }
 
   )
+
+### Visualizar ----
+
+reg
+
+reg |> dplyr::glimpse()
