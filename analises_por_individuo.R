@@ -78,3 +78,14 @@ reg_trat <- purrr::reduce(
   .init = reg)
 
 reg_trat
+
+### Transformar em shapefile ----
+
+reg_sf <- reg_trat |>
+  sf::st_as_sf(coords = c(2:3),
+               crs = 4674)
+
+reg_sf
+
+ggplot() +
+  geom_sf(data = reg_sf)
