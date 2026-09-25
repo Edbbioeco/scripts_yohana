@@ -52,3 +52,29 @@ reg <- reg |>
 
 reg
 
+### Completar as coordenadas ----
+
+reg_trat <- purrr::reduce(
+  .x = 1:nrow(reg),
+  .f = \(dados, x){
+
+    if(is.na(dados$Longitude[x]) || is.na(dados$Latitude[x])){
+
+      dest <- geosphere::destPoint(
+        c(dados$Longitude[x - 1], dados$Latitude[x - 1]),
+        dados$`Angulo de virada`[x - 1],
+        dados$`Distância (m)`[x - 1])
+
+      dados$Longitude[x] <- dest[1]
+
+      dados$Latitude[x]  <- dest[2]
+
+      }
+
+    dados
+
+    },
+
+  .init = reg)
+
+reg_trat
