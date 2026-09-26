@@ -89,3 +89,9 @@ reg_sf
 
 ggplot() +
   geom_sf(data = reg_sf)
+
+## Variáveis ambientais ----
+
+### Importando -----
+
+amb <- readxl::read_xlsx("DADOS AMBIENTAIS COM AS 6 ESPÉCIES INDIVIDUAIS.xlsx")
