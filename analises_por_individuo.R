@@ -148,3 +148,43 @@ trajeto_flex <- trajeto |>
 trajeto_flex
 
 trajeto_flex |> flextable::save_as_docx(path = "tabela_ind_trajeto.docx")
+
+# Índice de tortuosidade ----
+
+## Por indivíduo ----
+
+### Calcular índice de tortuosidade ----
+
+tortuosidade <- purrr::map_dfr(
+  reg_sf$ID |> unique(),
+  \(ind){
+
+    percurso <- reg_sf |>
+      dplyr::filter(ID == ind) |>
+      dplyr::summarise(geometry = geometry |>
+                         sf::st_combine()) |>
+      sf::st_cast(to = "LINESTRING") |>
+      sf::st_length()
+
+    percurso_min <- reg_sf |>
+      dplyr::filter(ID == ind) |>
+      dplyr::slice(c(1, dplyr::n())) |>
+      dplyr::summarise(geometry = geometry |>
+                         sf::st_combine()) |>
+      sf::st_cast(to = "LINESTRING") |>
+      sf::st_length()
+
+    sps <- reg_sf |>
+      dplyr::filter(ID == ind) |>
+      dplyr::pull(Espécie) |>
+      unique()
+
+    tibble::tibble(Espécie = sps,
+                   ID = ind,
+                   `Índice de tortuosidade` = (percurso_min / percurso) |>
+                     round(2))
+
+    },
+  .progress = TRUE)
+
+tortuosidade
