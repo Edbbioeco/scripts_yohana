@@ -134,3 +134,15 @@ trajeto <- purrr::map_dfr(
   .progress = TRUE)
 
 trajeto
+
+### Tabela flextable ----
+
+trajeto_flex <- trajeto |>
+  flextable::flextable() |>
+  flextable::align(align = "center", part = "all") |>
+  flextable::width(j = c(1, 3),
+                   width = 2) |>
+  flextable::italic(j = 1,
+                    part = "body")
+
+trajeto_flex
