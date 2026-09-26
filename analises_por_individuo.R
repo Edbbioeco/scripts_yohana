@@ -10,11 +10,11 @@ library(sf)
 
 library(geosphere)
 
+library(flextable)
+
 library(adehabitatHR)
 
 library(ggview)
-
-library(flextable)
 
 # Dados ----
 
