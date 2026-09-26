@@ -146,3 +146,5 @@ trajeto_flex <- trajeto |>
                     part = "body")
 
 trajeto_flex
+
+trajeto_flex |> flextable::save_as_docx(path = "tabela_ind_trajeto.docx")
