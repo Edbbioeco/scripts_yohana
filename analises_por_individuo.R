@@ -101,3 +101,36 @@ amb <- readxl::read_xlsx("DADOS AMBIENTAIS COM AS 6 ESPÉCIES INDIVIDUAIS.xlsx")
 amb
 
 amb |> dplyr::glimpse()
+
+# Distância percorrida ----
+
+## Por indivíduo ----
+
+### Calcular trajeto ----
+
+trajeto <- purrr::map_dfr(
+  reg_sf$ID |> unique(),
+  \(ind){
+
+    percurso <- reg_sf |>
+          dplyr::filter(ID == ind) |>
+          dplyr::summarise(geometry = geometry |>
+                             sf::st_combine()) |>
+          sf::st_cast(to = "LINESTRING") |>
+          sf::st_length()
+
+    sps <- reg_sf |>
+      dplyr::filter(ID == ind) |>
+      dplyr::pull(Espécie) |>
+      unique()
+
+    tibble::tibble(Espécie = sps,
+                   ID = ind,
+                   `Distância percorrida (m)` = percurso |>
+                     as.numeric() |>
+                     round(2))
+
+        },
+  .progress = TRUE)
+
+trajeto
