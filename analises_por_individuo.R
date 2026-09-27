@@ -475,3 +475,13 @@ tortuosidade <- purrr::map_dfr(
   .progress = TRUE)
 
 tortuosidade
+
+## Modelos lineares ----
+
+### nir dados ----
+
+tortuosidade_amb <- tortuosidade |>
+  dplyr::left_join(media_amb,
+                   by = "ID")
+
+tortuosidade_amb
