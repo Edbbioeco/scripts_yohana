@@ -577,3 +577,48 @@ sts_tortuosidade_flex <- sts_tortuosidade |>
 sts_tortuosidade_flex
 
 sts_tortuosidade_flex |> flextable::save_as_docx(path = "tabela_estatisticas_tortuosidade.docx")
+
+# Área de vida ----
+
+## Calcular área de vida ----
+
+area <- purrr::map_dfr(
+  reg_sf$ID |> unique(),
+  \(ind){
+
+    kernel_95 <- reg_sf |>
+      dplyr::filter(ID == ind) |>
+      sf::st_transform(crs = 32725) |>
+      sf::as_Spatial() |>
+      adehabitatHR::kernelUD(h = "href",
+                             extent = 3) |>
+      adehabitatHR::getverticeshr(percent = 95) |>
+      sf::st_as_sf() |>
+      sf::st_area() |>
+      as.numeric()
+
+    kernel_50 <- reg_sf |>
+      dplyr::filter(ID == ind) |>
+      sf::st_transform(crs = 32725) |>
+      sf::as_Spatial() |>
+      adehabitatHR::kernelUD(h = "href",
+                             extent = 3) |>
+      adehabitatHR::getverticeshr(percent = 50) |>
+      sf::st_as_sf() |>
+      sf::st_area() |>
+      as.numeric()
+
+    sps <- reg_sf |>
+      dplyr::filter(ID == ind) |>
+      dplyr::pull(Espécie) |>
+      unique()
+
+    tibble::tibble(INDIVIDUO = ind,
+                   species = sps,
+                   Kernel95 = kernel_95,
+                   kernel50 = kernel_50)
+
+    },
+  .progress = TRUE)
+
+area
