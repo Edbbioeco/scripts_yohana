@@ -14,6 +14,8 @@ library(flextable)
 
 library(lmerTest)
 
+library(janitor)
+
 library(performance)
 
 library(adehabitatHR)
