@@ -726,3 +726,17 @@ sts_area <- purrr::imap_dfr(
                   rep(each = 2))
 
 sts_area
+
+### Tabela flextable ----
+
+sts_area_flex <- sts_area |>
+  flextable::flextable() |>
+  flextable::align(align = "center", part = "all") |>
+  flextable::width(j = 2,
+                   width = 2.5) |>
+  flextable::width(j = 3,
+                   width = 1.2)
+
+sts_area_flex
+
+sts_area_flex |> flextable::save_as_docx(path = "tabela_estatisticas_area_vida.docx")
