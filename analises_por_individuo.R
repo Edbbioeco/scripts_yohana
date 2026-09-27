@@ -239,6 +239,26 @@ cor_trajeto_amb |>
         axis.text.x = element_text(angle = 35, hjust = 1)) +
   ggview::canvas(height = 10, width = 12)
 
+### Criar modelos lineares ----
+
+modelos_trajeto <- purrr::map(
+  c("Temperatura máxima",
+    "Umidade Relativa -máxima",
+    "Precipitação"),
+  \(var){
+
+    lmerTest::lmer(`Distância percorrida (m)` ~ . +
+                     (1 | Espécie),
+                   data = trajeto_amb |>
+                     dplyr::select(`Distância percorrida (m)`,
+                                   Espécie,
+                                   var))
+
+    },
+  .progress = TRUE)
+
+modelos_trajeto
+
 ## Por indivíduo e data ----
 
 ### Calcular trajeto ----
