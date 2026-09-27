@@ -12,7 +12,7 @@ library(geosphere)
 
 library(flextable)
 
-library(lme4)
+library(lmerTest)
 
 library(adehabitatHR)
 
