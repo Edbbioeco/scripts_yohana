@@ -27,12 +27,18 @@ reg <- purrr::map_dfr(
     "Phyllomedusa tetraploidea",
     "Rhinella crucifer",
     "Rhinella icterica",
-    "Odontophrynus asper",
+    "Odontophrynus americanus",
     "Leptodactylus mystacinus"),
   \(sps){
 
-    readxl::read_xlsx(paste0("Dados ", sps, ".xlsx")) |>
-      dplyr::mutate(Espécie = sps)
+    readxl::read_xlsx("dados de campo.xlsx",
+                      sheet = sps) |>
+      dplyr::select(ID,
+                    Data,
+                    dplyr::contains("Coor"),
+                    Ponto:`Ângulo de virada (°)`) |>
+      dplyr::mutate(Espécie = sps,
+                    .before = 1)
 
     }
 
