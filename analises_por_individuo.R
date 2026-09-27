@@ -127,6 +127,7 @@ amb <- amb |>
   dplyr::mutate(ID = dplyr::case_when(
 
     ID |> stringr::str_detect("^B.*[0-9]+$") ~ ID |> stringr::str_replace("B", "BF"),
+    ID |> stringr::str_detect("^BF") ~ ID,
     .default = ID
 
   ))
@@ -190,6 +191,14 @@ media_amb <- amb |>
                    .by = ID)
 
 media_amb
+
+### Unir os dados ----
+
+trajeto_amb <- trajeto |>
+  dplyr::left_join(media_amb,
+                   by = "ID")
+
+trajeto_amb
 
 ## Por indivíduo e data ----
 
