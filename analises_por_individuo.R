@@ -364,6 +364,20 @@ sts_trajeto <- purrr::imap_dfr(
 
 sts_trajeto
 
+### Tabela flextable ----
+
+sts_trajeto_flex <- sts_trajeto |>
+  flextable::flextable() |>
+  flextable::align(align = "center", part = "all") |>
+  flextable::width(j = 1,
+                   width = 2.5) |>
+  flextable::width(j = 2,
+                   width = 1.2)
+
+sts_trajeto_flex
+
+sts_trajeto_flex |> flextable::save_as_docx(path = "tabela_estatisticas_trajeto.docx")
+
 ## Por indivíduo e data ----
 
 ### Calcular trajeto ----
