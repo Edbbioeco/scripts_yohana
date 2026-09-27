@@ -478,7 +478,7 @@ tortuosidade
 
 ## Modelos lineares ----
 
-### nir dados ----
+### nor dados ----
 
 tortuosidade_amb <- tortuosidade |>
   dplyr::left_join(media_amb,
