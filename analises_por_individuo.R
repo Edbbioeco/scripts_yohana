@@ -719,6 +719,10 @@ sts_area <- purrr::imap_dfr(
                    sep = " ± ")
 
     },
-  .progress = TRUE)
+  .progress = TRUE) |>
+  dplyr::mutate(Predictor = c("Temperatura máxima (°C)",
+                              "Umidade Relativa máxima (mm)",
+                              "Precipitação (mm)") |>
+                  rep(each = 2))
 
 sts_area
