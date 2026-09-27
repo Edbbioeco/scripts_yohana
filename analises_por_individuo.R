@@ -683,3 +683,42 @@ purrr::map(
 
     },
   .progress = TRUE)
+
+### Estatísticas do modelo ----
+
+sts_area <- purrr::imap_dfr(
+  modelos_area,
+  \(modelo, nome){
+
+    kernel <- nome |>
+      stringr::str_split_fixed(" ", n = 2) |>
+      (\(x) x[, 2])()
+
+    modelo |>
+      summary() %>%
+      .$coefficients |>
+      as.data.frame() |>
+      tibble::rownames_to_column() |>
+      dplyr::rename("Predictor" = rowname,
+                    "t" = 4,
+                    "p" = 5) |>
+      dplyr::filter(Predictor != "(Intercept)") |>
+      dplyr::mutate(Modelo = kernel,
+                    .before = 1) |>
+      dplyr::mutate(dplyr::across(.cols = 3:4,
+                                  .fns = ~.x |> round(3)),
+                    t = t |> round(2),
+                    p = dplyr::case_when(
+
+                      p < 0.01 ~ "< 0.01",
+                      .default = p |> round(2) |> as.character()
+                    )) |>
+      tidyr::unite(c(3 |> round(2),
+                     4 |> round(3)),
+                   col = "β1 ± SE",
+                   sep = " ± ")
+
+    },
+  .progress = TRUE)
+
+sts_area
