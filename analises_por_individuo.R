@@ -209,6 +209,36 @@ cor_trajeto_amb <- trajeto_amb |>
 
 cor_trajeto_amb
 
+cor_trajeto_amb[cor_trajeto_amb |> upper.tri()] <- NA
+
+cor_trajeto_amb |>
+  reshape2::melt() |>
+  dplyr::filter(Var1 != Var2) |>
+  tidyr::drop_na() |>
+  ggplot(aes(Var1, Var2, fill = value, label = value |> round(2))) +
+  geom_tile(color = "black", linewidth = 1) +
+  geom_text(size = 7.5) +
+  coord_equal() +
+  scale_fill_gradientn(
+    colours = c(viridis::viridis(n = 10) |>
+                  rev(),
+                viridis::viridis(n = 10)),
+    guide = guide_colourbar(
+      title = "Spearman correlation",
+      title.hjust = 0.5,
+      barheight = 15,
+      frame.colour = "black",
+      ticks.colour = "black",
+      ticks.linewidth = 0.5
+      ),
+    limits = c(-1, 1)) +
+  labs(x = NULL,
+       y = NULL) +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.text.x = element_text(angle = 35, hjust = 1)) +
+  ggview::canvas(height = 10, width = 12)
+
 ## Por indivíduo e data ----
 
 ### Calcular trajeto ----
