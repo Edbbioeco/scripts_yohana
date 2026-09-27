@@ -317,6 +317,17 @@ modelos_trajeto_glm <- purrr::map(
 
 modelos_trajeto_glm
 
+### Avaliar GLMs ----
+
+purrr::map(
+  modelos_trajeto_glm,
+  \(modelo){
+
+    modelo |> DHARMa::simulateResiduals(plot = TRUE)
+
+  },
+  .progress = TRUE)
+
 ## Por indivíduo e data ----
 
 ### Calcular trajeto ----
