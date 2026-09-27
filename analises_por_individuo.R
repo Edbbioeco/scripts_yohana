@@ -71,8 +71,8 @@ reg_trat <- purrr::reduce(
 
       dest <- geosphere::destPoint(
         c(dados$Longitude[x - 1], dados$Latitude[x - 1]),
-        dados$`Angulo de virada`[x - 1],
-        dados$`Distância (m)`[x - 1])
+        dados$`Ângulo de virada (°)`[x - 1],
+        dados$`Distancia percorrida (m)`[x - 1])
 
       dados$Longitude[x] <- dest[1]
 
