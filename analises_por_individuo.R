@@ -637,6 +637,25 @@ area <- purrr::map_dfr(
 
 area
 
+## Tabela flextable ----
+
+area_flex <- area |>
+  dplyr::mutate(dplyr::across(.cols = dplyr::where(is.numeric),
+                              .fns = ~.x |> round(2))) |>
+  dplyr::rename("Espécie" = 2) |>
+  dplyr::relocate(Espécie,
+                  .before = 1) |>
+  flextable::flextable() |>
+  flextable::align(align = "center", part = "all") |>
+  flextable::width(j = 1,
+                   width = 1.5) |>
+  flextable::italic(j = 1,
+                    part = "body")
+
+area_flex
+
+area_flex |> flextable::save_as_docx(path = "tabela_ind_area_vida.docx")
+
 ## Modelos lineares ----
 
 ### Unir os dados ----
