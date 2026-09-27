@@ -91,7 +91,8 @@ reg_trat
 ### Transformar em shapefile ----
 
 reg_sf <- reg_trat |>
-  sf::st_as_sf(coords = c(2:3),
+  dplyr::filter(!Longitude |> is.na()) |>
+  sf::st_as_sf(coords = c(4:5),
                crs = 4674)
 
 reg_sf
@@ -166,25 +167,38 @@ trajeto_data <- purrr::map_dfr(
   reg_sf$ID |> unique(),
   \(ind){
 
-    percurso <- reg_sf |>
+    data <- reg_sf |>
       dplyr::filter(ID == ind) |>
-      dplyr::summarise(geometry = geometry |>
-                         sf::st_combine()) |>
-      sf::st_cast(to = "LINESTRING") |>
-      sf::st_length()
+      dplyr::pull(Data) |>
+      unique()
 
     sps <- reg_sf |>
       dplyr::filter(ID == ind) |>
       dplyr::pull(Espécie) |>
       unique()
 
-    tibble::tibble(Espécie = sps,
-                   ID = ind,
-                   `Distância percorrida (m)` = percurso |>
-                     as.numeric() |>
-                     round(2))
+    purrr::map(
+      data,
+      \(data){
 
-  },
+        percurso <- reg_sf |>
+          dplyr::filter(ID == ind) |>
+          dplyr::summarise(geometry = geometry |>
+                             sf::st_combine()) |>
+          sf::st_cast(to = "LINESTRING") |>
+          sf::st_length()
+
+        tibble::tibble(Espécie = sps,
+                       ID = ind,
+                       Data = data,
+                       `Distância percorrida (m)` = percurso |>
+                         as.numeric() |>
+                         round(2))
+
+        }
+      )
+
+    },
   .progress = TRUE)
 
 trajeto_data
