@@ -37,6 +37,9 @@ reg <- purrr::map_dfr(
                     Data,
                     `Coordenada inicial`,
                     Ponto:`Ângulo de virada (°)`) |>
+      tidyr::separate(col = `Coordenada inicial`,
+                      into = c("Latitude", "Longitude"),
+                      sep = " ") |>
       dplyr::mutate(Espécie = sps,
                     .before = 1)
 
