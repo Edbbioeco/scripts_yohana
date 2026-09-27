@@ -20,6 +20,8 @@ library(performance)
 
 library(lme4)
 
+library(DHARMa)
+
 library(adehabitatHR)
 
 library(ggview)
