@@ -18,6 +18,8 @@ library(janitor)
 
 library(performance)
 
+library(lme4)
+
 library(adehabitatHR)
 
 library(ggview)
