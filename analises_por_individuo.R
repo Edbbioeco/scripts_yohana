@@ -41,7 +41,13 @@ reg <- purrr::map_dfr(
                       into = c("Latitude", "Longitude"),
                       sep = " ") |>
       dplyr::mutate(Espécie = sps,
-                    .before = 1)
+                    .before = 1) |>
+      dplyr::mutate(ID = dplyr::case_when(
+
+        Espécie == "Boana faber" ~ ID |> stringr::str_replace("B", "BF"),
+        .default = ID
+
+        ))
 
     }
 
