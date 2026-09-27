@@ -215,6 +215,8 @@ trajeto_data_flex <- trajeto_data |>
 
 trajeto_data_flex
 
+trajeto_flex |> flextable::save_as_docx(path = "tabela_ind_data_trajeto.docx")
+
 # Índice de tortuosidade ----
 
 ## Por indivíduo ----
