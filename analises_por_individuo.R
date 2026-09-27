@@ -485,3 +485,32 @@ tortuosidade_amb <- tortuosidade |>
                    by = "ID")
 
 tortuosidade_amb
+
+### Criar GLM ----
+
+modelos_tortuosidade_glm <- purrr::map(
+  c("temperatura_maxima",
+    "umidade_relativa_maxima",
+    "precipitacao"),
+  \(var){
+
+    formula <- paste0("indice_de_tortuosidade ~ ",
+                      var,
+                      "+ (1 | especie)") |>
+      as.formula()
+
+    glmmTMB::glmmTMB(formula,
+                     family = glmmTMB::beta_family(),
+                     data = tortuosidade_amb |>
+                       janitor::clean_names() |>
+                       dplyr::select(indice_de_tortuosidade,
+                                     especie,
+                                     var))
+
+  },
+  .progress = TRUE) |>
+  setNames(c("temperatura_maxima",
+             "umidade_relativa_maxima",
+             "precipitacao"))
+
+modelos_tortuosidade_glm
