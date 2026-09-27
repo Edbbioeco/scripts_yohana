@@ -187,7 +187,7 @@ trajeto_flex |> flextable::save_as_docx(path = "tabela_ind_trajeto.docx")
 media_amb <- amb |>
   dplyr::summarise(dplyr::across(.cols = dplyr::where(is.numeric),
                                  .fns = ~.x |> mean()),
-                   .by = INDIVIDUO)
+                   .by = ID)
 
 media_amb
 
