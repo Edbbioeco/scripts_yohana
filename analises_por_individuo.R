@@ -563,3 +563,17 @@ sts_tortuosidade <- purrr::imap_dfr(
                               "Precipitação (mm)"))
 
 sts_tortuosidade
+
+### Tabela flextable ----
+
+sts_tortuosidade_flex <- sts_tortuosidade |>
+  flextable::flextable() |>
+  flextable::align(align = "center", part = "all") |>
+  flextable::width(j = 1,
+                   width = 2.5) |>
+  flextable::width(j = 2,
+                   width = 1.2)
+
+sts_tortuosidade_flex
+
+sts_tortuosidade_flex |> flextable::save_as_docx(path = "tabela_estatisticas_tortuosidade.docx")
