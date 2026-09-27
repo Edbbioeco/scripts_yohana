@@ -526,3 +526,40 @@ purrr::map(
 
   },
   .progress = TRUE)
+
+### Estatísticas dos modelos GLM ----
+
+sts_tortuosidade <- purrr::imap_dfr(
+    modelos_tortuosidade_glm,
+  \(modelo, var){
+
+    modelo |>
+      summary() %>%
+      .$coefficients %>%
+      .$cond |>
+      as.data.frame() |>
+      tibble::rownames_to_column() |>
+      dplyr::rename("Predictor" = rowname,
+                    "z" = 4,
+                    "p" = 5) |>
+      dplyr::filter(Predictor != "(Intercept)") |>
+      dplyr::mutate(dplyr::across(.cols = 2:3,
+                                  .fns = ~.x |> round(3)),
+                    z = z |> round(2),
+                    p = dplyr::case_when(
+
+                      p < 0.01 ~ "< 0.01",
+                      .default = p |> round(2) |> as.character()
+                    )) |>
+      tidyr::unite(c(2 |> round(2),
+                     3 |> round(3)),
+                   col = "β1 ± SE",
+                   sep = " ± ")
+
+  },
+  .progress = TRUE) |>
+  dplyr::mutate(Predictor = c("Temperatura máxima (°C)",
+                              "Umidade Relativa máxima (mm)",
+                              "Precipitação (mm)"))
+
+sts_tortuosidade
