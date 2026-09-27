@@ -35,7 +35,7 @@ reg <- purrr::map_dfr(
                       sheet = sps) |>
       dplyr::select(ID,
                     Data,
-                    dplyr::contains("Coor"),
+                    `Coordenada inicial`,
                     Ponto:`Ângulo de virada (°)`) |>
       dplyr::mutate(Espécie = sps,
                     .before = 1)
