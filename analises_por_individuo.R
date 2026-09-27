@@ -632,3 +632,48 @@ area_amb <- area |>
                    by = "ID")
 
 area_amb
+
+modelos_area <- purrr::map(
+  c("temperatura_maxima",
+    "umidade_relativa_maxima",
+    "precipitacao"),
+  \(var){
+
+    formula50 <- paste0("kernel50 ~ ",
+                        var,
+                        "+ (1 | especie)") |>
+      as.formula()
+
+    lme4::glmer(formula50,
+                family = Gamma(link = "log"),
+                data = area_amb |>
+                  janitor::clean_names() |>
+                  dplyr::select(kernel50,
+                                especie,
+                                var))
+
+    formula95 <- paste0("kernel95 ~ ",
+                        var,
+                        "+ (1 | especie)") |>
+      as.formula()
+
+    lme4::glmer(formula95,
+                family = Gamma(link = "log"),
+                data = area_amb |>
+                  janitor::clean_names() |>
+                  dplyr::select(kernel95,
+                                especie,
+                                var))
+
+  },
+  .progress = TRUE) |>
+  purrr::flatten() |>
+  setNames(paste0(c("temperatura_maxima",
+                    "umidade_relativa_maxima",
+                    "precipitacao") |>
+                    rep(each = 2),
+                  sep = " ",
+                  c("Kernel50", "Kernal95") |>
+                    rep(3)))
+
+modelos_area
