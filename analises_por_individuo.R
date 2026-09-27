@@ -120,6 +120,19 @@ amb
 
 amb |> dplyr::glimpse()
 
+### Tratar ----
+
+amb <- amb |>
+  dplyr::rename("ID" =  1) |>
+  dplyr::mutate(ID = dplyr::case_when(
+
+    ID |> stringr::str_detect("^B.*[0-9]+$") ~ ID |> stringr::str_replace("B", "BF"),
+    .default = ID
+
+  ))
+
+amb
+
 # Distância percorrida ----
 
 ## Por indivíduo ----
