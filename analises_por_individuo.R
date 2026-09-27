@@ -622,3 +622,13 @@ area <- purrr::map_dfr(
   .progress = TRUE)
 
 area
+
+## Modelos lineares ----
+
+### Unir os dados ----
+
+area_amb <- area |>
+  dplyr::left_join(media_amb,
+                   by = "ID")
+
+area_amb
