@@ -203,6 +203,18 @@ trajeto_data <- purrr::map_dfr(
 
 trajeto_data
 
+### Tabela flextable ----
+
+trajeto_data_flex <- trajeto_data |>
+  flextable::flextable() |>
+  flextable::align(align = "center", part = "all") |>
+  flextable::width(j = c(1, 3:4),
+                   width = 2) |>
+  flextable::italic(j = 1,
+                    part = "body")
+
+trajeto_data_flex
+
 # Índice de tortuosidade ----
 
 ## Por indivíduo ----
