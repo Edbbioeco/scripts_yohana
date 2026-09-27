@@ -515,3 +515,14 @@ modelos_tortuosidade_glm <- purrr::map(
              "precipitacao"))
 
 modelos_tortuosidade_glm
+
+### Avaliar GLMs ----
+
+purrr::map(
+  modelos_tortuosidade_glm,
+  \(modelo){
+
+    modelo |> DHARMa::simulateResiduals(plot = TRUE)
+
+  },
+  .progress = TRUE)
