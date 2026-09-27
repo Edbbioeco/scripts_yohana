@@ -259,6 +259,23 @@ modelos_trajeto <- purrr::map(
 
 modelos_trajeto
 
+### Avliar modelos ----
+
+purrr::map(
+  modelos_trajeto,
+  \(modelo){
+
+    modelo |> performance::check_homogeneity()
+
+    modelo |> performance::check_heteroscedasticity()
+
+    modelo |> performance::check_model(c("qq",
+                                         "normality",
+                                         "homogeneity"))
+
+    },
+  .progress = TRUE)
+
 ## Por indivíduo e data ----
 
 ### Calcular trajeto ----
