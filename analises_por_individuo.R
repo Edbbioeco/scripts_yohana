@@ -672,3 +672,14 @@ modelos_area <- purrr::map(
                     rep(3)))
 
 modelos_area
+
+### Avaliar os modelos ----
+
+purrr::map(
+  modelos_area,
+  \(modelo){
+
+    modelo |> DHARMa::simulateResiduals(plot = TRUE)
+
+    },
+  .progress = TRUE)
