@@ -12,6 +12,8 @@ library(geosphere)
 
 library(flextable)
 
+library(lme4)
+
 library(adehabitatHR)
 
 library(ggview)
