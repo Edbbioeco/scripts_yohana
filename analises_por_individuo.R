@@ -14,6 +14,8 @@ library(flextable)
 
 library(lmerTest)
 
+library(performance)
+
 library(adehabitatHR)
 
 library(ggview)
