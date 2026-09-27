@@ -200,6 +200,15 @@ trajeto_amb <- trajeto |>
 
 trajeto_amb
 
+### Calcular a multicolinearidade ----
+
+cor_trajeto_amb <- trajeto_amb |>
+  dplyr::select(dplyr::where(is.numeric)) |>
+  cor(method = "spearman") |>
+  as.matrix()
+
+cor_trajeto_amb
+
 ## Por indivíduo e data ----
 
 ### Calcular trajeto ----
