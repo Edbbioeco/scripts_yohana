@@ -469,6 +469,7 @@ tortuosidade <- purrr::map_dfr(
     tibble::tibble(Espécie = sps,
                    ID = ind,
                    `Índice de tortuosidade` = (percurso_min / percurso) |>
+                     as.numeric() |>
                      round(2))
 
     },
