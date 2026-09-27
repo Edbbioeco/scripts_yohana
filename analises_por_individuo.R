@@ -251,8 +251,12 @@ modelos_trajeto <- purrr::map(
     "precipitacao"),
   \(var){
 
-    lmerTest::lmer(distancia_percorrida_m ~ . +
-                     (1 | especie),
+    formula <- paste0("distancia_percorrida_m ~ ",
+                      var,
+                      "+ (1 | especie)") |>
+      as.formula()
+
+    lmerTest::lmer(formula,
                    data = trajeto_amb |>
                      janitor::clean_names() |>
                      dplyr::select(distancia_percorrida_m,
@@ -260,7 +264,10 @@ modelos_trajeto <- purrr::map(
                                    var))
 
     },
-  .progress = TRUE)
+  .progress = TRUE) |>
+  setNames(c("temperatura_maxima",
+             "umidade_relativa_maxima",
+             "precipitacao"))
 
 modelos_trajeto
 
