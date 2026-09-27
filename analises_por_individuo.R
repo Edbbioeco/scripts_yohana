@@ -182,7 +182,7 @@ trajeto_data <- purrr::map_dfr(
       \(data){
 
         percurso <- reg_sf |>
-          dplyr::filter(ID == ind) |>
+          dplyr::filter(ID == ind & Data == data) |>
           dplyr::summarise(geometry = geometry |>
                              sf::st_combine()) |>
           sf::st_cast(to = "LINESTRING") |>
@@ -190,7 +190,7 @@ trajeto_data <- purrr::map_dfr(
 
         tibble::tibble(Espécie = sps,
                        ID = ind,
-                       Data = data,
+                       Data = data |> format("%d-%m-%Y"),
                        `Distância percorrida (m)` = percurso |>
                          as.numeric() |>
                          round(2))
