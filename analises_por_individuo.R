@@ -277,16 +277,41 @@ purrr::map(
   modelos_trajeto,
   \(modelo){
 
-    modelo |> performance::check_homogeneity()
+    modelo |> performance::check_normality() |> print()
 
-    modelo |> performance::check_heteroscedasticity()
-
-    modelo |> performance::check_model(c("qq",
-                                         "normality",
-                                         "homogeneity"))
+    modelo |> performance::check_heteroscedasticity() |> print()
 
     },
   .progress = TRUE)
+
+### Criar GLM ----
+
+modelos_trajeto_glm <- purrr::map(
+  c("temperatura_maxima",
+    "umidade_relativa_maxima",
+    "precipitacao"),
+  \(var){
+
+    formula <- paste0("distancia_percorrida_m ~ ",
+                      var,
+                      "+ (1 | especie)") |>
+      as.formula()
+
+    lme4::glmer(formula,
+                family = Gamma(link = "log"),
+                data = trajeto_amb |>
+                  janitor::clean_names() |>
+                  dplyr::select(distancia_percorrida_m,
+                                especie,
+                                var))
+
+    },
+  .progress = TRUE) |>
+  setNames(c("temperatura_maxima",
+             "umidade_relativa_maxima",
+             "precipitacao"))
+
+modelos_trajeto_glm
 
 ## Por indivíduo e data ----
 
