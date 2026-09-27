@@ -633,39 +633,34 @@ area_amb <- area |>
 
 area_amb
 
+### Criar modelos ----
+
 modelos_area <- purrr::map(
   c("temperatura_maxima",
     "umidade_relativa_maxima",
     "precipitacao"),
   \(var){
 
-    formula50 <- paste0("kernel50 ~ ",
-                        var,
-                        "+ (1 | especie)") |>
-      as.formula()
+    purrr::map(
+      c(50, 95),
+      \(por){
 
-    lme4::glmer(formula50,
-                family = Gamma(link = "log"),
-                data = area_amb |>
-                  janitor::clean_names() |>
-                  dplyr::select(kernel50,
-                                especie,
-                                var))
+        formula <- paste0("kernel",
+                          por,
+                          " ~ ",
+                          var,
+                          "+ (1 | especie)") |>
+          as.formula()
 
-    formula95 <- paste0("kernel95 ~ ",
-                        var,
-                        "+ (1 | especie)") |>
-      as.formula()
+        lme4::glmer(formula,
+                    family = Gamma(link = "log"),
+                    data = area_amb |>
+                      janitor::clean_names())
 
-    lme4::glmer(formula95,
-                family = Gamma(link = "log"),
-                data = area_amb |>
-                  janitor::clean_names() |>
-                  dplyr::select(kernel95,
-                                especie,
-                                var))
+        }
+      )
 
-  },
+    },
   .progress = TRUE) |>
   purrr::flatten() |>
   setNames(paste0(c("temperatura_maxima",
