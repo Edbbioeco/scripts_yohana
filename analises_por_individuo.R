@@ -246,16 +246,17 @@ cor_trajeto_amb |>
 ### Criar modelos lineares ----
 
 modelos_trajeto <- purrr::map(
-  c("Temperatura máxima",
-    "Umidade Relativa -máxima",
-    "Precipitação"),
+  c("temperatura_maxima",
+    "umidade_relativa_maxima",
+    "precipitacao"),
   \(var){
 
-    lmerTest::lmer(`Distância percorrida (m)` ~ . +
-                     (1 | Espécie),
+    lmerTest::lmer(distancia_percorrida_m ~ . +
+                     (1 | especie),
                    data = trajeto_amb |>
-                     dplyr::select(`Distância percorrida (m)`,
-                                   Espécie,
+                     janitor::clean_names() |>
+                     dplyr::select(distancia_percorrida_m,
+                                   especie,
                                    var))
 
     },
