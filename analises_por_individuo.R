@@ -167,6 +167,17 @@ trajeto_flex
 
 trajeto_flex |> flextable::save_as_docx(path = "tabela_ind_trajeto.docx")
 
+## Modelos lineares ----
+
+### Calcular média ----
+
+media_amb <- amb |>
+  dplyr::summarise(dplyr::across(.cols = dplyr::where(is.numeric),
+                                 .fns = ~.x |> mean()),
+                   .by = INDIVIDUO)
+
+media_amb
+
 ## Por indivíduo e data ----
 
 ### Calcular trajeto ----
