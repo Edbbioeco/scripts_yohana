@@ -158,6 +158,37 @@ trajeto_flex
 
 trajeto_flex |> flextable::save_as_docx(path = "tabela_ind_trajeto.docx")
 
+## Por indivíduo e data ----
+
+### Calcular trajeto ----
+
+trajeto_data <- purrr::map_dfr(
+  reg_sf$ID |> unique(),
+  \(ind){
+
+    percurso <- reg_sf |>
+      dplyr::filter(ID == ind) |>
+      dplyr::summarise(geometry = geometry |>
+                         sf::st_combine()) |>
+      sf::st_cast(to = "LINESTRING") |>
+      sf::st_length()
+
+    sps <- reg_sf |>
+      dplyr::filter(ID == ind) |>
+      dplyr::pull(Espécie) |>
+      unique()
+
+    tibble::tibble(Espécie = sps,
+                   ID = ind,
+                   `Distância percorrida (m)` = percurso |>
+                     as.numeric() |>
+                     round(2))
+
+  },
+  .progress = TRUE)
+
+trajeto_data
+
 # Índice de tortuosidade ----
 
 ## Por indivíduo ----
