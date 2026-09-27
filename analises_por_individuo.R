@@ -614,7 +614,7 @@ area <- purrr::map_dfr(
       unique()
 
     tibble::tibble(ID = ind,
-                   species = sps,
+                   especie = sps,
                    Kernel95 = kernel_95,
                    kernel50 = kernel_50)
 
