@@ -477,6 +477,20 @@ tortuosidade <- purrr::map_dfr(
 
 tortuosidade
 
+### Tabela flextable ----
+
+tortuosidade_flex <- tortuosidade |>
+  flextable::flextable() |>
+  flextable::align(align = "center", part = "all") |>
+  flextable::width(j = c(1, 3),
+                   width = 2) |>
+  flextable::italic(j = 1,
+                    part = "body")
+
+tortuosidade_flex
+
+tortuosidade_flex |> flextable::save_as_docx(path = "tabela_ind_tortuosidade.docx")
+
 ## Modelos lineares ----
 
 ### nor dados ----
