@@ -234,3 +234,39 @@ mapa_icterica +
 ggsave(plot = mapa_icterica,
        filename = "mapa_area_vida_rhinella_icterica.png",
        height = 10, width = 12)
+
+### Rhinella crucifer ----
+
+mapa_crucifer <- area_rhinella %>%
+  ggplot() +
+  geom_sf(data = dados_rhinellas_sf |>
+            dplyr::filter(Espécie == "Rhinella crucifer"),
+          aes(color = "Individuals")) +
+  geom_sf(data = ~. |>
+            dplyr::filter(Espécie == "Rhinella crucifer"),
+          aes(color = Tipo),
+          fill = "transparent",
+          linewidth = 1) +
+  scale_color_manual(values = c("red", "royalblue", "orange")) +
+  geom_sf_text(data = centroides |>
+                 dplyr::filter(Espécie == "Rhinella crucifer"),
+               aes(label = Indivíduo),
+               fontface = "bold") +
+  labs(x = NULL,
+       y = NULL,
+       color = NULL,
+       title = "Rhinella crucifer") +
+  ggspatial::annotation_scale(location = "br",
+                              text_col = "black",
+                              text_cex = 1.5,
+                              bar_cols = c("black", "gold")) +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1.5),
+        plot.title = element_text(color = "black", size = 20,
+                                  face = "italic"))
+
+mapa_crucifer +
+  ggview::canvas(height = 10, width = 12)
