@@ -265,7 +265,7 @@ zoom_crucifer <- tibble::tibble(ids = list(c("RC1", "RC2"),
     },
     .progress = TRUE)
 
-mapa_crucifer <- area_rhinella %>%
+mapa_crucifer <- area_rhinella  %>%
   ggplot() +
   geom_sf(data = dados_rhinellas_sf |>
             dplyr::filter(Espécie == "Rhinella crucifer"),
@@ -288,6 +288,7 @@ mapa_crucifer <- area_rhinella %>%
                               text_col = "black",
                               text_cex = 1.5,
                               bar_cols = c("black", "gold")) +
+  scale_x_continuous(breaks = c(-51.83208, -51.82566)) +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         legend.text = element_text(color = "black", size = 20),
