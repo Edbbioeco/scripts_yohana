@@ -173,8 +173,8 @@ mapa_icterica <- ggplot() +
           linewidth = 1) +
   geom_sf(data = dados_rhinellas_sf |>
             dplyr::filter(Espécie == "Rhinella icterica"),
-          color = "red") +
-  scale_color_manual(values = c("royalblue", "orange")) +
+          aes(color = "Individuals")) +
+  scale_color_manual(values = c("red", "royalblue", "orange")) +
   geom_sf_text(data = centroides |>
                  dplyr::filter(Espécie == "Rhinella icterica"),
                 aes(label = Indivíduo),
