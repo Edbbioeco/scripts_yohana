@@ -220,10 +220,11 @@ mapa_icterica <- area_rhinella %>%
         panel.border = element_rect(color = "black", linewidth = 1.5),
         plot.title = element_text(color = "black", size = 20,
                                   face = "italic")) +
-  zoom_icterica +
+  zoom_icterica
+
+mapa_icterica +
   ggview::canvas(height = 10, width = 12)
 
-mapa_icterica
-
-ggsave(filename = "mapa_area_vida_rhinella_icterica.png",
+ggsave(plot = mapa_icterica,
+       filename = "mapa_area_vida_rhinella_icterica.png",
        height = 10, width = 12)
