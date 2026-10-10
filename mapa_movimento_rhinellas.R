@@ -18,9 +18,9 @@ library(sf)
 
 library(adehabitatHR)
 
-library(ggnewscale)
-
 library(ggspatial)
+
+library(ggmagnify)
 
 library(ggview)
 
