@@ -165,8 +165,9 @@ centroides
 
 ## Mapas ----
 
-mapa_icterica <- ggplot() +
-  geom_sf(data = area_rhinella |>
+mapa_icterica <- area_rhinella %>%
+  ggplot() +
+  geom_sf(data = ~. |>
             dplyr::filter(Espécie == "Rhinella icterica"),
           aes(color = Tipo),
           fill = "transparent",
@@ -183,6 +184,13 @@ mapa_icterica <- ggplot() +
        y = NULL,
        color = NULL,
        title = "Rhinella icterica") +
+  ggmagnify::geom_magnify(from = dados_rhinellas_sf |>
+                            dplyr::filter(ID == "RI4") |>
+                            sf::st_bbox(),
+                          to = c(xmax = -51.838,
+                                 xmin = -51.286,
+                                 ymax = -25.0975,
+                                 ymin = -25.0985)) +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         legend.text = element_text(color = "black", size = 20),
