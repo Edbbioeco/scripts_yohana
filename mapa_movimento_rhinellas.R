@@ -196,14 +196,14 @@ zoom_icterica <- tibble::tibble(ids = list(c("RI4", "RI6"), "RI5"),
 
 mapa_icterica <- area_rhinella %>%
   ggplot() +
+  geom_sf(data = dados_rhinellas_sf |>
+            dplyr::filter(Espécie == "Rhinella icterica"),
+          aes(color = "Individuals")) +
   geom_sf(data = ~. |>
             dplyr::filter(Espécie == "Rhinella icterica"),
           aes(color = Tipo),
           fill = "transparent",
           linewidth = 1) +
-  geom_sf(data = dados_rhinellas_sf |>
-            dplyr::filter(Espécie == "Rhinella icterica"),
-          aes(color = "Individuals")) +
   scale_color_manual(values = c("red", "royalblue", "orange")) +
   geom_sf_text(data = centroides |>
                  dplyr::filter(Espécie == "Rhinella icterica"),
