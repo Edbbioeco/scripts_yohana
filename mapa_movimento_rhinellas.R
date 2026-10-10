@@ -167,6 +167,8 @@ centroides
 
 ## Mapas ----
 
+### Rhinella icterica ----
+
 zoom_icterica <- tibble::tibble(ids = list(c("RI4", "RI6"), "RI5"),
                          x0 = c(-51.828, -51.8282),
                          y0 = c(-25.0975, -25.0939),
