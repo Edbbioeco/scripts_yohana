@@ -165,4 +165,25 @@ centroides
 
 mapa_icterica <- ggplot() +
   geom_sf(data = area_rhinella |>
-            dplyr::filter(Espécie == "Rhinella icterica"))
+            dplyr::filter(Espécie == "Rhinella icterica"),
+          aes(color = Tipo),
+          fill = "transparent",
+          linewidth = 1) +
+  geom_sf(data = dados_rhinellas_sf |>
+            dplyr::filter(Espécie == "Rhinella icterica"),
+          color = "red") +
+  scale_color_manual(values = c("royalblue", "orange")) +
+  geom_sf_text(data = centroides |>
+                 dplyr::filter(Espécie == "Rhinella icterica"),
+                aes(label = Indivíduo),
+               fontface = "bold") +
+  labs(x = NULL,
+       y = NULL,
+       color = NULL) +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20),
+        legend.position = "bottom") +
+  ggview::canvas(height = 10, width = 12)
+
+mapa_icterica
