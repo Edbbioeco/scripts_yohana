@@ -158,3 +158,9 @@ centroides <- area_rhinella |>
   sf::st_centroid()
 
 centroides
+
+## Mapas ----
+
+mapa_icterica <- ggplot() +
+  geom_sf(data = area_rhinella |>
+            dplyr::filter(Espécie == "Rhinella icterica"))
