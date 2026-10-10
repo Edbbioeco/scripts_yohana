@@ -181,11 +181,15 @@ mapa_icterica <- ggplot() +
                fontface = "bold") +
   labs(x = NULL,
        y = NULL,
-       color = NULL) +
+       color = NULL,
+       title = "Rhinella icterica") +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         legend.text = element_text(color = "black", size = 20),
-        legend.position = "bottom") +
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1.5),
+        plot.title = element_text(color = "black", size = 20,
+                                  face = "italic")) +
   ggview::canvas(height = 10, width = 12)
 
 mapa_icterica
