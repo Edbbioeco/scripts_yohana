@@ -183,6 +183,13 @@ mapa_icterica <- area_rhinella %>%
        y = NULL,
        color = NULL,
        title = "Rhinella icterica") +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1.5),
+        plot.title = element_text(color = "black", size = 20,
+                                  face = "italic")) +
   ggmagnify::geom_magnify(from = dados_rhinellas_sf |>
                             dplyr::filter(ID %in% c("RI4",
                                                     "RI6")) |>
@@ -191,13 +198,6 @@ mapa_icterica <- area_rhinella %>%
                                  xmin = -51.828,
                                  ymax = -25.0975,
                                  ymin = -25.0985)) +
-  theme_bw() +
-  theme(axis.text = element_text(color = "black", size = 20),
-        legend.text = element_text(color = "black", size = 20),
-        legend.position = "bottom",
-        panel.border = element_rect(color = "black", linewidth = 1.5),
-        plot.title = element_text(color = "black", size = 20,
-                                  face = "italic")) +
   ggview::canvas(height = 10, width = 12)
 
 mapa_icterica
