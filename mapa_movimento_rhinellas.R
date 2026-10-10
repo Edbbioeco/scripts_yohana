@@ -164,6 +164,35 @@ centroides
 
 ## Mapas ----
 
+insets <- tibble::tibble(ids = list(c("RI4", "RI6"), "RI5"),
+                         x0 = c(-51.828, -51.8282),
+                         y0 = c(-25.0975, -25.0939),
+                         largura = c(0.003, 0.0008)) |>
+  purrr::pmap(
+    \(ids, x0, y0, largura){
+
+      bb <- area_rhinella |>
+        dplyr::filter(Indivíduo %in% ids) |>
+        sf::st_bbox()
+
+      margem <- 0.1 * max(bb[["xmax"]] - bb[["xmin"]], bb[["ymax"]] - bb[["ymin"]])
+
+      from <- c(xmin = bb[["xmin"]],
+                xmax = bb[["xmax"]],
+                ymin = bb[["ymin"]],
+                ymax = bb[["ymax"]])
+
+      altura <- largura * (from[["ymax"]] - from[["ymin"]]) / (from[["xmax"]] - from[["xmin"]])
+
+    ggmagnify::geom_magnify(from = from,
+                            to = c(xmin = x0,
+                                   xmax = x0 + largura,
+                                   ymin = y0 - altura,
+                                   ymax = y0))
+
+    },
+    .progress = TRUE)
+
 mapa_icterica <- area_rhinella %>%
   ggplot() +
   geom_sf(data = ~. |>
@@ -190,14 +219,7 @@ mapa_icterica <- area_rhinella %>%
         panel.border = element_rect(color = "black", linewidth = 1.5),
         plot.title = element_text(color = "black", size = 20,
                                   face = "italic")) +
-  ggmagnify::geom_magnify(from = dados_rhinellas_sf |>
-                            dplyr::filter(ID %in% c("RI4",
-                                                    "RI6")) |>
-                            sf::st_bbox(),
-                          to = c(xmax = -51.826,
-                                 xmin = -51.828,
-                                 ymax = -25.0975,
-                                 ymin = -25.0985)) +
+  insets +
   ggview::canvas(height = 10, width = 12)
 
 mapa_icterica
