@@ -158,9 +158,9 @@ area_rhinella
 ## Calcular os centroides de cada indivíduo ----
 
 centroides <- area_rhinella |>
+  sf::st_make_valid() |>
   dplyr::group_by(Espécie, Indivíduo) |>
-  dplyr::summarise(area = sum(area),
-                   .groups = "drop") |>
+  dplyr::summarise(.groups = "drop") |>
   sf::st_centroid()
 
 centroides
