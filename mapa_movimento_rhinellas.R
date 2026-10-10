@@ -12,7 +12,7 @@ library(geosphere)
 
 library(sf)
 
-library(maptiles)
+library(terra)
 
 library(tidyterra)
 
