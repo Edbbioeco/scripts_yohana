@@ -237,6 +237,34 @@ ggsave(plot = mapa_icterica,
 
 ### Rhinella crucifer ----
 
+zoom_crucifer <- tibble::tibble(ids = list(c("RC1", "RC2"),
+                                           c("RC3", "RC4")),
+                                x0 = c(-51.832, -51.832),
+                                y0 = c(-25.075, -25.0815),
+                                largura = c(0.006, 0.006)) |>
+  purrr::pmap(
+    \(ids, x0, y0, largura){
+
+      bb <- area_rhinella |>
+        dplyr::filter(Indivíduo %in% ids) |>
+        sf::st_bbox()
+
+      from <- c(xmin = bb[["xmin"]],
+                xmax = bb[["xmax"]],
+                ymin = bb[["ymin"]],
+                ymax = bb[["ymax"]])
+
+      altura <- largura * (from[["ymax"]] - from[["ymin"]]) / (from[["xmax"]] - from[["xmin"]])
+
+      ggmagnify::geom_magnify(from = from,
+                              to = c(xmin = x0,
+                                     xmax = x0 + largura,
+                                     ymin = y0 - altura,
+                                     ymax = y0))
+
+    },
+    .progress = TRUE)
+
 mapa_crucifer <- area_rhinella %>%
   ggplot() +
   geom_sf(data = dados_rhinellas_sf |>
@@ -266,7 +294,8 @@ mapa_crucifer <- area_rhinella %>%
         legend.position = "bottom",
         panel.border = element_rect(color = "black", linewidth = 1.5),
         plot.title = element_text(color = "black", size = 20,
-                                  face = "italic"))
+                                  face = "italic")) +
+  zoom_crucifer
 
 mapa_crucifer +
   ggview::canvas(height = 10, width = 12)
