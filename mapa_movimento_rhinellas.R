@@ -26,7 +26,9 @@ library(ggview)
 
 # Dados ----
 
-## Importar ----
+## Coordenadas ----
+
+### Importar ----
 
 dados_rhinellas <- purrr::map_dfr(
   c("Rhinella icterica", "Rhinella crucifer"),
@@ -38,13 +40,13 @@ dados_rhinellas <- purrr::map_dfr(
     },
   .progress = TRUE)
 
-## Visualizar ----
+### Visualizar ----
 
 dados_rhinellas
 
 dados_rhinellas |> dplyr::glimpse()
 
-## Converter coordenadas ----
+### Converter coordenadas ----
 
 dados_rhinellas %<>%
   dplyr::mutate(Longitude = Longitude |> parzer::parse_lon(),
@@ -52,7 +54,7 @@ dados_rhinellas %<>%
 
 dados_rhinellas
 
-## Completar coordenadas ----
+### Completar coordenadas ----
 
 dados_rhinellas <- purrr::reduce(
   .x = 1:nrow(dados_rhinellas),
