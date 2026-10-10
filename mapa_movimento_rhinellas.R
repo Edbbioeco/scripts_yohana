@@ -100,8 +100,7 @@ ggplot() +
 
 dados_rhinellas_sf <- dados_rhinellas |>
   sf::st_as_sf(coords = c(2:3),
-               crs = 4674) |>
-  sf::st_transform(crs = 31985)
+               crs = 4674)
 
 dados_rhinellas_sf
 
@@ -185,10 +184,11 @@ mapa_icterica <- area_rhinella %>%
        color = NULL,
        title = "Rhinella icterica") +
   ggmagnify::geom_magnify(from = dados_rhinellas_sf |>
-                            dplyr::filter(ID == "RI4") |>
+                            dplyr::filter(ID %in% c("RI4",
+                                                    "RI6")) |>
                             sf::st_bbox(),
-                          to = c(xmax = -51.838,
-                                 xmin = -51.286,
+                          to = c(xmax = -51.826,
+                                 xmin = -51.828,
                                  ymax = -25.0975,
                                  ymin = -25.0985)) +
   theme_bw() +
