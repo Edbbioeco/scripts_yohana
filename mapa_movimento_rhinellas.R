@@ -62,8 +62,8 @@ dados_rhinellas <- purrr::reduce(
 
       dest <- geosphere::destPoint(
         p = c(dados$Longitude[x - 1], dados$Latitude[x - 1]),
-        b = dados$`Ângulo de virada`[x - 1],
-        d = dados$`Distancia (m)`[x - 1])
+        b = dados$`Angulo de virada`[x - 1],
+        d = dados$`Distância (m)`[x - 1])
 
       dados$Longitude[x] <- dest[1]
 
@@ -76,3 +76,5 @@ dados_rhinellas <- purrr::reduce(
   },
 
   .init = dados_rhinellas)
+
+dados_rhinellas
