@@ -150,3 +150,11 @@ area_rhinella <- purrr::map_dfr(
   .progress = TRUE)
 
 area_rhinella
+
+## Calcular os centroides de cada indivíduo ----
+
+centroides <- area_rhinella |>
+  dplyr::group_by(Indivíduo) |>
+  sf::st_centroid()
+
+centroides
