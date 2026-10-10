@@ -193,3 +193,6 @@ mapa_icterica <- ggplot() +
   ggview::canvas(height = 10, width = 12)
 
 mapa_icterica
+
+ggsave(filename = "mapa_area_vida_rhinella_icterica.png",
+       height = 10, width = 12)
