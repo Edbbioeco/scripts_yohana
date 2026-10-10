@@ -129,7 +129,8 @@ area_rhinella <- purrr::map_dfr(
           sf::as_Spatial() |>
           adehabitatHR::mcp(percent = 100) |>
           sf::st_as_sf() |>
-          dplyr::mutate(Espécie = rhinella,
+          dplyr::mutate(Tipo = "MCP",
+                        Espécie = rhinella,
                         Indivíduo = ind)
 
         kde <- dados_rhinellas_sf |>
@@ -138,10 +139,11 @@ area_rhinella <- purrr::map_dfr(
           adehabitatHR::kernelUD(h = "href") |>
           adehabitatHR::getverticeshr(percent = 50) |>
           sf::st_as_sf() |>
-          dplyr::mutate(Espécie = rhinella,
+          dplyr::mutate(Tipo = "KDE 50%",
+                        Espécie = rhinella,
                         Indivíduo = ind)
 
-        dplyr::bind_rows(mcp, kde)
+        dplyr::bind_rows(kde, mcp)
 
         }
       )
