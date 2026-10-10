@@ -104,3 +104,49 @@ dados_rhinellas_sf <- dados_rhinellas |>
   sf::st_transform(crs = 31985)
 
 dados_rhinellas_sf
+
+ggplot() +
+  tidyterra::geom_spatraster_rgb(data = sat) +
+  geom_sf(data = dados_rhinellas_sf, aes(color = Espécie))
+
+## Calcular área de vida ----
+
+area_rhinella <- purrr::map_dfr(
+  c("Rhinella icterica", "Rhinella crucifer"),
+  \(rhinella){
+
+    id <- dados_rhinellas_sf |>
+      dplyr::filter(Espécie == rhinella) |>
+      dplyr::pull(ID) |>
+      unique()
+
+    purrr::map(
+      id,
+      \(ind){
+
+        mcp <- dados_rhinellas_sf |>
+          dplyr::filter(Espécie == rhinella & ID == ind) |>
+          sf::as_Spatial() |>
+          adehabitatHR::mcp(percent = 100) |>
+          sf::st_as_sf() |>
+          dplyr::mutate(Espécie = rhinella,
+                        Indivíduo = ind)
+
+        kde <- dados_rhinellas_sf |>
+          dplyr::filter(Espécie == rhinella & ID == ind) |>
+          sf::as_Spatial() |>
+          adehabitatHR::kernelUD(h = "href") |>
+          adehabitatHR::getverticeshr(percent = 50) |>
+          sf::st_as_sf() |>
+          dplyr::mutate(Espécie = rhinella,
+                        Indivíduo = ind)
+
+        dplyr::bind_rows(mcp, kde)
+
+        }
+      )
+
+    },
+  .progress = TRUE)
+
+area_rhinella
