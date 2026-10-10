@@ -78,3 +78,14 @@ dados_rhinellas <- purrr::reduce(
   .init = dados_rhinellas)
 
 dados_rhinellas
+
+# Análise de área de vida ----
+
+## Transformas as coordenadas em shapefiles ----
+
+dados_rhinellas_sf <- dados_rhinellas |>
+  sf::st_as_sf(coords = c(2:3),
+               crs = 4674) |>
+  sf::st_transform(crs = 31985)
+
+dados_rhinellas_sf
