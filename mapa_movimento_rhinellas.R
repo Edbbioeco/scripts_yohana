@@ -213,6 +213,10 @@ mapa_icterica <- area_rhinella %>%
        y = NULL,
        color = NULL,
        title = "Rhinella icterica") +
+  ggspatial::annotation_scale(location = "br",
+                              text_col = "black",
+                              text_cex = 1.5,
+                              bar_cols = c("black", "gold")) +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         legend.text = element_text(color = "black", size = 20),
