@@ -302,5 +302,5 @@ mapa_crucifer +
   ggview::canvas(height = 10, width = 12)
 
 ggsave(plot = mapa_crucifer,
-       filename = "mapa_area_vida_rhinella_icterica.png",
+       filename = "mapa_area_vida_rhinella_crucifer.png",
        height = 10, width = 12)
