@@ -200,13 +200,20 @@ mapa_icterica <- area_rhinella %>%
   ggplot() +
   geom_sf(data = dados_rhinellas_sf |>
             dplyr::filter(Espécie == "Rhinella icterica"),
-          aes(color = "Individuals")) +
+          aes(fill = ID),
+          shape = 21,
+          size = 3) +
   geom_sf(data = ~. |>
             dplyr::filter(Espécie == "Rhinella icterica"),
           aes(color = Tipo),
           fill = "transparent",
           linewidth = 1) +
-  scale_color_manual(values = c("red", "royalblue", "orange")) +
+  scale_color_manual(values = c("royalblue", "orange")) +
+  scale_fill_viridis_d(guide = guide_legend(
+    title = "Individuals",
+    title.position = "top",
+    title.hjust = 0.5
+  )) +
   geom_sf_text(data = centroides |>
                  dplyr::filter(Espécie == "Rhinella icterica"),
                 aes(label = Indivíduo),
