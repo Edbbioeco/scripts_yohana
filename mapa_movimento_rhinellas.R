@@ -196,48 +196,61 @@ zoom_icterica <- tibble::tibble(ids = list(c("RI4", "RI6"), "RI5"),
     },
     .progress = TRUE)
 
-mapa_icterica <- area_rhinella %>%
-  ggplot() +
-  geom_sf(data = dados_rhinellas_sf |>
-            dplyr::filter(Espécie == "Rhinella icterica"),
-          aes(fill = ID),
-          shape = 21,
-          size = 3) +
-  geom_sf(data = ~. |>
-            dplyr::filter(Espécie == "Rhinella icterica"),
-          aes(color = Tipo),
-          fill = "transparent",
-          linewidth = 1) +
-  scale_color_manual(values = c("royalblue", "orange")) +
-  scale_fill_viridis_d(guide = guide_legend(
-    title = "Individuals",
-    title.position = "top",
-    title.hjust = 0.5
-  )) +
-  labs(x = NULL,
-       y = NULL,
-       color = NULL,
-       title = "Rhinella icterica") +
-  ggspatial::annotation_scale(location = "br",
-                              text_col = "black",
-                              text_cex = 1.5,
-                              bar_cols = c("black", "gold")) +
-  theme_bw() +
-  theme(axis.text = element_text(color = "black", size = 20),
-        legend.text = element_text(color = "black", size = 20),
-        legend.title = element_text(color = "black", size = 20),
-        legend.position = "bottom",
-        panel.border = element_rect(color = "black", linewidth = 1.5),
-        plot.title = element_text(color = "black", size = 20,
-                                  face = "italic")) +
-  zoom_icterica
+mapa_icterica <- purrr::map(
+  dados_rhinellas_sf |>
+    dplyr::filter(Espécie == "Rhinella icterica") |>
+    dplyr::pull(ID) |>
+    unique(),
+  \(ind){
 
-mapa_icterica +
-  ggview::canvas(height = 10, width = 12)
+    ggplot() +
+      geom_sf(data = dados_rhinellas_sf |>
+                dplyr::rename("Indivíduo" = ID) |>
+                dplyr::filter(Indivíduo == ind),
+              aes(color = "Individuals")) +
+      geom_sf(data = area_rhinella |>
+                dplyr::filter(Indivíduo == ind),
+              aes(color = Tipo),
+              fill = "transparent",
+              linewidth = 1) +
+      scale_color_manual(values = c("black", "royalblue", "orange")) +
+      scale_fill_viridis_d(guide = guide_legend(
+        title = "Individuals",
+        title.position = "top",
+        title.hjust = 0.5
+        )) +
+      labs(x = NULL,
+           y = NULL,
+           color = NULL) +
+      ggspatial::annotation_scale(location = "br",
+                                  text_col = "black",
+                                  text_cex = 1.5,
+                                  bar_cols = c("black", "gold")) +
+      facet_wrap(~Indivíduo) +
+      theme_bw() +
+      theme(axis.text = element_text(color = "black", size = 10),
+            axis.text.x = element_text(angle = 90,
+                                       hjust = 1, vjust = 0.5),
+            legend.text = element_text(color = "black", size = 20),
+            legend.title = element_text(color = "black", size = 20),
+            strip.text = element_text(color = "black", size = 20),
+            strip.background = element_rect(color = "black",
+                                            linewidth = 1.5),
+            panel.border = element_rect(color = "black", linewidth = 1.5),
+            plot.title = element_text(color = "black", size = 20,
+                                      face = "italic"))
+
+    },
+  .progress = TRUE) |>
+  patchwork::wrap_plots(guides = "collect") &
+  theme(legend.position = "bottom")
+
+mapa_icterica &
+  ggview::canvas(height = 10, width = 16)
 
 ggsave(plot = mapa_icterica,
        filename = "mapa_area_vida_rhinella_icterica.png",
-       height = 10, width = 12)
+       height = 10, width = 16)
 
 ### Rhinella crucifer ----
 
