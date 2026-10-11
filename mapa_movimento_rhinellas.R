@@ -214,10 +214,6 @@ mapa_icterica <- area_rhinella %>%
     title.position = "top",
     title.hjust = 0.5
   )) +
-  geom_sf_text(data = centroides |>
-                 dplyr::filter(Espécie == "Rhinella icterica"),
-                aes(label = Indivíduo),
-               fontface = "bold") +
   labs(x = NULL,
        y = NULL,
        color = NULL,
@@ -229,6 +225,7 @@ mapa_icterica <- area_rhinella %>%
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(color = "black", size = 20),
         legend.position = "bottom",
         panel.border = element_rect(color = "black", linewidth = 1.5),
         plot.title = element_text(color = "black", size = 20,
