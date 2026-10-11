@@ -75,19 +75,6 @@ dados_rhinellas <- purrr::reduce(
 
 dados_rhinellas
 
-## Imagem de satélite ----
-
-### Importar ----
-
-sat <- terra::rast("imagem_satelite_esec.tif")
-
-### Visualizar ----
-
-sat
-
-ggplot() +
-  tidyterra::geom_spatraster_rgb(data = sat)
-
 # Análise de área de vida ----
 
 ## Transformas as coordenadas em shapefiles ----
