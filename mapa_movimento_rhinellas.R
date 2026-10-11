@@ -20,7 +20,7 @@ library(adehabitatHR)
 
 library(ggspatial)
 
-library(ggmagnify)
+library(patchwork)
 
 library(ggview)
 
