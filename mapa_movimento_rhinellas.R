@@ -282,42 +282,58 @@ zoom_crucifer <- tibble::tibble(ids = list(c("RC1", "RC2"),
     },
     .progress = TRUE)
 
-mapa_crucifer <- area_rhinella  %>%
-  ggplot() +
-  geom_sf(data = dados_rhinellas_sf |>
-            dplyr::filter(Espécie == "Rhinella crucifer"),
-          aes(color = "Individuals")) +
-  geom_sf(data = ~. |>
-            dplyr::filter(Espécie == "Rhinella crucifer"),
-          aes(color = Tipo),
-          fill = "transparent",
-          linewidth = 1) +
-  scale_color_manual(values = c("red", "royalblue", "orange")) +
-  geom_sf_text(data = centroides |>
-                 dplyr::filter(Espécie == "Rhinella crucifer"),
-               aes(label = Indivíduo),
-               fontface = "bold") +
-  labs(x = NULL,
-       y = NULL,
-       color = NULL,
-       title = "Rhinella crucifer") +
-  ggspatial::annotation_scale(location = "br",
-                              text_col = "black",
-                              text_cex = 1.5,
-                              bar_cols = c("black", "gold")) +
-  scale_x_continuous(breaks = c(-51.83208, -51.82566)) +
-  theme_bw() +
-  theme(axis.text = element_text(color = "black", size = 20),
-        legend.text = element_text(color = "black", size = 20),
-        legend.position = "bottom",
-        panel.border = element_rect(color = "black", linewidth = 1.5),
-        plot.title = element_text(color = "black", size = 20,
-                                  face = "italic")) +
-  zoom_crucifer
+mapa_crucifer <- purrr::map(
+  dados_rhinellas_sf |>
+    dplyr::filter(Espécie == "Rhinella crucifer") |>
+    dplyr::pull(ID) |>
+    unique(),
+  \(ind){
 
-mapa_crucifer +
-  ggview::canvas(height = 10, width = 12)
+    ggplot() +
+      geom_sf(data = dados_rhinellas_sf |>
+                dplyr::rename("Indivíduo" = ID) |>
+                dplyr::filter(Indivíduo == ind),
+              aes(color = "Individuals")) +
+      geom_sf(data = area_rhinella |>
+                dplyr::filter(Indivíduo == ind),
+              aes(color = Tipo),
+              fill = "transparent",
+              linewidth = 1) +
+      scale_color_manual(values = c("black", "royalblue", "orange")) +
+      scale_fill_viridis_d(guide = guide_legend(
+        title = "Individuals",
+        title.position = "top",
+        title.hjust = 0.5
+      )) +
+      labs(x = NULL,
+           y = NULL,
+           color = NULL) +
+      ggspatial::annotation_scale(location = "br",
+                                  text_col = "black",
+                                  text_cex = 1.5,
+                                  bar_cols = c("black", "gold")) +
+      facet_wrap(~Indivíduo) +
+      theme_bw() +
+      theme(axis.text = element_text(color = "black", size = 10),
+            axis.text.x = element_text(angle = 90,
+                                       hjust = 1, vjust = 0.5),
+            legend.text = element_text(color = "black", size = 20),
+            legend.title = element_text(color = "black", size = 20),
+            strip.text = element_text(color = "black", size = 20),
+            strip.background = element_rect(color = "black",
+                                            linewidth = 1.5),
+            panel.border = element_rect(color = "black", linewidth = 1.5),
+            plot.title = element_text(color = "black", size = 20,
+                                      face = "italic"))
+
+  },
+  .progress = TRUE) |>
+  patchwork::wrap_plots(guides = "collect") &
+  theme(legend.position = "bottom")
+
+mapa_crucifer &
+  ggview::canvas(height = 10, width = 16)
 
 ggsave(plot = mapa_crucifer,
        filename = "mapa_area_vida_rhinella_crucifer.png",
-       height = 10, width = 12)
+       height = 10, width = 16)
