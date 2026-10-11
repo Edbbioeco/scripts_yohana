@@ -10,10 +10,6 @@ library(parzer)
 
 library(geosphere)
 
-library(terra)
-
-library(tidyterra)
-
 library(sf)
 
 library(adehabitatHR)
