@@ -56,6 +56,9 @@ imagens_sps
 ggplot(data = uso_trat,
        aes(Habitat, `Número de indivíduos`)) +
   geom_col() +
+  ggimage::geom_image(data = imagens_sps,
+                      aes(x, y, image = sps),
+                      size = 0.5) +
   facet_wrap(~Espécie) +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
