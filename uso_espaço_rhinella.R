@@ -11,3 +11,9 @@ library(ggview)
 ## Importar ----
 
 uso <- readxl::read_xlsx("Uso do espaço  (2).xlsx")
+
+## Visualizar ----
+
+uso
+
+uso |> dplyr::glimpse()
