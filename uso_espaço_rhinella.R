@@ -12,7 +12,21 @@ library(ggview)
 
 ## Importar ----
 
-uso <- readxl::read_xlsx("Uso do espaço  (2).xlsx")
+googledrive::drive_auth("edson.nilton@ufpe.br")
+
+caminho <- Sys.getenv("pasta_artigo_rhinella") |>
+  googledrive::drive_get() |>
+  googledrive::drive_ls() |>
+  dplyr::filter(name |> stringr::str_detect("Uso do")) |>
+  dplyr::pull(name) |>
+  googledrive::drive_download(file = _,
+                              path = tempfile(fileext = ".xlsx"),
+                              overwrite = TRUE) |>
+  dplyr::pull(local_path)
+
+uso <- readxl::read_xlsx(caminho)
+
+file.remove(caminho)
 
 ## Visualizar ----
 
