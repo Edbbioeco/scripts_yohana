@@ -39,6 +39,16 @@ uso_trat <- uso |>
 
 uso_trat
 
+## Imagens transparentes ----
+
+imagens_sps <- tibble::tibble(x = 0.1,
+                              y = 5,
+                              sps = paste0(c("Rhinella icterica",
+                                             "Rhinella crucifer"),
+                                           ".png"))
+
+imagens_sps
+
 ## Gráfico ----
 
 ggplot(data = uso_trat,
