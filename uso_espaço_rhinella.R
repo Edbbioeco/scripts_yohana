@@ -58,7 +58,7 @@ uso_trat
 ## Imagens transparentes ----
 
 imagens_sps <- tibble::tibble(x = 2,
-                              y = 4.5,
+                              y = 8,
                               sps = paste0(c("Rhinella icterica",
                                              "Rhinella crucifer"),
                                            ".png"),
