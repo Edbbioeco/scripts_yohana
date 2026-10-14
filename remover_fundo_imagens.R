@@ -23,7 +23,9 @@ imagens_trat <- purrr::map(
       magick::image_fill(color = "transparent", point = "+1+1", fuzz = 15)
 
     }
-  )
+  ) |>
+  setNames(paste0("Rhinella ",
+                  c("crucifer", "icterica")))
 
 imagens_trat |>
   purrr::map(plot)
