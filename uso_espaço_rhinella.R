@@ -45,7 +45,9 @@ imagens_sps <- tibble::tibble(x = 0.1,
                               y = 5,
                               sps = paste0(c("Rhinella icterica",
                                              "Rhinella crucifer"),
-                                           ".png"))
+                                           ".png"),
+                              Espécie = c("Rhinella icterica",
+                                          "Rhinella crucifer"))
 
 imagens_sps
 
