@@ -29,3 +29,14 @@ imagens_trat <- purrr::map(
 
 imagens_trat |>
   purrr::map(plot)
+
+## Exportar imagens ----
+
+purrr::imap(
+  imagens_trat,
+  \(imagem, sps){
+
+    imagem |> magick::image_write(paste0(sps, ".png"), format = "png")
+
+    },
+  .progress = TRUE)
