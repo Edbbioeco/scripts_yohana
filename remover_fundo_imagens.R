@@ -20,7 +20,7 @@ imagens_trat <- purrr::map(
   \(imagem){
 
     magick::image_read(imagem) |>
-      magick::image_fill(color = "transparent", point = "+1+1", fuzz = 15)
+      magick::image_fill(color = "transparent", point = "+1+1", fuzz = 25)
 
     }
   ) |>
