@@ -1,0 +1,3 @@
+# Pacotes ----
+
+library(magick)
