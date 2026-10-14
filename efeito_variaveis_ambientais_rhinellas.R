@@ -48,3 +48,9 @@ mov <- purrr::map_dfr(
   .progress = TRUE)
 
 mov
+
+### Visualizar ----
+
+mov
+
+mov |> dplyr::glimpse()
