@@ -41,8 +41,8 @@ uso_trat
 
 ## Imagens transparentes ----
 
-imagens_sps <- tibble::tibble(x = 0.1,
-                              y = 5,
+imagens_sps <- tibble::tibble(x = 2,
+                              y = 4.5,
                               sps = paste0(c("Rhinella icterica",
                                              "Rhinella crucifer"),
                                            ".png"),
@@ -58,7 +58,7 @@ ggplot(data = uso_trat,
   geom_col() +
   ggimage::geom_image(data = imagens_sps,
                       aes(x, y, image = sps),
-                      size = 0.5) +
+                      size = 0.35) +
   facet_wrap(~Espécie) +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
