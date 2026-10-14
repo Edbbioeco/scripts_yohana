@@ -19,14 +19,12 @@ caminho <- Sys.getenv("pasta_artigo_rhinella") |>
   googledrive::drive_ls() |>
   dplyr::filter(name |> stringr::str_detect("Uso do")) |>
   dplyr::pull(name) |>
-  googledrive::drive_download(file = _,
-                              path = tempfile(fileext = ".xlsx"),
-                              overwrite = TRUE) |>
+  (\(x) googledrive::drive_download(file = x,
+                                    path = paste0("./", x),
+                                    overwrite = TRUE))() |>
   dplyr::pull(local_path)
 
 uso <- readxl::read_xlsx(caminho)
-
-file.remove(caminho)
 
 ## Visualizar ----
 
