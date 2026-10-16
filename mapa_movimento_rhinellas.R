@@ -265,8 +265,7 @@ mapa_crucifer <- purrr::map(
   patchwork::wrap_plots(guides = "collect") &
   theme(legend.position = "bottom")
 
-mapa_crucifer &
-  ggview::canvas(height = 10, width = 16)
+mapa_crucifer
 
 ggsave(plot = mapa_crucifer,
        filename = "mapa_area_vida_rhinella_crucifer.png",
