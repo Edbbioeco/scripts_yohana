@@ -208,8 +208,7 @@ mapa_icterica <- purrr::map(
   patchwork::wrap_plots(guides = "collect") &
   theme(legend.position = "bottom")
 
-mapa_icterica &
-  ggview::canvas(height = 10, width = 16)
+mapa_icterica
 
 ggsave(plot = mapa_icterica,
        filename = "mapa_area_vida_rhinella_icterica.png",
