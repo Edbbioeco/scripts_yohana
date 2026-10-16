@@ -18,8 +18,6 @@ library(ggspatial)
 
 library(patchwork)
 
-library(ggview)
-
 # Dados ----
 
 ## Baixar do Google Drive ----
