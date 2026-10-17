@@ -293,5 +293,5 @@ area_rhinella |>
         panel.border = element_rect(color = "black", linewidth = 1.5))
 
 ggsave(filename = "histograma_area_devida.png",
-       height = 10,
+       height = 12,
        width = 12)
