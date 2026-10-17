@@ -278,7 +278,7 @@ ggsave(filename = "multicolinearidade_rhinella.png",
 area_mof_rhinella <- area_rhinella |>
   sf::st_drop_geometry() |>
   dplyr::rename("ID" = Indivíduo) |>
-  dplyr::select(ID, area) |>
+  dplyr::select(ID, Tipo, area) |>
   dplyr::left_join(morf,
                    by = "ID")
 
