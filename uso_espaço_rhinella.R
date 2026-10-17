@@ -95,20 +95,18 @@ imagens_sps
 ## Gráfico ----
 
 ggplot(data = uso_trat,
-       aes(Habitat, `Número de indivíduos`)) +
+       aes(`Número de indivíduos`, Habitat)) +
   geom_col() +
   ggimage::geom_image(data = imagens_sps,
                       aes(x, y, image = sps),
                       size = 0.35) +
   facet_wrap(~Espécie) +
-  labs(x = "Resting habitat",
-       y = "Count of individuals") +
-  scale_y_continuous(breaks = seq(0, 9, 1),
+  labs(y = "Resting habitat",
+       x = "Count of individuals") +
+  scale_x_continuous(breaks = seq(0, 9, 1),
                      limits = c(0, 9)) +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
-        axis.text.x = element_text(color = "black", size = 20,
-                                   angle = 45, hjust = 1),
         axis.title = element_text(color = "black", size = 20),
         strip.text = element_text(color = "black", size = 20,
                                   face = "italic"),
