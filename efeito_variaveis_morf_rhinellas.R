@@ -516,7 +516,8 @@ tabela_flex <- purrr::map_dfr(
                           "Rhinella icterica") |>
                   rep(each = 4),
                 KDE = c("50%", "95%") |>
-                  rep(4),
+                  rep(each = 2) |>
+                  rep(2),
                 .before = 1) |>
   as.data.frame() |>
   dplyr::mutate(term = dplyr::case_when(
@@ -546,3 +547,4 @@ tabela_flex
 
 tabela_flex |>
   flextable::save_as_docx(path = "tabela_sts_morf_rhinella.docx")
+
