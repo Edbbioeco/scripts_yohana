@@ -129,3 +129,18 @@ Sys.getenv("pasta_artigo_rhinella") |>
 
     },
     .progress = TRUE)
+
+### Importar ----
+
+morf <- purrr::map_dfr(
+  c("Rhinella crucifer",
+    "Rhinella icterica"),
+  \(sps){
+
+    readxl::read_xlsx("./médias das espécies.xlsx",
+                      sheet = sps) |>
+      dplyr::mutate(Espécie = sps)
+
+    },
+  .progress = TRUE)
+
