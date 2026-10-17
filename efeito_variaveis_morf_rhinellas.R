@@ -272,3 +272,14 @@ cor_rhinellas |>
 ggsave(filename = "multicolinearidade_rhinella.png",
        height = 12,
        width = 16)
+
+## unir os dados ----
+
+area_mof_rhinella <- area_rhinella |>
+  sf::st_drop_geometry() |>
+  dplyr::rename("ID" = Indivíduo) |>
+  dplyr::select(ID, area) |>
+  dplyr::left_join(morf,
+                   by = "ID")
+
+area_mof_rhinella
