@@ -176,11 +176,6 @@ mapa_icterica <- purrr::map(
               fill = "transparent",
               linewidth = 1) +
       scale_color_manual(values = c("orange", "royalblue", "black")) +
-      scale_fill_viridis_d(guide = guide_legend(
-        title = "Individuals",
-        title.position = "top",
-        title.hjust = 0.5
-        )) +
       labs(x = NULL,
            y = NULL,
            color = NULL) +
@@ -227,18 +222,13 @@ mapa_crucifer <- purrr::map(
       geom_sf(data = dados_rhinellas_sf |>
                 dplyr::rename("Indivíduo" = ID) |>
                 dplyr::filter(Indivíduo == ind),
-              aes(color = "Individuals")) +
+              aes(color = "Individual occurence")) +
       geom_sf(data = area_rhinella |>
                 dplyr::filter(Indivíduo == ind),
               aes(color = Tipo),
               fill = "transparent",
               linewidth = 1) +
       scale_color_manual(values = c("orange", "royalblue", "black")) +
-      scale_fill_viridis_d(guide = guide_legend(
-        title = "Individuals",
-        title.position = "top",
-        title.hjust = 0.5
-      )) +
       labs(x = NULL,
            y = NULL,
            color = NULL) +
