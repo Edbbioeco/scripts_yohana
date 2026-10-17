@@ -222,13 +222,19 @@ mapa_crucifer <- purrr::map(
       geom_sf(data = dados_rhinellas_sf |>
                 dplyr::rename("Indivíduo" = ID) |>
                 dplyr::filter(Indivíduo == ind),
-              aes(color = "Individual occurence")) +
+              aes(color = "Individual traject")) +
+      geom_sf(data = dados_rhinellas_sf |>
+                dplyr::rename("Indivíduo" = ID) |>
+                dplyr::filter(Indivíduo == ind) |>
+                dplyr::summarise(do.union = FALSE) |>
+                sf::st_cast("LINESTRING"),
+              aes(color = "Individual traject")) +
       geom_sf(data = area_rhinella |>
                 dplyr::filter(Indivíduo == ind),
               aes(color = Tipo),
               fill = "transparent",
               linewidth = 1) +
-      scale_color_manual(values = c("orange", "royalblue", "black")) +
+      scale_color_manual(values = c("orange", "royalblue", "black", "black")) +
       labs(x = NULL,
            y = NULL,
            color = NULL) +
