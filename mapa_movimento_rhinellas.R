@@ -246,7 +246,8 @@ mapa_crucifer <- purrr::map(
                                   bar_cols = c("black", "gold")) +
       facet_wrap(~Indivíduo) +
       theme_bw() +
-      theme(axis.text = element_text(color = "black", size = 10),
+      theme(aspect.ratio = 1,
+            axis.text = element_text(color = "black", size = 10),
             axis.text.x = element_text(angle = 90,
                                        hjust = 1, vjust = 0.5),
             legend.text = element_text(color = "black", size = 20),
