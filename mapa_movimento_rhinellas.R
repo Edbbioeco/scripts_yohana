@@ -284,6 +284,8 @@ medias_areas <- area_rhinella |>
                    `Area (m²)` = `Area (m²)` |> mean(),
                    .by = c(Espécie, Tipo))
 
+### Gráfico ----
+
 area_rhinella |>
   sf::st_transform(crs = 31985) |>
   dplyr::mutate(`Area (m²)` = geometry |>
