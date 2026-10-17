@@ -144,3 +144,8 @@ morf <- purrr::map_dfr(
     },
   .progress = TRUE)
 
+### Visualizar ----
+
+morf
+
+morf |> dplyr::glimpse()
