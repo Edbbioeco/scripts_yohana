@@ -169,7 +169,13 @@ mapa_icterica <- purrr::map(
       geom_sf(data = dados_rhinellas_sf |>
                 dplyr::rename("Indivíduo" = ID) |>
                 dplyr::filter(Indivíduo == ind),
-              aes(color = "Individuals")) +
+              aes(color = "Individual traject")) +
+      geom_sf(data = dados_rhinellas_sf |>
+                dplyr::rename("Indivíduo" = ID) |>
+                dplyr::filter(Indivíduo == ind) |>
+                dplyr::summarise(do.union = FALSE) |>
+                sf::st_cast("LINESTRING"),
+              aes(color = "Individual traject")) +
       geom_sf(data = area_rhinella |>
                 dplyr::filter(Indivíduo == ind),
               aes(color = Tipo),
