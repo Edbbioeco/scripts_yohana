@@ -283,3 +283,48 @@ area_mof_rhinella <- area_rhinella |>
                    by = "ID")
 
 area_mof_rhinella
+
+## Modelos lineares ----
+
+### Criar modelos ----
+
+modelos_lm <- purrr::map2(
+  c("Rhinella crucifer",
+    "Rhinella icterica") |>
+    rep(each = 2),
+  c("KDE 50%",
+    "KDE 95%") |>
+    rep(2),
+  \(sps, kde){
+
+    purrr::map(
+      c("peso", "proporcao_cmp"),
+      \(var){
+
+        formula <- paste0("area ~ ", var) |>
+          as.formula()
+
+        lm(formula,
+           data = area_mof_rhinella |>
+             dplyr::filter(Espécie == sps &
+                             Tipo == kde) |>
+             janitor::clean_names())
+
+        }
+    )
+
+    },
+  .progress = TRUE) |>
+  purrr::flatten() |>
+  setNames(paste0(c("Rhinella crucifer",
+                    "Rhinella icterica") |>
+                    rep(each = 4),
+                  "_",
+                  c("KDE 50%",
+                    "KDE 95%") |>
+                    rep(4),
+                  "_",
+                  c("peso", "proporcao_cmp") |>
+                    rep(4)))
+
+modelos_lm
