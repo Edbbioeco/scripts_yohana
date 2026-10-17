@@ -210,7 +210,7 @@ mapa_icterica
 
 ggsave(plot = mapa_icterica,
        filename = "mapa_area_vida_rhinella_icterica.png",
-       height = 10, width = 16)
+       height = 10, width = 12)
 
 ### Rhinella crucifer ----
 
