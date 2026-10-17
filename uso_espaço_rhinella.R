@@ -101,7 +101,8 @@ ggplot(data = uso_trat,
                       aes(x, y, image = sps),
                       size = 0.35) +
   facet_wrap(~Espécie) +
-  labs(x = "Resting habitat") +
+  labs(x = "Resting habitat",
+       y = "Count of individuals") +
   scale_y_continuous(breaks = seq(0, 9, 1),
                      limits = c(0, 9)) +
   theme_bw() +
