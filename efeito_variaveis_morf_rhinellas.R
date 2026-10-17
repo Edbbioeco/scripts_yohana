@@ -322,7 +322,8 @@ modelos_lm <- purrr::map2(
                   "_",
                   c("KDE 50%",
                     "KDE 95%") |>
-                    rep(4),
+                    rep(each = 2) |>
+                    rep(2),
                   "_",
                   c("peso", "proporcao_cmp") |>
                     rep(4)))
@@ -407,10 +408,11 @@ modelos_glm <- purrr::map2(
                   "_",
                   c("KDE 50%",
                     "KDE 95%") |>
-                    rep(4),
+                    rep(each = 2) |>
+                    rep(2),
                   "_",
                   c("peso", "proporcao_cmp") |>
-                    rep(4)))
+                    rep(each = 4)))
 
 modelos_glm
 
@@ -450,3 +452,12 @@ purrr::imap_dfr(
   as.data.frame()
 
 qt(p = 0.05, df = 9, lower.tail = FALSE)
+
+purrr::map(
+  modelos_lm,
+  \(modelo){
+
+    modelo |> summary() |> print()
+
+    },
+  .progress = TRUE)
