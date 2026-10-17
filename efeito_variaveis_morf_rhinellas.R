@@ -328,3 +328,21 @@ modelos_lm <- purrr::map2(
                     rep(4)))
 
 modelos_lm
+
+### Avaliar modelos ----
+
+purrr::map(
+  modelos_lm,
+  \(modelo){
+
+    modelo |>
+      performance::check_normality() |>
+      print()
+
+    modelo |>
+      performance::check_model(check = c("qq",
+                                         "normality",
+                                         "homogeneity"))
+
+    },
+  .progress = TRUE)
