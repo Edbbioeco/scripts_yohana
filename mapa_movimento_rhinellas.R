@@ -203,7 +203,7 @@ mapa_icterica <- purrr::map(
 
     },
   .progress = TRUE) |>
-  patchwork::wrap_plots(guides = "collect") &
+  patchwork::wrap_plots(guides = "collect", ncol = 5) &
   theme(legend.position = "bottom")
 
 mapa_icterica
