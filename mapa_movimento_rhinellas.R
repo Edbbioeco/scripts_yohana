@@ -268,4 +268,4 @@ mapa_crucifer
 
 ggsave(plot = mapa_crucifer,
        filename = "mapa_area_vida_rhinella_crucifer.png",
-       height = 10, width = 16)
+       height = 10, width = 12)
