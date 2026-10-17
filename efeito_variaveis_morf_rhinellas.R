@@ -83,3 +83,30 @@ mov <- mov |>
 mov
 
 mov |> dplyr::glimpse()
+
+### Completar as coordenadas ----
+
+mov_trat <- purrr::reduce(
+  .init = mov,
+  .x = 1:nrow(mov),
+  .f = \(dados, linha){
+
+    if(is.na(dados$Longitude[linha]) || is.na(dados$Longitude[linha])){
+
+      coord <- geosphere::destPoint(
+        p = c(dados$Longitude[linha - 1], dados$Latitude[linha - 1]),
+        b = dados$`Angulo de virada`[linha - 1],
+        d = dados$`Distância (m)`[linha - 1]
+      )
+
+      dados$Longitude[linha] <- coord[1]
+
+      dados$Latitude[linha] <- coord[2]
+
+    }
+
+    dados
+
+  })
+
+mov_trat
