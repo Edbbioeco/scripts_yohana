@@ -515,29 +515,31 @@ tabela_flex <- purrr::map_dfr(
   dplyr::mutate(Species = c("Rhinella crucifer",
                           "Rhinella icterica") |>
                   rep(each = 4),
+                KDE = c("50%", "95%") |>
+                  rep(4),
                 .before = 1) |>
   as.data.frame() |>
   dplyr::mutate(term = dplyr::case_when(
 
     term == "peso" ~ "Body mass (g)",
-    .default = "Poserior Limb proportion"
+    .default = "Posterior Limb proportion"
 
     ),
                 estimate = estimate |> round(2),
                 std.error = std.error |> round(2),
                 statistic = statistic |> round(2)) |>
-  dplyr::rename("Predictor" = 2,
-                "t" = 5,
-                "p" = p.value) |>
-  tidyr::unite(3:4,
+  dplyr::rename("Predictor" = 3,
+                "t" = 6,
+                "p" = 7) |>
+  tidyr::unite(4:5,
                sep = " ± ",
                col = "β1 ± SE") |>
   flextable::flextable() |>
   flextable::align(align = "center",
                    part = "all") |>
   flextable::width(j = 1, width = 1.5) |>
-  flextable::width(j = 2, width = 1.25) |>
-  flextable::width(j = 3, width = 1.5) |>
+  flextable::width(j = 3, width = 1.25) |>
+  flextable::width(j = 4, width = 1.5) |>
   flextable::italic(j = 1, part = "body")
 
 tabela_flex
