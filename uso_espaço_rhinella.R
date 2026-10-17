@@ -101,7 +101,7 @@ ggplot(data = uso_trat,
                       aes(x, y, image = sps),
                       size = 0.35) +
   facet_wrap(~Espécie) +
-  labs(x = "Habitat de repouso") +
+  labs(x = "Resting habitat") +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.text.x = element_text(color = "black", size = 20,
