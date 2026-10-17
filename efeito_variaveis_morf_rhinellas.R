@@ -340,12 +340,18 @@ purrr::map(
       print()
 
     modelo |>
+      performance::check_heteroscedasticity() |>
+      print()
+
+    modelo |>
       performance::check_model(check = c("qq",
                                          "normality",
                                          "homogeneity"))
 
     },
   .progress = TRUE)
+
+## GLM ----
 
 ### Criar modelos GLM ----
 
@@ -407,3 +413,16 @@ modelos_glm <- purrr::map2(
                     rep(4)))
 
 modelos_glm
+
+### Avaliar modelos ----
+
+purrr::map(
+  modelos_glm,
+  \(modelo){
+
+    modelo |>
+      DHARMa::simulateResiduals(plot = TRUE)
+
+    },
+  .progress = TRUE)
+
