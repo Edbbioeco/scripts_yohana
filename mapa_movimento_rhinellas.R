@@ -270,7 +270,19 @@ ggsave(plot = mapa_crucifer,
        filename = "mapa_area_vida_rhinella_crucifer.png",
        height = 12, width = 16)
 
-## Histograma dos valores de área de vida ----
+## Dispersão dos valores de área de vida ----
+
+### Calcular média ----
+
+medias_areas <- area_rhinella |>
+  sf::st_transform(crs = 31985) |>
+  dplyr::mutate(`Area (m²)` = geometry |>
+                  sf::st_area(units = "m") |>
+                  as.numeric()) |>
+  sf::st_drop_geometry() |>
+  dplyr::summarise(sd = `Area (m²)` |> sd(),
+                   `Area (m²)` = `Area (m²)` |> mean(),
+                   .by = c(Espécie, Tipo))
 
 area_rhinella |>
   sf::st_transform(crs = 31985) |>
