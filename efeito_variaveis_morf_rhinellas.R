@@ -548,3 +548,6 @@ tabela_flex
 tabela_flex |>
   flextable::save_as_docx(path = "tabela_sts_morf_rhinella.docx")
 
+"tabela_sts_morf_rhinella.docx" |>
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
+                            name = "tabela_sts_morf_rhinella.docx")
