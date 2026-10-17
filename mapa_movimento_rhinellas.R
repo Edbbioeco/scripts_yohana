@@ -293,7 +293,8 @@ area_rhinella |>
                   as.numeric()) |>
   ggplot(aes(Espécie, `Area (m²)`, fill = Tipo)) +
   ggbeeswarm::geom_quasirandom(shape = 21, color = "black", size = 7,
-                               dodge.width = 0.7) +
+                               dodge.width = 0.7,
+                               stroke = 1.5) +
   geom_errorbar(data = medias_areas,
                 aes(x = Espécie, y = `Area (m²)`,
                     ymin = `Area (m²)` - sd, ymax = `Area (m²)` + sd,
