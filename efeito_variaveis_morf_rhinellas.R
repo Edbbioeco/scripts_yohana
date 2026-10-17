@@ -412,7 +412,7 @@ modelos_glm <- purrr::map2(
                     rep(2),
                   "_",
                   c("peso", "proporcao_cmp") |>
-                    rep(each = 4)))
+                    rep(4)))
 
 modelos_glm
 
