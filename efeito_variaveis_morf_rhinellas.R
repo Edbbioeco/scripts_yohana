@@ -18,13 +18,7 @@ library(janitor)
 
 library(reshape2)
 
-library(lmerTest)
-
 library(performance)
-
-library(lme4)
-
-library(ggeffects)
 
 library(DHARMa)
 
