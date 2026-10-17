@@ -73,3 +73,13 @@ mov
 mov
 
 mov |> dplyr::glimpse()
+
+### Converter coordenadas ----
+
+mov <- mov |>
+  dplyr::mutate(Longitude = Longitude |> parzer::parse_lon(),
+                Latitude = Latitude |> parzer::parse_lat())
+
+mov
+
+mov |> dplyr::glimpse()
