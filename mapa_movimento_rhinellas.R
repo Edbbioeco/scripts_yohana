@@ -268,7 +268,7 @@ mapa_crucifer
 
 ggsave(plot = mapa_crucifer,
        filename = "mapa_area_vida_rhinella_crucifer.png",
-       height = 10, width = 12)
+       height = 12, width = 16)
 
 ## Histograma dos valores de área de vida ----
 
