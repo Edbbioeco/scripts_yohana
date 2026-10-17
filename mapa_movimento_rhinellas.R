@@ -182,13 +182,15 @@ mapa_icterica <- purrr::map(
       labs(x = NULL,
            y = NULL,
            color = NULL) +
+      coord_sf(expand = FALSE) +
       ggspatial::annotation_scale(location = "br",
                                   text_col = "black",
                                   text_cex = 1.5,
                                   bar_cols = c("black", "gold")) +
       facet_wrap(~Indivíduo) +
       theme_bw() +
-      theme(axis.text = element_text(color = "black", size = 10),
+      theme(aspect.ratio = 1,
+            axis.text = element_text(color = "black", size = 10),
             axis.text.x = element_text(angle = 90,
                                        hjust = 1, vjust = 0.5),
             legend.text = element_text(color = "black", size = 20),
