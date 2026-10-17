@@ -28,6 +28,8 @@ library(ggeffects)
 
 library(DHARMa)
 
+library(ggh4x)
+
 # Dados ----
 
 ## Dados de movimentação ----
