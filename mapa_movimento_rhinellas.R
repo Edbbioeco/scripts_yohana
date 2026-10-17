@@ -277,26 +277,20 @@ area_rhinella |>
   dplyr::mutate(`Area (m²)` = geometry |>
                   sf::st_area(units = "m") |>
                   as.numeric()) |>
-  ggplot(aes(`Area (m²)`, fill = Tipo)) +
-  geom_histogram(color = "black", binwidth = 500) +
-  scale_y_continuous(breaks = seq(0, 9, 1)) +
+  ggplot(aes(Espécie, `Area (m²)`, fill = Tipo)) +
+  ggbeeswarm::geom_quasirandom(shape = 21, color = "black", size = 7,
+                               dodge.width = 0.7) +
   scale_fill_manual(values = c("royalblue", "orange")) +
-  facet_wrap(~Espécie, ncol = 1) +
-  labs(y = "Count",
+  labs(x = "Species",
        fill = NULL) +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
+        axis.text.x = element_text(face = "italic"),
         axis.title = element_text(color = "black", size = 20),
         legend.text = element_text(color = "black", size = 20),
         legend.title = element_text(color = "black", size = 20),
         legend.position = "bottom",
-        strip.text = element_text(color = "black", size = 20,
-                                  face = "italic"),
-        strip.background = element_rect(color = "black",
-                                        linewidth = 1.5),
-        panel.border = element_rect(color = "black", linewidth = 1.5),
-        plot.title = element_text(color = "black", size = 20,
-                                  face = "italic"))
+        panel.border = element_rect(color = "black", linewidth = 1.5))
 
 ggsave(filename = "histograma_area_devida.png",
        height = 10,
