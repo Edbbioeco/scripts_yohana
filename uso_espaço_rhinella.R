@@ -114,4 +114,4 @@ ggplot(data = uso_trat,
         panel.background = element_rect(color = "black", linewidth = 1))
 
 ggsave(filename = "uso_habitat_especies.png",
-       height = 10, width = 12)
+       height = 12, width = 16)
