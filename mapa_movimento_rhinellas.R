@@ -290,7 +290,7 @@ area_rhinella |>
         legend.text = element_text(color = "black", size = 20),
         legend.title = element_text(color = "black", size = 20),
         legend.position = "bottom",
-        panel.border = element_rect(color = "black", linewidth = 1.5))
+        panel.border = element_rect(color = "black", linewidth = 1))
 
 ggsave(filename = "histograma_area_devida.png",
        height = 12,
