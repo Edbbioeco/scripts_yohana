@@ -233,7 +233,7 @@ mapa_crucifer <- purrr::map(
               aes(color = Tipo),
               fill = "transparent",
               linewidth = 1) +
-      scale_color_manual(values = c("black", "royalblue", "orange")) +
+      scale_color_manual(values = c("orange", "royalblue", "black")) +
       scale_fill_viridis_d(guide = guide_legend(
         title = "Individuals",
         title.position = "top",
