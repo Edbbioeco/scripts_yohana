@@ -292,6 +292,6 @@ area_rhinella |>
         legend.position = "bottom",
         panel.border = element_rect(color = "black", linewidth = 1))
 
-ggsave(filename = "histograma_area_devida.png",
+ggsave(filename = "dispersao_area_devida.png",
        height = 12,
        width = 12)
