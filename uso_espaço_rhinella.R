@@ -50,7 +50,32 @@ uso_trat <- uso |>
     "Odontophrynus asper",
     Espécie) |>
       forcats::fct_relevel(c("Rhinella crucifer",
-                             "Rhinella icterica"))) |>
+                             "Rhinella icterica")),
+                Habitat = dplyr::case_match(
+
+                  Habitat,
+                  "Árvore" ~ "Tree",
+                  "Bambu" ~ "Bamboo",
+                  "Borda de brejo" ~ "Marsh edge",
+                  "Chão" ~ "Clen ground",
+                  "Embaixo da serrapilheira" ~ "Under leaflitter",
+                  "Embaixo de tronco" ~ "Under fallen tree",
+                  "Enterrado" ~ "Buried",
+                  "Toca no solo" ~ "Burrowed in the ground"
+
+                  ) |>
+      forcats::fct_relevel(c(
+
+        "Buried",
+        "Burrowed in the ground",
+        "Clen ground",
+        "Under leaflitter",
+        "Under fallen tree",
+        "Tree",
+        "Bamboo",
+        "Marsh edge"
+
+        ))) |>
   as.data.frame()
 
 uso_trat
