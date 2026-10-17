@@ -309,7 +309,7 @@ area_rhinella |>
              position = position_dodge(width = 0.7),
              size = 5,
              show.legend = FALSE) +
-  scale_fill_manual(values = c("royalblue", "orange")) +
+  scale_fill_manual(values = c("orange", "royalblue")) +
   labs(x = "Species",
        fill = NULL) +
   theme_bw() +
