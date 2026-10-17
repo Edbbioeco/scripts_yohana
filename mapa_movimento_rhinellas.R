@@ -103,7 +103,6 @@ dados_rhinellas_sf <- dados_rhinellas |>
 dados_rhinellas_sf
 
 ggplot() +
-  tidyterra::geom_spatraster_rgb(data = sat) +
   geom_sf(data = dados_rhinellas_sf, aes(color = Espécie))
 
 ## Calcular área de vida ----
