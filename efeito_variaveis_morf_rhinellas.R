@@ -50,3 +50,20 @@ Sys.getenv("pasta_artigo_rhinella") |>
 
     },
     .progress = TRUE)
+
+### Importar ----
+
+mov <- purrr::map_dfr(
+  c("Rhinella crucifer",
+    "Rhinella icterica"),
+  \(sps){
+
+    readxl::read_xlsx(paste0("Dados ",
+                             sps,
+                             ".xlsx")) |>
+      dplyr::mutate(Espécie = sps)
+
+  },
+  .progress = TRUE)
+
+mov
