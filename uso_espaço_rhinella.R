@@ -85,8 +85,7 @@ ggplot(data = uso_trat,
         strip.text = element_text(color = "black", size = 20,
                                   face = "italic"),
         strip.background = element_rect(color = "black", linewidth = 1),
-        panel.background = element_rect(color = "black", linewidth = 1)) +
-  ggview::canvas(height = 10, width = 12)
+        panel.background = element_rect(color = "black", linewidth = 1))
 
 ggsave(filename = "uso_habitat_especies.png",
        height = 10, width = 12)
