@@ -148,7 +148,9 @@ area_rhinella <- purrr::map_dfr(
       )
 
     },
-  .progress = TRUE)
+  .progress = TRUE) |>
+  dplyr::mutate(Tipo = Tipo |> forcats::fct_relevel(c("KDE 95%",
+                                                      "KDE 50%")))
 
 area_rhinella
 
