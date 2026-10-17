@@ -182,7 +182,6 @@ mapa_icterica <- purrr::map(
       labs(x = NULL,
            y = NULL,
            color = NULL) +
-      coord_sf(expand = FALSE) +
       ggspatial::annotation_scale(location = "br",
                                   text_col = "black",
                                   text_cex = 1.5,
@@ -198,7 +197,7 @@ mapa_icterica <- purrr::map(
             strip.text = element_text(color = "black", size = 20),
             strip.background = element_rect(color = "black",
                                             linewidth = 1.5),
-            panel.border = element_rect(color = "black", linewidth = 1.5),
+            panel.border = element_rect(color = "black", linewidth = 1),
             plot.title = element_text(color = "black", size = 20,
                                       face = "italic"))
 
