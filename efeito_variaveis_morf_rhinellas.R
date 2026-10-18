@@ -508,7 +508,11 @@ tabela_flex <- purrr::map_dfr(
   \(modelo){
 
     modelo |>
-      broom::tidy()
+      broom::tidy() |>
+      dplyr::mutate(R2 = modelo |>
+                      performance::r2_kullback(adjust = TRUE) |>
+                      as.numeric() |>
+                      round(3))
 
   },
   .progress = TRUE) |>
