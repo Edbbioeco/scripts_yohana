@@ -625,6 +625,10 @@ ggsave(filename = "efeito_morf_rhinella_icterica.png",
        height = 12,
        width = 16)
 
+"efeito_morf_rhinella_icterica.png" |>
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
+                            name = "efeito_morf_rhinella_icterica.png")
+
 ## Modelo Rhinella icterica sem os outliers ----
 
 ### Identifcar os outliers ----
