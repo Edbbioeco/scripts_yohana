@@ -595,6 +595,10 @@ ggsave(filename = "efeito_morf_rhinella_crucifer.png",
        height = 12,
        width = 16)
 
+"efeito_morf_rhinella_crucifer.png" |>
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
+                            name = "efeito_morf_rhinella_crucifer.png")
+
 ### Rhinella icterica ----
 
 area_mof_rhinella |>
