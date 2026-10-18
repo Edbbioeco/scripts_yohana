@@ -542,7 +542,8 @@ tabela_flex <- purrr::map_dfr(
                 statistic = statistic |> round(2)) |>
   dplyr::rename("Predictor" = 3,
                 "t" = 6,
-                "p" = 7) |>
+                "p" = 7,
+                "pseudo-R²" = 8) |>
   tidyr::unite(4:5,
                sep = " ± ",
                col = "β1 ± SE") |>
@@ -552,6 +553,7 @@ tabela_flex <- purrr::map_dfr(
   flextable::width(j = 1, width = 1.5) |>
   flextable::width(j = 3, width = 1.25) |>
   flextable::width(j = 4, width = 1.5) |>
+  flextable::width(j = 7, width = 1.5) |>
   flextable::italic(j = 1, part = "body")
 
 tabela_flex
