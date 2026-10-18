@@ -759,3 +759,63 @@ r2_icterica <- purrr::imap_dfr(
   dplyr::rename("R²" = 2)
 
 r2_icterica
+
+### Tabela das estatatísticas ----
+
+tabela_flex_icterica <- purrr::map_dfr(
+  modelos_glm_rm,
+  \(modelo){
+
+    modelo |>
+      broom::tidy() |>
+      dplyr::mutate(R2 = modelo |>
+                      performance::r2_kullback(adjust = TRUE) |>
+                      as.numeric() |>
+                      round(3))
+
+  },
+  .progress = TRUE) |>
+  dplyr::filter(!term |> stringr::str_detect("Intercept")) |>
+  dplyr::mutate(p.value = dplyr::case_when(
+
+    p.value < 0.01 ~ "< 0.01",
+    .default = p.value |> round(2) |> as.character()
+
+  )) |>
+  dplyr::mutate(Species = "Rhinella icterica",
+                KDE = c("50%", "95%") |>
+                  rep(each = 2),
+                .before = 1) |>
+  as.data.frame() |>
+  dplyr::mutate(term = dplyr::case_when(
+
+    term == "peso" ~ "Body mass (g)",
+    .default = "Posterior Limb proportion"
+
+  ),
+  estimate = estimate |> round(5),
+  std.error = std.error |> round(5),
+  statistic = statistic |> round(2)) |>
+  dplyr::rename("Predictor" = 3,
+                "t" = 6,
+                "p" = 7,
+                "R²" = 8) |>
+  tidyr::unite(4:5,
+               sep = " ± ",
+               col = "β1 ± SE") |>
+  flextable::flextable() |>
+  flextable::align(align = "center",
+                   part = "all") |>
+  flextable::width(j = 1, width = 1.5) |>
+  flextable::width(j = 3, width = 1.25) |>
+  flextable::width(j = 4, width = 1.5) |>
+  flextable::italic(j = 1, part = "body")
+
+tabela_flex_icterica
+
+tabela_flex_icterica |>
+  flextable::save_as_docx(path = "tabela_sts_morf_rhinella_cterica.docx")
+
+"tabela_sts_morf_rhinella_cterica.docx" |>
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
+                            name = "tabela_sts_morf_rhinella_cterica.docx")
