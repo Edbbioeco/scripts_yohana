@@ -699,3 +699,14 @@ modelos_glm_rm <- purrr::map(
 
 modelos_glm_rm
 
+### Pressupostos dos modelos ----
+
+purrr::map(
+  modelos_glm_rm,
+  \(modelo){
+
+    modelo |>
+      DHARMa::simulateResiduals(plot = TRUE)
+
+  },
+  .progress = TRUE)
