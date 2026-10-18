@@ -635,3 +635,67 @@ id_ri_rem <- area_mof_rhinella |>
   dplyr::select(ID, Tipo, Espécie)
 
 id_ri_rem
+
+### Criar modelos GLM para o dataset sem os indivíduos ----
+
+modelos_glm_rm <- purrr::map(
+  c("KDE 50%",
+    "KDE 95%"),
+  \(kde){
+
+    purrr::map(
+      c("peso", "proporcao_cmp"),
+      \(var){
+
+        formula <- paste0("area ~ ", var) |>
+          as.formula()
+
+        id <- id_ri_rem |>
+          dplyr::filter(Espécie == "Rhinella icterica") |>
+          dplyr::pull(ID)
+
+        tryCatch(
+          glm(formula,
+              data = area_mof_rhinella |>
+                dplyr::filter(Espécie == "Rhinella icterica" &
+                                Tipo == kde &
+                                ID %notin% id) |>
+                janitor::clean_names(),
+              family = Gamma()),
+          error = \(e){
+
+            glm(formula,
+                data = area_mof_rhinella |>
+                  dplyr::filter(Espécie == "Rhinella icterica" &
+                                  Tipo == kde &
+                                  ID %notin% id) |>
+                  janitor::clean_names(),
+                family = Gamma(),
+                start = lm(formula,
+                           data = area_mof_rhinella |>
+                             dplyr::filter(Espécie == "Rhinella icterica" &
+                                             Tipo == kde &
+                                             ID %notin% id) |>
+                             janitor::clean_names()) |>
+                  coef())
+          }
+        )
+
+      }
+    )
+
+  },
+  .progress = TRUE) |>
+  purrr::flatten() |>
+  setNames(paste0(c("Rhinella icterica") |>
+                    rep(each = 4),
+                  "_",
+                  c("KDE 50%",
+                    "KDE 95%") |>
+                    rep(each = 2),
+                  "_",
+                  c("peso", "proporcao_cmp") |>
+                    rep(2)))
+
+modelos_glm_rm
+
