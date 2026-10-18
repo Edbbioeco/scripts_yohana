@@ -741,4 +741,4 @@ purrr::imap_dfr(
   )) |>
   as.data.frame()
 
-qt(p = 0.05, df = 9, lower.tail = FALSE)
+qt(p = 0.05, df = 12, lower.tail = FALSE)
