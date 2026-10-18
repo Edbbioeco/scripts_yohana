@@ -624,3 +624,14 @@ area_mof_rhinella |>
 ggsave(filename = "efeito_morf_rhinella_icterica.png",
        height = 12,
        width = 16)
+
+## Modelo Rhinella icterica sem os outliers ----
+
+### Identifcar os outliers ----
+
+id_ri_rem <- area_mof_rhinella |>
+  dplyr::filter(Espécie == "Rhinella icterica") |>
+  dplyr::slice_max(area, n = 2, by = Tipo) |>
+  dplyr::select(ID, Tipo, Espécie)
+
+id_ri_rem
