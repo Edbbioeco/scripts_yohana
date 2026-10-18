@@ -742,3 +742,20 @@ purrr::imap_dfr(
   as.data.frame()
 
 qt(p = 0.05, df = 12, lower.tail = FALSE)
+
+r2_icterica <- purrr::imap_dfr(
+  modelos_glm_rm,
+  \(modelo, id){
+
+    tibble::tibble(Model = id,
+                   R2 = modelo |>
+                     performance::r2_mcfadden() |>
+                     as.numeric() %>%
+                     .[2] |>
+                     round(3))
+
+    },
+  .progress = TRUE) |>
+  dplyr::rename("R²" = 2)
+
+r2_icterica
