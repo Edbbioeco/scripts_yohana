@@ -400,52 +400,43 @@ purrr::map(
 
 #### Criar modelos GLM ----
 
-modelos_glm <- purrr::map2(
+modelos_glm <- purrr::pmap(
   tidyr::expand_grid(
     sps = c("Rhinella crucifer",
             "Rhinella icterica"),
     kde = c("KDE 50%",
             "KDE 95%"),
     var = c("peso", "proporcao_cmp")),
-  \(sps, kde){
+  \(sps, kde, var){
 
-    purrr::map(
-      c("peso", "proporcao_cmp"),
-      \(var){
-
-        formula <- paste0("area ~ ", var) |>
+    formula <- paste0("area ~ ", var) |>
           as.formula()
 
-        tryCatch(
-          glm(formula,
-              data = area_mof_rhinella |>
-                dplyr::filter(Espécie == sps &
-                                Tipo == kde) |>
-                janitor::clean_names(),
-              family = Gamma(link = "identity")),
-          error = \(e){
+    tryCatch(
+      glm(formula,
+          data = area_mof_rhinella |>
+            dplyr::filter(Espécie == sps &
+                            Tipo == kde) |>
+            janitor::clean_names(),
+          family = Gamma(link = "identity")),
+      error = \(e){
+        glm(formula,
+            data = area_mof_rhinella |>
+              dplyr::filter(Espécie == sps &
+                              Tipo == kde) |>
+              janitor::clean_names(),
+            family = Gamma(link = "identity"),
+            start = lm(formula,
+                       data = area_mof_rhinella |>
+                         dplyr::filter(Espécie == sps &
+                                         Tipo == kde) |>
+                         janitor::clean_names()) |>
+              coef())
+        }
+      )
 
-            glm(formula,
-                data = area_mof_rhinella |>
-                  dplyr::filter(Espécie == sps &
-                                  Tipo == kde) |>
-                  janitor::clean_names(),
-                family = Gamma(link = "identity"),
-                start = lm(formula,
-                           data = area_mof_rhinella |>
-                             dplyr::filter(Espécie == sps &
-                                             Tipo == kde) |>
-                             janitor::clean_names()) |>
-                  coef())
-          }
-        )
-
-      }
-    )
-
-  },
+    },
   .progress = TRUE) |>
-  purrr::flatten() |>
   setNames(paste0(c("Rhinella crucifer",
                     "Rhinella icterica") |>
                     rep(each = 4),
