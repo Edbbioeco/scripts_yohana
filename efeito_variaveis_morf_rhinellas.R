@@ -437,17 +437,13 @@ modelos_glm <- purrr::pmap(
 
     },
   .progress = TRUE) |>
-  setNames(paste0(c("Rhinella crucifer",
-                    "Rhinella icterica") |>
-                    rep(each = 4),
-                  "_",
-                  c("KDE 50%",
-                    "KDE 95%") |>
-                    rep(each = 2) |>
-                    rep(2),
-                  "_",
-                  c("peso", "proporcao_cmp") |>
-                    rep(4)))
+  setNames(tidyr::expand_grid(sps = c("Rhinella crucifer",
+                                      "Rhinella icterica"),
+                              kde = c("KDE 50%",
+                                      "KDE 95%"),
+                              var = c("peso", "proporcao_cmp")) |>
+             dplyr::mutate(mod = paste(sps, kde, var, sep = "_")) |>
+             dplyr::pull(mod))
 
 modelos_glm
 
