@@ -300,9 +300,9 @@ area_rhinella_amb <- area_rhinella |>
 
 area_rhinella_amb
 
-## Criar modelos lineares ----
+## Modelos LM ----
 
-### Criar modelos LM ----
+### Criar modelos ----
 
 modelos_lm <- purrr::pmap(
   tidyr::expand_grid(sps = c("Rhinella crucifer",
