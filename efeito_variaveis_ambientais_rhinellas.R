@@ -213,6 +213,7 @@ area_rhinella <- purrr::map_dfr(
                 area = geometry |>
                   sf::st_transform(crs = 31982) |>
                   sf::st_area() |>
-                  as.numeric())
+                  as.numeric()) |>
+  dplyr::rename("ID" = Indivíduo)
 
 area_rhinella
