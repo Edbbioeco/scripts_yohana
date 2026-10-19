@@ -966,3 +966,33 @@ purrr::map(
   },
   .progress = TRUE)
 
+## GLM ----
+
+### Criar modelos ----
+
+modelos_glm_traj <- purrr::pmap(
+  tidyr::expand_grid(
+    sps = c("Rhinella crucifer",
+            "Rhinella icterica"),
+    var = c("peso", "proporcao_cmp")),
+  \(sps, var){
+
+    formula <- paste0("trajeto_percorrido ~ ", var) |>
+      as.formula()
+
+    glm(formula,
+        data = area_mof_rhinella |>
+          dplyr::filter(Espécie == sps &
+                          ID %notin% c("RI2", "RI3")) |>
+          janitor::clean_names(),
+        family = Gamma())
+
+    },
+  .progress = TRUE) |>
+  setNames(tidyr::expand_grid(sps = c("Rhinella crucifer",
+                                      "Rhinella icterica"),
+                              var = c("peso", "proporcao_cmp")) |>
+             dplyr::mutate(mod = paste(sps, var, sep = "_")) |>
+             dplyr::pull(mod))
+
+modelos_glm_traj
