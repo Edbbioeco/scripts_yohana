@@ -290,3 +290,12 @@ cor_rhinellas |>
 ggsave(filename = "multicolinearidade_amb_rhinella.png",
        height = 12,
        width = 16)
+
+## Unir os dados ----
+
+area_rhinella_amb <- area_rhinella |>
+  dplyr::left_join(amb_trat |>
+                     dplyr::select(-Espécie),
+                   by = "ID")
+
+area_rhinella_amb
