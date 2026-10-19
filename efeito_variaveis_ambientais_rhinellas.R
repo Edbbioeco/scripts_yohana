@@ -356,3 +356,39 @@ purrr::map(
 
   },
   .progress = TRUE)
+
+## Modelos GLM ----
+
+### Criar modelos ----
+
+modelos_glm <- purrr::pmap(
+  tidyr::expand_grid(sps = c("Rhinella crucifer",
+                             "Rhinella icterica"),
+                     kde = c("KDE 50%", "KDE 95%"),
+                     var = c("umidade_relativa_maxima",
+                             "temperatura_maxima",
+                             "temperatura_minima")),
+  \(sps, kde, var){
+
+    formula <- reformulate(var,
+                           response = "area")
+
+    glm(formula,
+        data = area_rhinella_amb |>
+          janitor::clean_names() |>
+          dplyr::filter(especie == sps &
+                          tipo == kde),
+        family = Gamma(link = "log"))
+
+  },
+  .progress = TRUE) |>
+  setNames(tidyr::expand_grid(sps = c("Rhinella crucifer",
+                                      "Rhinella icterica"),
+                              kde = c("KDE 50%", "KDE 95%"),
+                              var = c("humidade_relativa_maxima",
+                                      "temperatura_maxima",
+                                      "temperatura_minima")) |>
+             dplyr::mutate(mod = paste0(sps, kde, var, collapse = "_")) |>
+             dplyr::pull(mod))
+
+modelos_glm
