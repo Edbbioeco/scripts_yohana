@@ -113,6 +113,14 @@ mov_trat <- purrr::reduce(
 
 mov_trat
 
+### Transformar em shapefile ----
+
+dados_rhinellas_sf <- mov_trat |>
+  sf::st_as_sf(coords = c(2:3),
+               crs = 4674)
+
+dados_rhinellas_sf
+
 ## Dados ambientais ----
 
 ### Baixar do Google Drive ----
