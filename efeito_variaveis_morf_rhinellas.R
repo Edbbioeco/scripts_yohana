@@ -1126,7 +1126,7 @@ tabela_flex_traj |>
 #### Rhinella crucifer ----
 
 area_mof_rhinella |>
-  dplyr::filter(Espécie == "Rhinella crucifer") |>
+  dplyr::filter(Espécie == "Rhinella crucifer")) |>
   tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
                       names_to = "Preditor",
                       values_to = "Predictor value") |>
@@ -1163,7 +1163,8 @@ ggsave(filename = "efeito_morf_rhinella_crucifer_traj.png",
 #### Rhinella icterica ----
 
 area_mof_rhinella |>
-  dplyr::filter(Espécie == "Rhinella icterica") |>
+  dplyr::filter(Espécie == "Rhinella icterica" &
+                  ID %notin% c("RI2", "RI3")) |>
   tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
                       names_to = "Preditor",
                       values_to = "Predictor value") |>
