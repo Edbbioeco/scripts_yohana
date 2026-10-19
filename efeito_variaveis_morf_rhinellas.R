@@ -602,9 +602,9 @@ tabela_flex |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "tabela_sts_morf_rhinella.docx")
 
-## Gráfico ----
+### Gráfico ----
 
-### Rhinella crucifer ----
+#### Rhinella crucifer ----
 
 area_mof_rhinella |>
   dplyr::filter(Espécie == "Rhinella crucifer") |>
@@ -642,7 +642,7 @@ ggsave(filename = "efeito_morf_rhinella_crucifer.png",
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "efeito_morf_rhinella_crucifer.png")
 
-### Rhinella icterica ----
+#### Rhinella icterica ----
 
 area_mof_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica") |>
@@ -676,9 +676,9 @@ ggsave(filename = "efeito_morf_rhinella_icterica.png",
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "efeito_morf_rhinella_icterica.png")
 
-## Modelo Rhinella icterica sem os outliers ----
+### Modelo Rhinella icterica sem os outliers ----
 
-### Identifcar os outliers ----
+#### Identifcar os outliers ----
 
 id_ri_rem <- area_mof_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica") |>
@@ -687,7 +687,7 @@ id_ri_rem <- area_mof_rhinella |>
 
 id_ri_rem
 
-### Criar modelos GLM para o dataset sem os indivíduos ----
+#### Criar modelos GLM para o dataset sem os indivíduos ----
 
 modelos_glm_rm <- purrr::map(
   c("KDE 50%",
@@ -750,7 +750,7 @@ modelos_glm_rm <- purrr::map(
 
 modelos_glm_rm
 
-### Pressupostos dos modelos ----
+#### Pressupostos dos modelos ----
 
 purrr::map(
   modelos_glm_rm,
@@ -762,7 +762,7 @@ purrr::map(
   },
   .progress = TRUE)
 
-### Estatísticas dos modelos ----
+#### Estatísticas dos modelos ----
 
 purrr::map(
   modelos_glm_rm,
@@ -811,7 +811,7 @@ r2_icterica <- purrr::imap_dfr(
 
 r2_icterica
 
-### Tabela das estatatísticas ----
+#### Tabela das estatatísticas ----
 
 tabela_flex_icterica <- purrr::map_dfr(
   modelos_glm_rm,
@@ -872,7 +872,7 @@ tabela_flex_icterica |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "tabela_sts_morf_rhinella_cterica.docx")
 
-### Gráfico ----
+#### Gráfico ----
 
 area_mof_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica" &
