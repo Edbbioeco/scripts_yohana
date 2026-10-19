@@ -401,12 +401,12 @@ purrr::map(
 #### Criar modelos GLM ----
 
 modelos_glm <- purrr::map2(
-  c("Rhinella crucifer",
-    "Rhinella icterica") |>
-    rep(each = 2),
-  c("KDE 50%",
-    "KDE 95%") |>
-    rep(2),
+  tidyr::expand_grid(
+    sps = c("Rhinella crucifer",
+            "Rhinella icterica"),
+    kde = c("KDE 50%",
+            "KDE 95%"),
+    var = c("peso", "proporcao_cmp")),
   \(sps, kde){
 
     purrr::map(
