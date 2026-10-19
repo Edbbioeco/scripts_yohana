@@ -164,7 +164,7 @@ amb_trat <- amb |>
   dplyr::mutate(Espécie = dplyr::case_when(
 
     ID |> stringr::str_detect("RI") ~ "Rhinella icterica",
-    .default = "Rhinella icterica"
+    .default = "Rhinella crucifer"
     ))
 
 amb_trat
