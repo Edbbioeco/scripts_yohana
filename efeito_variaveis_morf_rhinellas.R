@@ -1095,8 +1095,8 @@ tabela_flex_traj <- purrr::map_dfr(
     .default = "Posterior Limb proportion"
 
   ),
-  estimate = estimate |> round(2),
-  std.error = std.error |> round(2),
+  estimate = estimate |> round(4),
+  std.error = std.error |> round(5),
   statistic = statistic |> round(2)) |>
   dplyr::rename("Predictor" = 2,
                 "t" = 5,
