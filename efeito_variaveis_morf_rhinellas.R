@@ -1120,3 +1120,42 @@ tabela_flex_traj |>
 "tabela_sts_morf_traj_rhinella.docx" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "tabela_sts_morf_traj_rhinella.docx")
+
+### Gráfico ----
+
+#### Rhinella crucifer ----
+
+area_mof_rhinella |>
+  dplyr::filter(Espécie == "Rhinella crucifer") |>
+  tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
+                      names_to = "Preditor",
+                      values_to = "Predictor value") |>
+  dplyr::mutate(Preditor  = dplyr::case_when(
+
+    Preditor == "peso" ~ "Body mass (g)",
+    .default = "Posterior Limb proportion")) |>
+  ggplot(aes(`Predictor value`, trajeto_percorrido)) +
+  geom_point(size = 5) +
+  geom_smooth(data = . %>%
+                dplyr::filter(Preditor == "Body mass (g)"),
+              method = "glm",
+              se = FALSE) +
+  facet_wrap(~ Preditor,
+             scales = "free") +
+  labs(y = "Runned traject (m²)") +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.title = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(color = "black", size = 20),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1),
+        strip.text = element_text(color = "black", size = 30))
+
+ggsave(filename = "efeito_morf_rhinella_crucifer_traj.png",
+       height = 12,
+       width = 16)
+
+"efeito_morf_rhinella_crucifer_traj.png" |>
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
+                            name = "efeito_morf_rhinella_crucifer_traj.png")
