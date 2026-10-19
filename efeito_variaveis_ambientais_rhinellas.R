@@ -334,3 +334,25 @@ modelos_lm <- purrr::pmap(
              dplyr::pull(mod))
 
 modelos_lm
+
+### Avaliar modelos ----
+
+purrr::map(
+  modelos_lm,
+  \(modelo){
+
+    modelo |>
+      performance::check_normality() |>
+      print()
+
+    modelo |>
+      performance::check_heteroscedasticity() |>
+      print()
+
+    modelo |>
+      performance::check_model(check = c("qq",
+                                         "normality",
+                                         "homogeneity"))
+
+  },
+  .progress = TRUE)
