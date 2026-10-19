@@ -330,7 +330,7 @@ modelos_lm <- purrr::pmap(
                               var = c("humidade_relativa_maxima",
                                       "temperatura_maxima",
                                       "temperatura_minima")) |>
-             dplyr::mutate(mod = paste0(sps, kde, var, collapse = "_")) |>
+             dplyr::mutate(mod = paste(sps, kde, var, sep = "_")) |>
              dplyr::pull(mod))
 
 modelos_lm
