@@ -341,45 +341,34 @@ area_mof_rhinella
 
 ### Criar modelos ----
 
-modelos_lm <- purrr::map2(
-  c("Rhinella crucifer",
-    "Rhinella icterica") |>
-    rep(each = 2),
-  c("KDE 50%",
-    "KDE 95%") |>
-    rep(2),
-  \(sps, kde){
+modelos_lm <- purrr::pmap(
+  tidyr::expand_grid(
+    sps = c("Rhinella crucifer",
+            "Rhinella icterica"),
+    kde = c("KDE 50%",
+            "KDE 95%"),
+    var = c("peso", "proporcao_cmp")),
+  \(sps, kde, var){
 
-    purrr::map(
-      c("peso", "proporcao_cmp"),
-      \(var){
-
-        formula <- paste0("area ~ ", var) |>
+    formula <- paste0("area ~ ", var) |>
           as.formula()
 
-        lm(formula,
-           data = area_mof_rhinella |>
-             dplyr::filter(Espécie == sps &
-                             Tipo == kde) |>
-             janitor::clean_names())
-
-        }
-    )
+    lm(formula,
+       data = area_mof_rhinella |>
+         dplyr::filter(Espécie == sps &
+                         Tipo == kde) |>
+         janitor::clean_names())
 
     },
   .progress = TRUE) |>
   purrr::flatten() |>
-  setNames(paste0(c("Rhinella crucifer",
-                    "Rhinella icterica") |>
-                    rep(each = 4),
-                  "_",
-                  c("KDE 50%",
-                    "KDE 95%") |>
-                    rep(each = 2) |>
-                    rep(2),
-                  "_",
-                  c("peso", "proporcao_cmp") |>
-                    rep(4)))
+  setNames(tidyr::expand_grid(sps = c("Rhinella crucifer",
+                                      "Rhinella icterica"),
+                              kde = c("KDE 50%",
+                                      "KDE 95%"),
+                              var = c("peso", "proporcao_cmp")) |>
+             dplyr::mutate(mod = paste(sps, kde, var, sep = "_")) |>
+             dplyr::pull(mod))
 
 modelos_lm
 
