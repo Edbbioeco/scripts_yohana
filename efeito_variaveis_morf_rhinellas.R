@@ -1074,3 +1074,62 @@ purrr::map(
 
   },
   .progress = TRUE)
+
+### Tabela dos valores ----
+
+tabela_flex_traj <- purrr::map_dfr(
+  modelos_glm_traj,
+  \(modelo){
+
+    modelo |>
+      broom::tidy() |>
+      dplyr::mutate(R2 = modelo |>
+                      performance::r2_kullback(adjust = TRUE) |>
+                      as.numeric() |>
+                      round(3))
+
+  },
+  .progress = TRUE) |>
+  dplyr::filter(!term |> stringr::str_detect("Intercept")) |>
+  dplyr::mutate(p.value = dplyr::case_when(
+
+    p.value < 0.01 ~ "< 0.01",
+    .default = p.value |> round(2) |> as.character()
+
+  )) |>
+  dplyr::mutate(Species = c("Rhinella crucifer",
+                            "Rhinella icterica") |>
+                  rep(each = 2),
+                .before = 1) |>
+  as.data.frame() |>
+  dplyr::mutate(term = dplyr::case_when(
+
+    term == "peso" ~ "Body mass (g)",
+    .default = "Posterior Limb proportion"
+
+  ),
+  estimate = estimate |> round(2),
+  std.error = std.error |> round(2),
+  statistic = statistic |> round(2)) |>
+  dplyr::rename("Predictor" = 2,
+                "t" = 5,
+                "p" = 6,
+                "pseudo-R²" = 7) |>
+  tidyr::unite(3:4,
+               sep = " ± ",
+               col = "β1 ± SE") |>
+  flextable::flextable() |>
+  flextable::align(align = "center",
+                   part = "all") |>
+  flextable::width(j = 1, width = 1.5) |>
+  flextable::width(j = 3, width = 1.25) |>
+  flextable::italic(j = 1, part = "body")
+
+tabela_flex_traj
+
+tabela_flex_traj |>
+  flextable::save_as_docx(path = "tabela_sts_morf_traj_rhinella.docx")
+
+"tabela_sts_morf_traj_rhinella.docx" |>
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
+                            name = "tabela_sts_morf_traj_rhinella.docx")
