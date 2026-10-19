@@ -911,3 +911,35 @@ ggsave(filename = "efeito_morf_rhinella_icterica_rm.png",
 "efeito_morf_rhinella_icterica_rm.png" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "efeito_morf_rhinella_icterica_rm.png")
+
+## Tortuosidade ----
+
+### LM ----
+
+#### Criar modelos ----
+
+modelos_lm_traj <- purrr::pmap(
+  tidyr::expand_grid(
+    sps = c("Rhinella crucifer",
+            "Rhinella icterica"),
+    var = c("peso", "proporcao_cmp")),
+  \(sps, var){
+
+    formula <- paste0("trajeto_percorrido ~ ", var) |>
+      as.formula()
+
+    lm(formula,
+       data = area_mof_rhinella |>
+         dplyr::filter(Espécie == sps) |>
+         janitor::clean_names())
+
+  },
+  .progress = TRUE) |>
+  purrr::flatten() |>
+  setNames(tidyr::expand_grid(sps = c("Rhinella crucifer",
+                                      "Rhinella icterica"),
+                              var = c("peso", "proporcao_cmp")) |>
+             dplyr::mutate(mod = paste(sps, var, sep = "_")) |>
+             dplyr::pull(mod))
+
+modelos_lm_traj
