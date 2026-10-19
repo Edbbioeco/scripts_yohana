@@ -339,7 +339,9 @@ area_mof_rhinella
 
 ## Modelos lineares ----
 
-### Criar modelos ----
+### Áreas de KDE ----
+
+#### Criar modelos ----
 
 modelos_lm <- purrr::pmap(
   tidyr::expand_grid(
@@ -372,7 +374,7 @@ modelos_lm <- purrr::pmap(
 
 modelos_lm
 
-### Avaliar modelos ----
+#### Avaliar modelos ----
 
 purrr::map(
   modelos_lm,
@@ -394,9 +396,9 @@ purrr::map(
     },
   .progress = TRUE)
 
-## GLM ----
+### GLM ----
 
-### Criar modelos GLM ----
+#### Criar modelos GLM ----
 
 modelos_glm <- purrr::map2(
   c("Rhinella crucifer",
@@ -458,7 +460,7 @@ modelos_glm <- purrr::map2(
 
 modelos_glm
 
-### Avaliar modelos ----
+#### Avaliar modelos ----
 
 purrr::map(
   modelos_glm,
@@ -470,9 +472,9 @@ purrr::map(
     },
   .progress = TRUE)
 
-## Estatísticas dos modelos ----
+### Estatísticas dos modelos ----
 
-### Modelos LMs ----
+#### Modelos LMs ----
 
 purrr::imap_dfr(
   modelos_lm,
@@ -504,7 +506,7 @@ purrr::map(
     },
   .progress = TRUE)
 
-### Modelos GLMs ----
+#### Modelos GLMs ----
 
 purrr::imap_dfr(
   modelos_glm,
@@ -536,7 +538,7 @@ purrr::map(
   },
   .progress = TRUE)
 
-## Tabela dos valores ----
+### Tabela dos valores ----
 
 tabela_flex <- purrr::map_dfr(
   modelos_glm,
