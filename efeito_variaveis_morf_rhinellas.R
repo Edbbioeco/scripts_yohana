@@ -339,7 +339,9 @@ area_mof_rhinella
 
 ## Áreas de KDE ----
 
-### Criar modelos ----
+### LM ----
+
+#### Criar modelos ----
 
 modelos_lm <- purrr::pmap(
   tidyr::expand_grid(
@@ -372,7 +374,7 @@ modelos_lm <- purrr::pmap(
 
 modelos_lm
 
-### Avaliar modelos ----
+#### Avaliar modelos ----
 
 purrr::map(
   modelos_lm,
