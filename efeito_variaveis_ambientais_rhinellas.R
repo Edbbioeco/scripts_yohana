@@ -112,3 +112,22 @@ mov_trat <- purrr::reduce(
   .init = mov)
 
 mov_trat
+
+## Dados ambientais ----
+
+### Baixar do Google Drive ----
+
+Sys.getenv("pasta_artigo_rhinella") |>
+  googledrive::drive_get() |>
+  googledrive::drive_ls() |>
+  dplyr::filter(name |> stringr::str_detect("AMB")) |>
+  dplyr::pull(name) |>
+  purrr::map(
+    \(arquivo){
+
+      googledrive::drive_download(file = arquivo,
+                                  path = paste0("./", arquivo),
+                                  overwrite = TRUE)
+
+    },
+    .progress = TRUE)
