@@ -1008,3 +1008,37 @@ purrr::map(
 
   },
   .progress = TRUE)
+
+### Estatísticas dos modelos ----
+
+#### Modelos LMs ----
+
+purrr::imap_dfr(
+  modelos_lm_traj,
+  \(modelo, id){
+
+    modelo |>
+      broom::tidy() |>
+      dplyr::mutate(modelo = id)
+
+  },
+  .progress = TRUE) |>
+  dplyr::filter(!term |> stringr::str_detect("Intercept")) |>
+  dplyr::mutate(p.value = dplyr::case_when(
+
+    p.value < 0.01 ~ "< 0.01",
+    .default = p.value |> round(2) |> as.character()
+
+  )) |>
+  as.data.frame()
+
+qt(p = 0.05, df = 9, lower.tail = FALSE)
+
+purrr::map(
+  modelos_lm_traj,
+  \(modelo){
+
+    modelo |> summary() |> print()
+
+  },
+  .progress = TRUE)
