@@ -331,6 +331,8 @@ area_mof_rhinella <- area_rhinella |>
   dplyr::rename("ID" = Indivíduo) |>
   dplyr::select(ID, Tipo, area) |>
   dplyr::left_join(morf,
+                   by = "ID") |>
+  dplyr::left_join(tort_traj_rhinella,
                    by = "ID")
 
 area_mof_rhinella
