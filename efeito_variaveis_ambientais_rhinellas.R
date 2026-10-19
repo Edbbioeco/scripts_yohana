@@ -135,3 +135,10 @@ Sys.getenv("pasta_artigo_rhinella") |>
 ### Importar ----
 
 amb <- readxl::read_xlsx("./DADOS AMBIENTAIS COM AS 6 ESPÉCIES INDIVIDUAIS.xlsx")
+
+
+### Visualizar ----
+
+amb
+
+amb |> dplyr::glimpse()
