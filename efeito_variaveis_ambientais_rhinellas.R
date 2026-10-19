@@ -142,3 +142,16 @@ amb <- readxl::read_xlsx("./DADOS AMBIENTAIS COM AS 6 ESPÉCIES INDIVIDUAIS.xlsx
 amb
 
 amb |> dplyr::glimpse()
+
+# Modelos lineares ----
+
+## Calcular valores médios das variáveis ambientais para as espécies de Rhinella ----
+
+amb_trat <- amb |>
+  dplyr::summarise(dplyr::across(.cols = dplyr::where(is.numeric),
+                                 .fns = ~.x |> mean()),
+                   .by = INDIVIDUO) |>
+  dplyr::rename("ID" = 1) |>
+  dplyr::filter(ID |> stringr::str_detect("^R"))
+
+amb_trat
