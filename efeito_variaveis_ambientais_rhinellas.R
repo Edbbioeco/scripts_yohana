@@ -160,7 +160,12 @@ amb_trat <- amb |>
                                  .fns = ~.x |> mean()),
                    .by = INDIVIDUO) |>
   dplyr::rename("ID" = 1) |>
-  dplyr::filter(ID |> stringr::str_detect("^R"))
+  dplyr::filter(ID |> stringr::str_detect("^R")) |>
+  dplyr::mutate(Espécie = dplyr::case_when(
+
+    ID |> stringr::str_detect("RI") ~ "Rhinella icterica",
+    .default = "Rhinella icterica"
+    ))
 
 amb_trat
 
