@@ -418,14 +418,14 @@ modelos_glm <- purrr::pmap(
             dplyr::filter(Espécie == sps &
                             Tipo == kde) |>
             janitor::clean_names(),
-          family = Gamma(link = "identity")),
+          family = Gamma(link = "log")),
       error = \(e){
         glm(formula,
             data = area_mof_rhinella |>
               dplyr::filter(Espécie == sps &
                               Tipo == kde) |>
               janitor::clean_names(),
-            family = Gamma(link = "identity"),
+            family = Gamma(link = "log"),
             start = lm(formula,
                        data = area_mof_rhinella |>
                          dplyr::filter(Espécie == sps &
@@ -699,7 +699,7 @@ modelos_glm_rm <- purrr::map(
                                 Tipo == kde &
                                 ID %notin% id) |>
                 janitor::clean_names(),
-              family = Gamma()),
+              family = Gamma(link = "log")),
           error = \(e){
 
             glm(formula,
@@ -708,7 +708,7 @@ modelos_glm_rm <- purrr::map(
                                   Tipo == kde &
                                   ID %notin% id) |>
                   janitor::clean_names(),
-                family = Gamma(),
+                family = Gamma(link = "log"),
                 start = lm(formula,
                            data = area_mof_rhinella |>
                              dplyr::filter(Espécie == "Rhinella icterica" &
