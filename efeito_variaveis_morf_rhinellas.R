@@ -933,9 +933,8 @@ modelos_lm_traj <- purrr::pmap(
          dplyr::filter(Espécie == sps) |>
          janitor::clean_names())
 
-  },
+    },
   .progress = TRUE) |>
-  purrr::flatten() |>
   setNames(tidyr::expand_grid(sps = c("Rhinella crucifer",
                                       "Rhinella icterica"),
                               var = c("peso", "proporcao_cmp")) |>
