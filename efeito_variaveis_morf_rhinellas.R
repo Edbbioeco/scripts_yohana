@@ -972,7 +972,7 @@ modelos_glm_traj <- purrr::pmap(
           dplyr::filter(Espécie == sps &
                           ID %notin% c("RI2", "RI3")) |>
           janitor::clean_names(),
-        family = Gamma())
+        family = Gamma(link = "log"))
 
     },
   .progress = TRUE) |>
