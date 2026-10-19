@@ -1141,7 +1141,7 @@ area_mof_rhinella |>
               method = "glm",
               se = FALSE) +
   facet_wrap(~ Preditor,
-             scales = "free") +
+             scales = "free_x") +
   labs(y = "Runned traject (m²)") +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
