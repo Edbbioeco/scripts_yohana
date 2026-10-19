@@ -287,6 +287,6 @@ cor_rhinellas |>
                                         linewidth = 1.5),
         panel.border = element_rect(color = "black", linewidth = 1.5))
 
-ggsave(filename = "multicolinearidade_rhinella.png",
+ggsave(filename = "multicolinearidade_amb_rhinella.png",
        height = 12,
        width = 16)
