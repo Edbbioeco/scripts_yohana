@@ -996,3 +996,15 @@ modelos_glm_traj <- purrr::pmap(
              dplyr::pull(mod))
 
 modelos_glm_traj
+
+#### Avaliar modelos ----
+
+purrr::map(
+  modelos_glm_traj,
+  \(modelo){
+
+    modelo |>
+      DHARMa::simulateResiduals(plot = TRUE)
+
+  },
+  .progress = TRUE)
