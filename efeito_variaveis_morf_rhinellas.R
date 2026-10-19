@@ -212,6 +212,50 @@ area_rhinella <- purrr::map_dfr(
 
 area_rhinella
 
+## Calcular tortuosidade e trajeto percorrido ----
+
+tort_traj_rhinella <- purrr::map_dfr(
+  c("Rhinella icterica", "Rhinella crucifer"),
+  \(sps){
+
+    id <- dados_rhinellas_sf |>
+      dplyr::filter(Espécie == sps) |>
+      dplyr::pull(ID) |>
+      unique()
+
+    purrr::map(
+      id,
+      \(id){
+
+        traj <- dados_rhinellas_sf |>
+          dplyr::filter(ID == id) |>
+          dplyr::summarise(do.union = FALSE) |>
+          sf::st_cast("LINESTRING") |>
+          sf::st_transform(crs = 31985) |>
+          sf::st_length() |>
+          as.numeric()
+
+        min_traj <- dados_rhinellas_sf |>
+          dplyr::filter(ID == id) |>
+          dplyr::slice(1, dplyr::n()) |>
+          dplyr::summarise(do.union = FALSE) |>
+          sf::st_cast("LINESTRING") |>
+          sf::st_transform(crs = 31985) |>
+          sf::st_length() |>
+          as.numeric()
+
+        tibble::tibble(ID = id,
+                       trajeto_percorrido = traj,
+                       tortuosidade = (min_traj / traj))
+
+        }
+      )
+
+    },
+  .progress = )
+
+tort_traj_rhinella
+
 ## Multicolinaridade ----
 
 cor_rhinellas <- purrr::map_dfr(
