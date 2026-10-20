@@ -667,10 +667,24 @@ ggsave(filename = "efeito_morf_rhinella_icterica.png",
 
 #### Identifcar os outliers ----
 
+area_summay <- area_mof_rhinella |>
+  dplyr::filter(Espécie == "Rhinella icterica") |>
+  dplyr::pull(area) |>
+  summary()
+
+area_summay
+
 id_ri_rem <- area_mof_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica") |>
-  dplyr::slice_max(area, n = 2, by = Tipo) |>
-  dplyr::select(ID, Tipo, Espécie)
+  dplyr::distinct(ID, .keep_all = TRUE) |>
+  dplyr::mutate(outlier = dplyr::case_when(
+
+    area > (area_summay[[5]] + 1.5 * (area_summay[[5]] - area_summay[[3]])) | area < (area_summay[[3]] - 1.5 * (area_summay[[5]] - area_summay[[3]])) ~ "Sim",
+    .default = "Não"
+
+    )) |>
+  dplyr::filter(outlier == "Sim") |>
+  dplyr::pull(ID)
 
 id_ri_rem
 
