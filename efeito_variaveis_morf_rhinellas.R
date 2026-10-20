@@ -856,7 +856,7 @@ tabela_flex_icterica |>
 
 area_mof_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica" &
-                  ID %notin% id_ri_rem$ID) |>
+                  ID %notin% id_ri_rem) |>
   tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
                       names_to = "Preditor",
                       values_to = "Predictor value") |>
