@@ -1677,16 +1677,16 @@ tabela_flex_tort <- purrr::map_dfr(
   )) |>
   dplyr::mutate(Species = c("Rhinella crucifer",
                             "Rhinella icterica") |>
-                  rep(each = 2),
+                  rep(each = 5),
                 .before = 1) |>
   as.data.frame() |>
   dplyr::mutate(rowname = dplyr::case_when(
 
     rowname == "peso" ~ "Body mass (g)",
-    rowname == "Proporção CMP" ~ "Posterior Limb proportion",
-    rowname == "Umidade Relativa -máxima" ~ "Max relative precipitation (mm)",
-    rowname == "Temperatura máxima" ~ "Max temperature (°C)",
-    rowname == "Temperatura mínima" ~ "Min temperature (°C)"
+    rowname == "proporcao_cmp" ~ "Posterior Limb proportion",
+    rowname == "umidade_relativa_maxima" ~ "Max relative precipitation (mm)",
+    rowname == "temperatura_maxima" ~ "Max temperature (°C)",
+    rowname == "temperatura_minima" ~ "Min temperature (°C)"
 
   ),
   Estimate = Estimate |> round(3),
@@ -1704,14 +1704,17 @@ tabela_flex_tort <- purrr::map_dfr(
                    part = "all") |>
   flextable::width(j = 1, width = 1.5) |>
   flextable::width(j = 3, width = 1.25) |>
-  flextable::italic(j = 1, part = "body")
+  flextable::italic(j = 1, part = "body") |>
+  flextable::bg(i = ~abs(z) > 1.833113 &
+                  readr::parse_number(p) < 0.05,
+                bg = "gray")
 
 tabela_flex_tort
 
 tabela_flex_tort |>
-  flextable::save_as_docx(path = "tabela_sts_morf_tort_rhinella.docx")
+  flextable::save_as_docx(path = "tabela_tort_rhinella.docx")
 
-"tabela_sts_morf_tort_rhinella.docx" |>
+"tabela_tort_rhinella.docx" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "tabela_sts_morf_tort_rhinella.docx",
+                            name = "tabela_tort_rhinella.docx",
                             overwrite = TRUE)
