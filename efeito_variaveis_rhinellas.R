@@ -1420,13 +1420,16 @@ tabela_flex_traj <- purrr::map_dfr(
   )) |>
   dplyr::mutate(Species = c("Rhinella crucifer",
                             "Rhinella icterica") |>
-                  rep(each = 2),
+                  rep(each = 5),
                 .before = 1) |>
   as.data.frame() |>
   dplyr::mutate(term = dplyr::case_when(
 
     term == "peso" ~ "Body mass (g)",
-    .default = "Posterior Limb proportion"
+    term == "proporcao_cmp" ~ "Posterior Limb proportion",
+    term == "umidade_relativa_maxima" ~ "Max relative precipitation (mm)",
+    term == "temperatura_maxima" ~ "Max temperature (°C)",
+    term == "temperatura_minima" ~ "Min temperature (°C)"
 
   ),
   estimate = estimate |> round(4),
@@ -1449,11 +1452,11 @@ tabela_flex_traj <- purrr::map_dfr(
 tabela_flex_traj
 
 tabela_flex_traj |>
-  flextable::save_as_docx(path = "tabela_sts_morf_traj_rhinella.docx")
+  flextable::save_as_docx(path = "tabela_sts_traj_rhinella.docx")
 
-"tabela_sts_morf_traj_rhinella.docx" |>
+"tabela_sts_traj_rhinella.docx" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "tabela_sts_morf_traj_rhinella.docx",
+                            name = "tabela_sts_traj_rhinella.docx",
                             overwrite = TRUE)
 
 ### Gráfico ----
