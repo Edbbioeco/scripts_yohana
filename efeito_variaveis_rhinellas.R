@@ -1086,11 +1086,11 @@ tabela_flex_rm <- purrr::map_dfr(
 tabela_flex_rm
 
 tabela_flex_rm |>
-  flextable::save_as_docx(path = "tabela_sts_rhinella_rm.docx")
+  flextable::save_as_docx(path = "tabela_area_rhinella_rm.docx")
 
 "tabela_sts_rhinella_rm.docx" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "tabela_sts_rhinella_rm.docx",
+                            name = "tabela_area_rhinella_rm.docx",
                             overwrite = TRUE)
 
 #### Gráfico ----
