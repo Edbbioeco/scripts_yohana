@@ -845,11 +845,11 @@ tabela_flex_icterica <- purrr::map_dfr(
 tabela_flex_icterica
 
 tabela_flex_icterica |>
-  flextable::save_as_docx(path = "tabela_sts_morf_rhinella_cterica.docx")
+  flextable::save_as_docx(path = "tabela_sts_morf_rhinella_icterica.docx")
 
-"tabela_sts_morf_rhinella_cterica.docx" |>
+"tabela_sts_morf_rhinella_icterica.docx" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "tabela_sts_morf_rhinella_cterica.docx",
+                            name = "tabela_sts_morf_rhinella_icterica.docx",
                             overwrite = TRUE)
 
 #### Gráfico ----
