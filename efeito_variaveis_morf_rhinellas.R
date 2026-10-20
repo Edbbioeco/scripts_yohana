@@ -1266,3 +1266,64 @@ ggsave(filename = "efeito_morf_traj.png",
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "efeito_morf_traj.png",
                             overwrite = TRUE)
+
+## Tortuosidade ----
+
+### Identificar outliers ----
+
+medias_tortuosidade <- area_mof_rhinella |>
+  dplyr::distinct(ID, .keep_all = TRUE) |>
+  dplyr::summarise(sd = tortuosidade |> sd(),
+                   tortuosidade = tortuosidade |> mean(),
+                   .by = c(Espécie, Tipo))
+
+medias_tortuosidade
+
+area_mof_rhinella |>
+  dplyr::distinct(ID, .keep_all = TRUE) |>
+  ggplot(aes(Espécie, tortuosidade)) +
+  ggbeeswarm::geom_quasirandom(color = "black",
+                               size = 7,
+                               width = 0.25,
+                               stroke = 1.5) +
+  geom_errorbar(data = medias_tortuosidade,
+                aes(x = Espécie, y = tortuosidade,
+                    ymin = tortuosidade - sd, ymax = tortuosidade + sd,
+                    group = Tipo),
+                linewidth = 1.25,
+                width = 0.35,
+                color = "blue") +
+  geom_point(data = medias_tortuosidade,
+             aes(x = Espécie, y = tortuosidade),
+             size = 7,
+             show.legend = FALSE,
+             color = "red") +
+  labs(x = "Species",
+       y = "Tortuosity index",
+       fill = NULL) +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.text.x = element_text(face = "italic"),
+        axis.title = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(color = "black", size = 20),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1))
+
+ggsave(filename = "dispersao_tortuosidade.png",
+       height = 12,
+       width = 12)
+
+"dispersao_tortuosidade.png" |>
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
+                            name = "dispersao_tortuosidade.png",
+                            overwrite = TRUE)
+
+id_ri_rem_tort <- area_mof_rhinella |>
+  dplyr::filter(Espécie == "Rhinella icterica") |>
+  dplyr::slice_max(tortuosidade, n = 1, by = Tipo) |>
+  dplyr::select(ID, Tipo, Espécie) |>
+  dplyr::pull(ID) |>
+  unique()
+
+id_ri_rem_tort
