@@ -1118,7 +1118,8 @@ vars_rhinella |>
                      dplyr::rename("Espécie" = 1,
                                    "Tipo" = 2,
                                    "Preditor" = 3) |>
-                     dplyr::mutate(Tipo = paste0("KDE ", Tipo)) |>
+                     dplyr::mutate(Tipo = paste0("KDE ", Tipo),
+                                   p = p |> readr::parse_number()) |>
                      dplyr::select(1, 2, 3, 5, 6),
                    by = c("Espécie", "Tipo", "Preditor")) |>
   ggplot(aes(area, `Predictor value`, color = Tipo, fill = Tipo)) +
