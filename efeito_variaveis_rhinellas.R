@@ -451,7 +451,7 @@ ggsave(filename = "multicolinearidade_amb_rhinella.png",
 
 ## unir os dados ----
 
-area_mof_rhinella <- area_rhinella |>
+vars_rhinella <- area_rhinella |>
   sf::st_drop_geometry() |>
   dplyr::rename("ID" = Indivíduo) |>
   dplyr::select(ID, Tipo, area) |>
@@ -463,7 +463,7 @@ area_mof_rhinella <- area_rhinella |>
   dplyr::left_join(tort_traj_rhinella,
                    by = "ID")
 
-area_mof_rhinella
+vars_rhinella
 
 ## Áreas de KDE ----
 
@@ -488,7 +488,7 @@ modelos_lm <- purrr::pmap(
           as.formula()
 
     lm(formula,
-       data = area_mof_rhinella |>
+       data = vars_rhinella |>
          dplyr::filter(Espécie == sps &
                          Tipo == kde) |>
          janitor::clean_names())
@@ -553,20 +553,20 @@ modelos_glm <- purrr::pmap(
 
     tryCatch(
       glm(formula,
-          data = area_mof_rhinella |>
+          data = vars_rhinella |>
             dplyr::filter(Espécie == sps &
                             Tipo == kde) |>
             janitor::clean_names(),
           family = Gamma(link = "log")),
       error = \(e){
         glm(formula,
-            data = area_mof_rhinella |>
+            data = vars_rhinella |>
               dplyr::filter(Espécie == sps &
                               Tipo == kde) |>
               janitor::clean_names(),
             family = Gamma(link = "log"),
             start = lm(formula,
-                       data = area_mof_rhinella |>
+                       data = vars_rhinella |>
                          dplyr::filter(Espécie == sps &
                                          Tipo == kde) |>
                          janitor::clean_names()) |>
@@ -742,7 +742,7 @@ tabela_flex |>
 
 #### Rhinella crucifer ----
 
-area_mof_rhinella |>
+vars_rhinella |>
   dplyr::filter(Espécie == "Rhinella crucifer") |>
   tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
                       names_to = "Preditor",
@@ -781,7 +781,7 @@ ggsave(filename = "efeito_morf_rhinella_crucifer.png",
 
 #### Rhinella icterica ----
 
-area_mof_rhinella |>
+vars_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica") |>
   tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
                       names_to = "Preditor",
@@ -818,14 +818,14 @@ ggsave(filename = "efeito_morf_rhinella_icterica.png",
 
 #### Identifcar os outliers ----
 
-medias_areas <- area_mof_rhinella |>
+medias_areas <- vars_rhinella |>
   dplyr::summarise(sd = area |> sd(),
                    area = area |> mean(),
                    .by = c(Espécie, Tipo))
 
 medias_areas
 
-area_mof_rhinella |>
+vars_rhinella |>
   ggplot(aes(Espécie, area, fill = Tipo)) +
   ggbeeswarm::geom_quasirandom(shape = 21, color = "black", size = 7,
                                dodge.width = 0.7,
@@ -864,7 +864,7 @@ ggsave(filename = "dispersao_area_de_vida.png",
                             name = "dispersao_area_de_vida.png",
                             overwrite = TRUE)
 
-id_ri_rem <- area_mof_rhinella |>
+id_ri_rem <- vars_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica") |>
   dplyr::slice_max(area, n = 2, by = Tipo) |>
   dplyr::select(ID, Tipo, Espécie) |>
@@ -887,7 +887,7 @@ modelos_glm_rm <- purrr::pmap(
 
     tryCatch(
       glm(formula,
-          data = area_mof_rhinella |>
+          data = vars_rhinella |>
             dplyr::filter(Espécie == "Rhinella icterica" &
                             Tipo == kde &
                             ID %notin% id_ri_rem) |>
@@ -896,14 +896,14 @@ modelos_glm_rm <- purrr::pmap(
       error = \(e){
 
         glm(formula,
-            data = area_mof_rhinella |>
+            data = vars_rhinella |>
               dplyr::filter(Espécie == "Rhinella icterica" &
                               Tipo == kde &
                               ID %notin% id) |>
               janitor::clean_names(),
             family = Gamma(link = "log"),
             start = lm(formula,
-                       data = area_mof_rhinella |>
+                       data = vars_rhinella |>
                          dplyr::filter(Espécie == "Rhinella icterica" &
                                          Tipo == kde &
                                          ID %notin% id) |>
@@ -1049,7 +1049,7 @@ tabela_flex_icterica |>
 
 #### Gráfico ----
 
-area_mof_rhinella |>
+vars_rhinella |>
   dplyr::filter(ID %notin% id_ri_rem) |>
   tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
                       names_to = "Preditor",
@@ -1098,7 +1098,7 @@ ggsave(filename = "efeito_morf_rhinella_icterica_rm.png",
 
 ### Identificar outliers ----
 
-medias_trajeto <- area_mof_rhinella |>
+medias_trajeto <- vars_rhinella |>
   dplyr::distinct(ID, .keep_all = TRUE) |>
   dplyr::summarise(sd = trajeto_percorrido |> sd(),
                    trajeto_percorrido = trajeto_percorrido |> mean(),
@@ -1106,7 +1106,7 @@ medias_trajeto <- area_mof_rhinella |>
 
 medias_trajeto
 
-area_mof_rhinella |>
+vars_rhinella |>
   dplyr::distinct(ID, .keep_all = TRUE) |>
   ggplot(aes(Espécie, trajeto_percorrido)) +
   ggbeeswarm::geom_quasirandom(color = "black",
@@ -1146,7 +1146,7 @@ ggsave(filename = "dispersao_trajeto.png",
                             name = "dispersao_trajeto.png",
                             overwrite = TRUE)
 
-id_ri_rem_traj <- area_mof_rhinella |>
+id_ri_rem_traj <- vars_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica") |>
   dplyr::slice_max(trajeto_percorrido, n = 2, by = Tipo) |>
   dplyr::select(ID, Tipo, Espécie) |>
@@ -1170,7 +1170,7 @@ modelos_lm_traj <- purrr::pmap(
       as.formula()
 
     lm(formula,
-       data = area_mof_rhinella |>
+       data = vars_rhinella |>
          dplyr::filter(Espécie == sps &
                          ID %notin% id_ri_rem_traj) |>
          janitor::clean_names())
@@ -1222,7 +1222,7 @@ modelos_glm_traj <- purrr::pmap(
       as.formula()
 
     glm(formula,
-        data = area_mof_rhinella |>
+        data = vars_rhinella |>
           dplyr::filter(Espécie == sps &
                           ID %notin% id_ri_rem_traj) |>
           janitor::clean_names(),
@@ -1378,7 +1378,7 @@ tabela_flex_traj |>
 
 ### Gráfico ----
 
-area_mof_rhinella |>
+vars_rhinella |>
   dplyr::filter(ID %notin% id_ri_rem_traj) |>
   tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
                       names_to = "Preditor",
@@ -1420,7 +1420,7 @@ ggsave(filename = "efeito_morf_traj.png",
 
 ### Identificar outliers ----
 
-medias_tortuosidade <- area_mof_rhinella |>
+medias_tortuosidade <- vars_rhinella |>
   dplyr::distinct(ID, .keep_all = TRUE) |>
   dplyr::summarise(sd = tortuosidade |> sd(),
                    tortuosidade = tortuosidade |> mean(),
@@ -1428,7 +1428,7 @@ medias_tortuosidade <- area_mof_rhinella |>
 
 medias_tortuosidade
 
-area_mof_rhinella |>
+vars_rhinella |>
   dplyr::distinct(ID, .keep_all = TRUE) |>
   ggplot(aes(Espécie, tortuosidade)) +
   ggbeeswarm::geom_quasirandom(color = "black",
@@ -1468,7 +1468,7 @@ ggsave(filename = "dispersao_tortuosidade.png",
                             name = "dispersao_tortuosidade.png",
                             overwrite = TRUE)
 
-id_ri_rem_tort <- area_mof_rhinella |>
+id_ri_rem_tort <- vars_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica") |>
   dplyr::slice_max(tortuosidade, n = 1, by = Tipo) |>
   dplyr::select(ID, Tipo, Espécie) |>
@@ -1490,7 +1490,7 @@ modelos_glm_tort <- purrr::pmap(
       as.formula()
 
     glmmTMB::glmmTMB(formula,
-                     data = area_mof_rhinella |>
+                     data = vars_rhinella |>
                        dplyr::filter(Espécie == sps &
                                        ID %notin% id_ri_rem_traj) |>
                        janitor::clean_names(),
