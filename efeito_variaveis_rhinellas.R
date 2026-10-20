@@ -1677,7 +1677,10 @@ tabela_flex_tort <- purrr::map_dfr(
   dplyr::mutate(rowname = dplyr::case_when(
 
     rowname == "peso" ~ "Body mass (g)",
-    .default = "Posterior Limb proportion"
+    rowname == "Proporção CMP" ~ "Posterior Limb proportion",
+    rowname == "Umidade Relativa -máxima" ~ "Max relative precipitation (mm)",
+    rowname == "Temperatura máxima" ~ "Max temperature (°C)",
+    rowname == "Temperatura mínima" ~ "Min temperature (°C)"
 
   ),
   Estimate = Estimate |> round(3),
