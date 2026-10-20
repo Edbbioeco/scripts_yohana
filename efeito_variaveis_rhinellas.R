@@ -1723,7 +1723,6 @@ tabela_flex_tort |>
 
 ### Gráfico ----
 
-
 vars_rhinella |>
   dplyr::filter(ID %notin% id_ri_rem_traj) |>
   tidyr::pivot_longer(cols = c(peso,
