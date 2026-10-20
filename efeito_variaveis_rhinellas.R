@@ -692,16 +692,19 @@ tabela_flex <- purrr::map_dfr(
   )) |>
   dplyr::mutate(Species = c("Rhinella crucifer",
                           "Rhinella icterica") |>
-                  rep(each = 4),
+                  rep(each = 10),
                 KDE = c("50%", "95%") |>
-                  rep(each = 2) |>
-                  rep(2),
+                  rep(2) |>
+                  rep(5),
                 .before = 1) |>
   as.data.frame() |>
   dplyr::mutate(term = dplyr::case_when(
 
     term == "peso" ~ "Body mass (g)",
-    .default = "Posterior Limb proportion"
+    term == "proporcao_cmp" ~ "Posterior Limb proportion",
+    term == "umidade_relativa_maxima" ~ "Max relative precipitation (mm)",
+    term == "temperatura_maxima" ~ "Max temperature (°C)",
+    term == "temperatura_minima" ~ "Min temperature (°C)"
 
     ),
                 estimate = estimate |> round(2),
@@ -721,7 +724,9 @@ tabela_flex <- purrr::map_dfr(
   flextable::width(j = 3, width = 1.25) |>
   flextable::width(j = 4, width = 1.5) |>
   flextable::width(j = 7, width = 1.5) |>
-  flextable::italic(j = 1, part = "body")
+  flextable::italic(j = 1, part = "body") |>
+  flextable::bg(i = ~abs(t) > 1.833113,
+                bg = "gray")
 
 tabela_flex
 
