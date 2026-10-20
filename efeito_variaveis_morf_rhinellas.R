@@ -891,6 +891,17 @@ ggsave(filename = "efeito_morf_rhinella_icterica_rm.png",
 
 ## Comprimento do trajeto ----
 
+### Identificar outliers ----
+
+id_ri_rem_traj <- area_mof_rhinella |>
+  dplyr::filter(Espécie == "Rhinella icterica") |>
+  dplyr::slice_max(trajeto_percorrido, n = 2, by = Tipo) |>
+  dplyr::select(ID, Tipo, Espécie) |>
+  dplyr::pull(ID) |>
+  unique()
+
+id_ri_rem_traj
+
 ### LM ----
 
 #### Criar modelos ----
