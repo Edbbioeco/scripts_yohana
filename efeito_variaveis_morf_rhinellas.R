@@ -363,7 +363,6 @@ modelos_lm <- purrr::pmap(
 
     },
   .progress = TRUE) |>
-  purrr::flatten() |>
   setNames(tidyr::expand_grid(sps = c("Rhinella crucifer",
                                       "Rhinella icterica"),
                               kde = c("KDE 50%",
