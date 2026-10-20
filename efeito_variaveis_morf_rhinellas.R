@@ -1386,3 +1386,67 @@ purrr::imap_dfr(
 
   },
   .progress = TRUE)
+
+### Tabela dos valores ----
+
+tabela_flex_tort <- purrr::map_dfr(
+  modelos_glm_tort,
+  \(modelo){
+
+    modelo |>
+      summary() %>%
+      .$coefficients %>%
+      .$cond |>
+      as.data.frame() |>
+      tibble::rownames_to_column() |>
+      dplyr::mutate(R2 = modelo |>
+                      performance::r2_ferrari(adjust = TRUE) |>
+                      as.numeric() |>
+                      round(3))
+
+  },
+  .progress = TRUE) |>
+  dplyr::filter(!rowname |> stringr::str_detect("Intercept")) |>
+  dplyr::mutate(`Pr(>|z|)` = dplyr::case_when(
+
+    `Pr(>|z|)` < 0.01 ~ "< 0.01",
+    .default = `Pr(>|z|)` |> round(2) |> as.character()
+
+  )) |>
+  dplyr::mutate(Species = c("Rhinella crucifer",
+                            "Rhinella icterica") |>
+                  rep(each = 2),
+                .before = 1) |>
+  as.data.frame() |>
+  dplyr::mutate(rowname = dplyr::case_when(
+
+    rowname == "peso" ~ "Body mass (g)",
+    .default = "Posterior Limb proportion"
+
+  ),
+  Estimate = Estimate |> round(3),
+  `Std. Error` = `Std. Error` |> round(4),
+  `z value` = `z value` |> round(2)) |>
+  dplyr::rename("Predictor" = 2,
+                "z" = 5,
+                "p" = 6,
+                "pseudo-R²" = 7) |>
+  tidyr::unite(3:4,
+               sep = " ± ",
+               col = "β1 ± SE") |>
+  flextable::flextable() |>
+  flextable::align(align = "center",
+                   part = "all") |>
+  flextable::width(j = 1, width = 1.5) |>
+  flextable::width(j = 3, width = 1.25) |>
+  flextable::italic(j = 1, part = "body")
+
+tabela_flex_tort
+
+tabela_flex_tort |>
+  flextable::save_as_docx(path = "tabela_sts_morf_tort_rhinella.docx")
+
+"tabela_sts_morf_tort_rhinella.docx" |>
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
+                            name = "tabela_sts_morf_tort_rhinella.docx",
+                            overwrite = TRUE)
