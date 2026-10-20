@@ -867,8 +867,7 @@ area_mof_rhinella |>
   ggplot(aes(area, `Predictor value`)) +
   geom_point(size = 5) +
   geom_smooth(data = . %>%
-                dplyr::filter(Preditor == "Body mass (g)" &
-                                Tipo == "KDE 95%"),
+                dplyr::filter(Preditor == "Body mass (g)"),
               method = "lm",
               se = FALSE) +
   ggh4x::facet_grid2(Tipo ~ Preditor,
