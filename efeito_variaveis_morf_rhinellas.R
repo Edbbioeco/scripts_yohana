@@ -1165,7 +1165,7 @@ ggsave(filename = "efeito_morf_rhinella_crucifer_traj.png",
 
 area_mof_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica" &
-                  ID %notin% c("RI2", "RI3")) |>
+                  ID %notin% id_ri_rem_traj) |>
   tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
                       names_to = "Preditor",
                       values_to = "Predictor value") |>
