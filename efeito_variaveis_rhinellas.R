@@ -1756,7 +1756,7 @@ vars_rhinella |>
   ggh4x::facet_grid2(Preditor ~ Espécie,
                      scales = "free",
                      independent = "all") +
-  labs(y = "Runned traject (m)") +
+  labs(y = "Tortuosity index") +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.title = element_text(color = "black", size = 20),
