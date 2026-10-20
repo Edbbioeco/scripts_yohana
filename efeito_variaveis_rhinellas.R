@@ -376,6 +376,79 @@ ggsave(filename = "multicolinearidade_morf_rhinella.png",
                             name = "multicolinearidade_morf_rhinella.png",
                             overwrite = TRUE)
 
+### Dados ambientais ----
+
+cor_rhinellas <- purrr::map_dfr(
+  c("Rhinella crucifer",
+    "Rhinella icterica"),
+  \(sps){
+
+    cor_mat <- amb_trat |>
+      dplyr::filter(Espécie == sps) |>
+      dplyr::select_if(is.numeric) |>
+      cor(method = "spearman") |>
+      as.matrix()
+
+    cor_mat[upper.tri(cor_mat)] <- NA
+
+    cor_mat |>
+      reshape2::melt() |>
+      tidyr::drop_na() |>
+      dplyr::filter(Var1 != Var2) |>
+      dplyr::mutate(value = value |> round(2),
+                    Espécie = sps)
+
+  },
+  .progress = TRUE)
+
+cor_rhinellas
+
+cor_rhinellas |>
+  ggplot(aes(Var1, Var2, fill = value, label = value)) +
+  geom_tile(color = "black", linewidth = 1) +
+  geom_text(size = 8) +
+  labs(x = NULL,
+       y = NULL,
+       fill = "Spearman correlation") +
+  coord_equal() +
+  facet_wrap(~Espécie) +
+  scale_fill_gradientn(colours = c(viridis::viridis(n = 10) |> rev(),
+                                   viridis::viridis(n = 10)),
+                       limits = c(-1, 1),
+                       guide = guide_colourbar(
+
+                         title.position = "top",
+                         title.hjust = 0.5,
+                         frame.colour = "black",
+                         ticks.colour = "black",
+                         ticks.linewidth = 0.75,
+                         barwidth = 30,
+                         barheight = 1.5
+
+                       )) +
+  theme_bw() +
+  theme(aspect.ratio = 1,
+        axis.text = element_text(color = "black", size = 20),
+        axis.text.x = element_text(angle = 90,
+                                   hjust = 1, vjust = 0.5),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(color = "black", size = 20),
+        legend.position = "bottom",
+        strip.text = element_text(color = "black", size = 30,
+                                  face = "italic"),
+        strip.background = element_rect(color = "black",
+                                        linewidth = 1.5),
+        panel.border = element_rect(color = "black", linewidth = 1.5))
+
+ggsave(filename = "multicolinearidade_amb_rhinella.png",
+       height = 12,
+       width = 16)
+
+"multicolinearidade_amb_rhinella.png" |>
+  googledrive::drive_upload(media = _,
+                            name = "multicolinearidade_amb_rhinella.png",
+                            overwrite = TRUE)
+
 ## unir os dados ----
 
 area_mof_rhinella <- area_rhinella |>
