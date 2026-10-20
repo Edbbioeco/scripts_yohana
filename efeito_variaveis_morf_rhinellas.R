@@ -1327,3 +1327,32 @@ id_ri_rem_tort <- area_mof_rhinella |>
   unique()
 
 id_ri_rem_tort
+
+### Criar os modelos ----
+
+modelos_glm_tort <- purrr::pmap(
+  tidyr::expand_grid(
+    sps = c("Rhinella crucifer",
+            "Rhinella icterica"),
+    var = c("peso", "proporcao_cmp")),
+  \(sps, var){
+
+    formula <- paste0("tortuosidade ~ ", var) |>
+      as.formula()
+
+    glmmTMB::glmmTMB(formula,
+                     data = area_mof_rhinella |>
+                       dplyr::filter(Espécie == sps &
+                                       ID %notin% id_ri_rem_traj) |>
+                       janitor::clean_names(),
+                     family = glmmTMB::beta_family())
+
+  },
+  .progress = TRUE) |>
+  setNames(tidyr::expand_grid(sps = c("Rhinella crucifer",
+                                      "Rhinella icterica"),
+                              var = c("peso", "proporcao_cmp")) |>
+             dplyr::mutate(mod = paste(sps, var, sep = "_")) |>
+             dplyr::pull(mod))
+
+modelos_glm_tort
