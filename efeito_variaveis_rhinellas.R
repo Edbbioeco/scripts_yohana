@@ -455,7 +455,10 @@ area_mof_rhinella <- area_rhinella |>
   sf::st_drop_geometry() |>
   dplyr::rename("ID" = Indivíduo) |>
   dplyr::select(ID, Tipo, area) |>
-  dplyr::left_join(morf,
+  dplyr::left_join(amb_trat,
+                   by = "ID") |>
+  dplyr::left_join(morf |>
+                     dplyr::select(-Espécie),
                    by = "ID") |>
   dplyr::left_join(tort_traj_rhinella,
                    by = "ID")
