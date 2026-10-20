@@ -1368,3 +1368,21 @@ purrr::map(
 
   },
   .progress = TRUE)
+
+## Estatísticas dos modelos ----
+
+purrr::imap_dfr(
+  modelos_glm_traj,
+  \(modelo, id){
+
+    modelo |>
+      summary() %>%
+      .$coefficient |>
+      as.data.frame() |>
+      dplyr::mutate(mod = id) |>
+      tibble::rownames_to_column() |>
+      dplyr::filter(!rowname |> stringr::str_detect("Intercept")) |>
+      print()
+
+  },
+  .progress = TRUE)
