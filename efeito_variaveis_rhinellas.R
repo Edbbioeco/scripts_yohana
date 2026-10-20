@@ -1463,20 +1463,34 @@ tabela_flex_traj |>
 
 vars_rhinella |>
   dplyr::filter(ID %notin% id_ri_rem_traj) |>
-  tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
+  tidyr::pivot_longer(cols = c(peso,
+                               `Proporção CMP`,
+                               `Umidade Relativa -máxima`,
+                               `Temperatura máxima`,
+                               `Temperatura mínima`),
                       names_to = "Preditor",
                       values_to = "Predictor value") |>
   dplyr::mutate(Preditor  = dplyr::case_when(
 
     Preditor == "peso" ~ "Body mass (g)",
-    .default = "Posterior Limb proportion")) |>
+    Preditor == "Proporção CMP" ~ "Posterior Limb proportion",
+    Preditor == "Umidade Relativa -máxima" ~ "Max relative precipitation (mm)",
+    Preditor == "Temperatura máxima" ~ "Max temperature (°C)",
+    Preditor == "Temperatura mínima" ~ "Min temperature (°C)"
+    )) |>
+  dplyr::left_join(tabela_flex_traj$body$dataset |>
+                     dplyr::rename("Espécie" = 1,
+                                   "Preditor" = 2) |>
+                     dplyr::select(1, 2, 4, 5),
+                   by = c("Espécie", "Preditor")) |>
   ggplot(aes(`Predictor value`, trajeto_percorrido)) +
   geom_point(size = 5) +
   geom_smooth(data = . %>%
-                dplyr::filter(Preditor == "Body mass (g)"),
+                dplyr::filter(abs(t) > 1.833113 &
+                                p < 0.05),
               method = "glm",
               se = FALSE) +
-  ggh4x::facet_grid2(Espécie ~ Preditor,
+  ggh4x::facet_grid2(Preditor ~ Espécie,
                      scales = "free",
                      independent = "all") +
   labs(y = "Runned traject (m)") +
@@ -1488,15 +1502,16 @@ vars_rhinella |>
         legend.position = "bottom",
         panel.border = element_rect(color = "black", linewidth = 1),
         strip.text = element_text(color = "black", size = 30),
-        strip.text.y.right = element_text(face = "italic"))
+        strip.text.y.right = element_text(color = "black", size = 16),
+        strip.text.x.top = element_text(face = "italic"))
 
-ggsave(filename = "efeito_morf_traj.png",
-       height = 12,
-       width = 16)
+ggsave(filename = "efeito_traj_rhinella.png",
+       height = 20,
+       width = 14)
 
-"efeito_morf_traj.png" |>
+"efeito_traj_rhinella.png" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "efeito_morf_traj.png",
+                            name = "efeito_traj_rhinella.png",
                             overwrite = TRUE)
 
 ## Tortuosidade ----
