@@ -969,11 +969,13 @@ area_mof_rhinella |>
                     ymin = trajeto_percorrido - sd, ymax = trajeto_percorrido + sd,
                     group = Tipo),
                 linewidth = 1.25,
-                width = 0.35,) +
+                width = 0.35,
+                color = "blue") +
   geom_point(data = medias_trajeto,
              aes(x = Espécie, y = trajeto_percorrido),
-             size = 5,
-             show.legend = FALSE) +
+             size = 7,
+             show.legend = FALSE,
+             color = "red") +
   labs(x = "Species",
        y = "Runned traject (m)",
        fill = NULL) +
