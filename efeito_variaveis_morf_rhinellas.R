@@ -1356,3 +1356,15 @@ modelos_glm_tort <- purrr::pmap(
              dplyr::pull(mod))
 
 modelos_glm_tort
+
+### Avaliar os modelos ----
+
+purrr::map(
+  modelos_glm_tort,
+  \(modelo){
+
+    modelo |>
+      DHARMa::simulateResiduals(plot = TRUE)
+
+  },
+  .progress = TRUE)
