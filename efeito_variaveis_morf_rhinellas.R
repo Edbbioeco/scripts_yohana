@@ -964,9 +964,9 @@ purrr::map(
   },
   .progress = TRUE)
 
-## GLM ----
+### GLM ----
 
-### Criar modelos ----
+#### Criar modelos ----
 
 modelos_glm_traj <- purrr::pmap(
   tidyr::expand_grid(
@@ -1172,3 +1172,4 @@ ggsave(filename = "efeito_morf_traj.png",
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "efeito_morf_traj.png",
                             overwrite = TRUE)
+
