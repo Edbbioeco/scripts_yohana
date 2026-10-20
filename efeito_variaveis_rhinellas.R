@@ -180,6 +180,12 @@ Sys.getenv("pasta_artigo_rhinella") |>
 
 amb <- readxl::read_xlsx("./DADOS AMBIENTAIS COM AS 6 ESPÉCIES INDIVIDUAIS.xlsx")
 
+### Visualizar ----
+
+amb
+
+amb |> dplyr::glimpse()
+
 # Modelos lineares ----
 
 ## Calcular área de vida ----
