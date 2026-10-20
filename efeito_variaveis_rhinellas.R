@@ -186,6 +186,22 @@ amb
 
 amb |> dplyr::glimpse()
 
+### Calcular valores médios das variáveis ambientais para as espécies de Rhinella ----
+
+amb_trat <- amb |>
+  dplyr::summarise(dplyr::across(.cols = dplyr::where(is.numeric),
+                                 .fns = ~.x |> mean()),
+                   .by = INDIVIDUO) |>
+  dplyr::rename("ID" = 1) |>
+  dplyr::filter(ID |> stringr::str_detect("^R")) |>
+  dplyr::mutate(Espécie = dplyr::case_when(
+
+    ID |> stringr::str_detect("RI") ~ "Rhinella icterica",
+    .default = "Rhinella crucifer"
+  ))
+
+amb_trat
+
 # Modelos lineares ----
 
 ## Calcular área de vida ----
