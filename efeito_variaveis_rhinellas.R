@@ -371,6 +371,11 @@ ggsave(filename = "multicolinearidade_morf_rhinella.png",
        height = 12,
        width = 16)
 
+"multicolinearidade_morf_rhinella.png" |>
+  googledrive::drive_upload(media = _,
+                            name = "multicolinearidade_morf_rhinella.png",
+                            overwrite = TRUE)
+
 ## unir os dados ----
 
 area_mof_rhinella <- area_rhinella |>
