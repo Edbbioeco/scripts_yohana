@@ -1097,28 +1097,45 @@ tabela_flex_rm |>
 
 vars_rhinella |>
   dplyr::filter(ID %notin% id_ri_rem) |>
-  tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
+  tidyr::pivot_longer(cols = c(peso,
+                               `Proporção CMP`,
+                               `Umidade Relativa -máxima`,
+                               `Temperatura máxima`,
+                               `Temperatura mínima`),
                       names_to = "Preditor",
                       values_to = "Predictor value") |>
   dplyr::mutate(Preditor  = dplyr::case_when(
 
     Preditor == "peso" ~ "Body mass (g)",
-    .default = "Posterior Limb proportion")) |>
+    Preditor == "Proporção CMP" ~ "Posterior Limb proportion",
+    Preditor == "Umidade Relativa -máxima" ~ "Max relative precipitation (mm)",
+    Preditor == "Temperatura máxima" ~ "Max temperature (°C)",
+    Preditor == "Temperatura mínima" ~ "Min temperature (°C)"
+
+    ),
+    area = area |> log()) |>
+  dplyr::left_join(tabela_flex_rm$body$dataset |>
+                     dplyr::rename("Espécie" = 1,
+                                   "Tipo" = 2,
+                                   "Preditor" = 3) |>
+                     dplyr::mutate(Tipo = paste0("KDE ", Tipo)) |>
+                     dplyr::select(1, 2, 3, 5),
+                   by = c("Espécie", "Tipo", "Preditor")) |>
   ggplot(aes(area, `Predictor value`, color = Tipo, fill = Tipo)) +
   geom_point(size = 5,
              shape = 21,
              color = "black",
              stroke = 1.5) +
   geom_smooth(data = . %>%
-                dplyr::filter(Preditor == "Body mass (g)"),
+                dplyr::filter(abs(t) > 1.883),
               method = "lm",
               se = FALSE) +
-  ggh4x::facet_grid2(Espécie ~ Preditor,
+  ggh4x::facet_grid2(Preditor ~ Espécie,
                      scales = "free",
                      independent = "all") +
   scale_color_manual(values = c("orange4", "royalblue4")) +
   scale_fill_manual(values = c("orange", "royalblue")) +
-  labs(x = "Area (m²)",
+  labs(x = "Log 10 Area (m²)",
        color = NULL,
        fill = NULL) +
   theme_bw() +
@@ -1129,15 +1146,16 @@ vars_rhinella |>
         legend.position = "bottom",
         panel.border = element_rect(color = "black", linewidth = 1),
         strip.text = element_text(color = "black", size = 30),
-        strip.text.y.right = element_text(face = "italic"))
+        strip.text.x.top = element_text(face = "italic"),
+        strip.text.y.right = element_text(size = 16.5))
 
-ggsave(filename = "efeito_morf_rhinella_icterica_rm.png",
-       height = 12,
-       width = 16)
+ggsave(filename = "efeito_area_rhinella_rm.png",
+       height = 20,
+       width = 14)
 
-"efeito_morf_rhinella_icterica_rm.png" |>
+"efeito_area_rhinella_rm.png" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "efeito_morf_rhinella_icterica_rm.png",
+                            name = "efeito_area_rhinella_rm.png",
                             overwrite = TRUE)
 
 ## Comprimento do trajeto ----
