@@ -795,15 +795,30 @@ ggsave(filename = "efeito_morf_rhinella_crucifer.png",
 
 vars_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica") |>
-  tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
-                      names_to = "Preditor",
-                      values_to = "Predictor value") |>
+  tidyr::pivot_longer(cols = c(peso,
+                               `Proporção CMP`,
+                               `Umidade Relativa -máxima`,
+                               `Temperatura máxima`,
+                               `Temperatura mínima`
+  ),
+  names_to = "Preditor",
+  values_to = "Predictor value") |>
   dplyr::mutate(Preditor  = dplyr::case_when(
 
     Preditor == "peso" ~ "Body mass (g)",
-    .default = "Posterior Limb proportion")) |>
+    Preditor == "Proporção CMP" ~ "Posterior Limb proportion",
+    Preditor == "Umidade Relativa -máxima" ~ "Max relative precipitation (mm)",
+    Preditor == "Temperatura máxima" ~ "Max temperature (°C)",
+    Preditor == "Temperatura mínima" ~ "Min temperature (°C)"
+
+  )) |>
   ggplot(aes(area, `Predictor value`)) +
   geom_point(size = 5) +
+  geom_smooth(data = . %>%
+                dplyr::filter(Preditor %in% c("Body mass (g)",
+                                              "Min temperature (°C)")),
+              method = "lm",
+              se = FALSE) +
   ggh4x::facet_grid2(Tipo ~ Preditor,
                      scales = "free",
                      independent = "all") +
@@ -815,7 +830,8 @@ vars_rhinella |>
         legend.title = element_text(color = "black", size = 20),
         legend.position = "bottom",
         panel.border = element_rect(color = "black", linewidth = 1),
-        strip.text = element_text(color = "black", size = 30))
+        strip.text = element_text(color = "black", size = 30),
+        strip.text.x.top = element_text(color = "black", size = 11.5))
 
 ggsave(filename = "efeito_morf_rhinella_icterica.png",
        height = 12,
