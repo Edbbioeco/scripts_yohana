@@ -1415,7 +1415,7 @@ tabela_flex_traj <- purrr::map_dfr(
   dplyr::mutate(p.value = dplyr::case_when(
 
     p.value < 0.01 ~ "< 0.01",
-    .default = p.value |> round(2) |> as.character()
+    .default = p.value |> round(3) |> as.character()
 
   )) |>
   dplyr::mutate(Species = c("Rhinella crucifer",
