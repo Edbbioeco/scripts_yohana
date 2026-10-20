@@ -1119,7 +1119,7 @@ vars_rhinella |>
                                    "Tipo" = 2,
                                    "Preditor" = 3) |>
                      dplyr::mutate(Tipo = paste0("KDE ", Tipo)) |>
-                     dplyr::select(1, 2, 3, 5),
+                     dplyr::select(1, 2, 3, 5, 6),
                    by = c("Espécie", "Tipo", "Preditor")) |>
   ggplot(aes(area, `Predictor value`, color = Tipo, fill = Tipo)) +
   geom_point(size = 5,
@@ -1127,7 +1127,8 @@ vars_rhinella |>
              color = "black",
              stroke = 1.5) +
   geom_smooth(data = . %>%
-                dplyr::filter(abs(t) > 1.883),
+                dplyr::filter(abs(t) > 1.883 &
+                                p < 0.05),
               method = "lm",
               se = FALSE) +
   ggh4x::facet_grid2(Preditor ~ Espécie,
