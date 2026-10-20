@@ -1080,7 +1080,8 @@ tabela_flex_rm <- purrr::map_dfr(
   flextable::width(j = 4, width = 1.5) |>
   flextable::width(j = 7, width = 1.5) |>
   flextable::italic(j = 1, part = "body") |>
-  flextable::bg(i = ~abs(t) > 1.833113,
+  flextable::bg(i = ~abs(t) > 1.833113 &
+                  readr::parse_number(p) < 0.05,
                 bg = "gray")
 
 tabela_flex_rm
