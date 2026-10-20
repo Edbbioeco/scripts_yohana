@@ -971,7 +971,7 @@ modelos_glm_traj <- purrr::pmap(
     glm(formula,
         data = area_mof_rhinella |>
           dplyr::filter(Espécie == sps &
-                          ID %notin% c("RI2", "RI3")) |>
+                          ID %notin% id_ri_rem_traj) |>
           janitor::clean_names(),
         family = Gamma(link = "log"))
 
