@@ -1025,7 +1025,7 @@ r2_icterica
 
 #### Tabela das estatatísticas ----
 
-tabela_flex_icterica <- purrr::map_dfr(
+tabela_flex_rm <- purrr::map_dfr(
   modelos_glm_rm,
   \(modelo){
 
@@ -1045,19 +1045,25 @@ tabela_flex_icterica <- purrr::map_dfr(
     .default = p.value |> round(2) |> as.character()
 
   )) |>
-  dplyr::mutate(Species = "Rhinella icterica",
+  dplyr::mutate(Species = c("Rhinella crucifer",
+                            "Rhinella icterica") |>
+                  rep(each = 10),
                 KDE = c("50%", "95%") |>
-                  rep(each = 2),
+                  rep(2) |>
+                  rep(5),
                 .before = 1) |>
   as.data.frame() |>
   dplyr::mutate(term = dplyr::case_when(
 
     term == "peso" ~ "Body mass (g)",
-    .default = "Posterior Limb proportion"
+    term == "proporcao_cmp" ~ "Posterior Limb proportion",
+    term == "umidade_relativa_maxima" ~ "Max relative precipitation (mm)",
+    term == "temperatura_maxima" ~ "Max temperature (°C)",
+    term == "temperatura_minima" ~ "Min temperature (°C)"
 
   ),
-  estimate = estimate |> round(5),
-  std.error = std.error |> round(5),
+  estimate = estimate |> round(2),
+  std.error = std.error |> round(2),
   statistic = statistic |> round(2)) |>
   dplyr::rename("Predictor" = 3,
                 "t" = 6,
@@ -1073,16 +1079,18 @@ tabela_flex_icterica <- purrr::map_dfr(
   flextable::width(j = 3, width = 1.25) |>
   flextable::width(j = 4, width = 1.5) |>
   flextable::width(j = 7, width = 1.5) |>
-  flextable::italic(j = 1, part = "body")
+  flextable::italic(j = 1, part = "body") |>
+  flextable::bg(i = ~abs(t) > 1.833113,
+                bg = "gray")
 
-tabela_flex_icterica
+tabela_flex_rm
 
-tabela_flex_icterica |>
-  flextable::save_as_docx(path = "tabela_sts_morf_rhinella_icterica.docx")
+tabela_flex_rm |>
+  flextable::save_as_docx(path = "tabela_sts_rhinella_rm.docx")
 
-"tabela_sts_morf_rhinella_icterica.docx" |>
+"tabela_sts_rhinella_rm.docx" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "tabela_sts_morf_rhinella_icterica.docx",
+                            name = "tabela_sts_rhinella_rm.docx",
                             overwrite = TRUE)
 
 #### Gráfico ----
