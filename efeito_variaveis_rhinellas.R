@@ -303,6 +303,8 @@ tort_traj_rhinella
 
 ## Multicolinaridade ----
 
+### Dados morfológicos ----
+
 cor_rhinellas <- purrr::map_dfr(
   c("Rhinella crucifer",
     "Rhinella icterica"),
