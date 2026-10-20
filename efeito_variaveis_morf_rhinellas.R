@@ -1116,7 +1116,7 @@ tabela_flex_traj |>
 #### Rhinella crucifer ----
 
 area_mof_rhinella |>
-  dplyr::filter(Espécie == "Rhinella crucifer")) |>
+  dplyr::filter(Espécie == "Rhinella crucifer") |>
   tidyr::pivot_longer(cols = c("peso", "Proporção CMP"),
                       names_to = "Preditor",
                       values_to = "Predictor value") |>
