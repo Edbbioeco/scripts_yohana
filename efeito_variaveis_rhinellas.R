@@ -1449,7 +1449,10 @@ tabela_flex_traj <- purrr::map_dfr(
                    part = "all") |>
   flextable::width(j = 1, width = 1.5) |>
   flextable::width(j = 3, width = 1.25) |>
-  flextable::italic(j = 1, part = "body")
+  flextable::italic(j = 1, part = "body") |>
+  flextable::bg(i = ~abs(t) > 1.833113 &
+                  readr::parse_number(p) < 0.05,
+                bg = "gray")
 
 tabela_flex_traj
 
