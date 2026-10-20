@@ -889,7 +889,7 @@ ggsave(filename = "efeito_morf_rhinella_icterica_rm.png",
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "efeito_morf_rhinella_icterica_rm.png")
 
-## Tortuosidade ----
+## Comprimento do trajeto ----
 
 ### LM ----
 
