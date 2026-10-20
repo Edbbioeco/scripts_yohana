@@ -1718,3 +1718,60 @@ tabela_flex_tort |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "tabela_tort_rhinella.docx",
                             overwrite = TRUE)
+
+### Gráfico ----
+
+
+vars_rhinella |>
+  dplyr::filter(ID %notin% id_ri_rem_traj) |>
+  tidyr::pivot_longer(cols = c(peso,
+                               `Proporção CMP`,
+                               `Umidade Relativa -máxima`,
+                               `Temperatura máxima`,
+                               `Temperatura mínima`),
+                      names_to = "Preditor",
+                      values_to = "Predictor value") |>
+  dplyr::mutate(Preditor  = dplyr::case_when(
+
+    Preditor == "peso" ~ "Body mass (g)",
+    Preditor == "Proporção CMP" ~ "Posterior Limb proportion",
+    Preditor == "Umidade Relativa -máxima" ~ "Max relative precipitation (mm)",
+    Preditor == "Temperatura máxima" ~ "Max temperature (°C)",
+    Preditor == "Temperatura mínima" ~ "Min temperature (°C)"
+  )) |>
+  dplyr::left_join(tabela_flex_tort$body$dataset |>
+                     dplyr::rename("Espécie" = 1,
+                                   "Preditor" = 2) |>
+                     dplyr::mutate(p = p |> readr::parse_number()) |>
+                     dplyr::select(1, 2, 4, 5),
+                   by = c("Espécie", "Preditor")) |>
+  ggplot(aes(`Predictor value`, tortuosidade)) +
+  geom_point(size = 5) +
+  geom_smooth(data = . %>%
+                dplyr::filter(abs(z) > 1.833113 &
+                                p < 0.05),
+              method = "glm",
+              se = FALSE) +
+  ggh4x::facet_grid2(Preditor ~ Espécie,
+                     scales = "free",
+                     independent = "all") +
+  labs(y = "Runned traject (m)") +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.title = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(color = "black", size = 20),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1),
+        strip.text = element_text(color = "black", size = 30),
+        strip.text.y.right = element_text(color = "black", size = 16),
+        strip.text.x.top = element_text(face = "italic"))
+
+ggsave(filename = "efeito_tort_rhinella.png",
+       height = 20,
+       width = 14)
+
+"efeito_tort_rhinella.png" |>
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
+                            name = "efeito_tort_rhinella.png",
+                            overwrite = TRUE)
