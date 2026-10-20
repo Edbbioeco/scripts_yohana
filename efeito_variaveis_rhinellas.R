@@ -904,11 +904,16 @@ id_ri_rem
 #### Criar modelos GLM para o dataset sem os indivíduos ----
 
 modelos_glm_rm <- purrr::pmap(
-  tidyr::expand_grid(kde = c("KDE 50%",
+  tidyr::expand_grid(sps = c("Rhinella crucifer",
+                              "Rhinella icterica"),
+                     kde = c("KDE 50%",
                              "KDE 95%"),
                      var = c("peso",
-                             "proporcao_cmp")),
-  \(kde, var){
+                             "proporcao_cmp",
+                             "umidade_relativa_maxima",
+                             "temperatura_maxima",
+                             "temperatura_minima")),
+  \(sps, kde, var){
 
     formula <- paste0("area ~ ", var) |>
       as.formula()
@@ -916,7 +921,7 @@ modelos_glm_rm <- purrr::pmap(
     tryCatch(
       glm(formula,
           data = vars_rhinella |>
-            dplyr::filter(Espécie == "Rhinella icterica" &
+            dplyr::filter(Espécie == sps &
                             Tipo == kde &
                             ID %notin% id_ri_rem) |>
             janitor::clean_names(),
@@ -943,11 +948,16 @@ modelos_glm_rm <- purrr::pmap(
 
   },
   .progress = TRUE) |>
-  setNames(tidyr::expand_grid(kde = c("KDE 50%",
+  setNames(tidyr::expand_grid(sps = c("Rhinella crucifer",
+                                      "Rhinella icterica"),
+                              kde = c("KDE 50%",
                                       "KDE 95%"),
                               var = c("peso",
-                                      "proporcao_cmp")) |>
-             dplyr::mutate(mod = paste(kde, var, sep = "_")) |>
+                                      "proporcao_cmp",
+                                      "umidade_relativa_maxima",
+                                      "temperatura_maxima",
+                                      "temperatura_minima")) |>
+             dplyr::mutate(mod = paste(sps, kde, var, sep = "_")) |>
              dplyr::pull(mod))
 
 modelos_glm_rm
