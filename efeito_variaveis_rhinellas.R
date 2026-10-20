@@ -541,7 +541,11 @@ modelos_glm <- purrr::pmap(
             "Rhinella icterica"),
     kde = c("KDE 50%",
             "KDE 95%"),
-    var = c("peso", "proporcao_cmp")),
+    var = c("peso",
+            "proporcao_cmp",
+            "umidade_relativa_maxima",
+            "temperatura_maxima",
+            "temperatura_minima")),
   \(sps, kde, var){
 
     formula <- paste0("area ~ ", var) |>
@@ -576,7 +580,11 @@ modelos_glm <- purrr::pmap(
                                       "Rhinella icterica"),
                               kde = c("KDE 50%",
                                       "KDE 95%"),
-                              var = c("peso", "proporcao_cmp")) |>
+                              var = c("peso",
+                                      "proporcao_cmp",
+                                      "umidade_relativa_maxima",
+                                      "temperatura_maxima",
+                                      "temperatura_minima")) |>
              dplyr::mutate(mod = paste(sps, kde, var, sep = "_")) |>
              dplyr::pull(mod))
 
