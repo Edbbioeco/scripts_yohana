@@ -14,6 +14,8 @@ library(sf)
 
 library(adehabitatHR)
 
+library(ggbeeswarm)
+
 library(janitor)
 
 library(reshape2)
