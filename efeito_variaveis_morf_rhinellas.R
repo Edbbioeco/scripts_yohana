@@ -919,7 +919,7 @@ modelos_lm_traj <- purrr::pmap(
     lm(formula,
        data = area_mof_rhinella |>
          dplyr::filter(Espécie == sps &
-                         ID %notin% c("RI2", "RI3")) |>
+                         ID %notin% id_ri_rem_traj) |>
          janitor::clean_names())
 
     },
