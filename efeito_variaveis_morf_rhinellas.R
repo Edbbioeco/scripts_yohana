@@ -587,7 +587,8 @@ tabela_flex |>
 
 "tabela_sts_morf_rhinella.docx" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "tabela_sts_morf_rhinella.docx")
+                            name = "tabela_sts_morf_rhinella.docx",
+                            overwrite = TRUE)
 
 ### Gráfico ----
 
@@ -627,7 +628,8 @@ ggsave(filename = "efeito_morf_rhinella_crucifer.png",
 
 "efeito_morf_rhinella_crucifer.png" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "efeito_morf_rhinella_crucifer.png")
+                            name = "efeito_morf_rhinella_crucifer.png",
+                            overwrite = TRUE)
 
 #### Rhinella icterica ----
 
@@ -661,7 +663,8 @@ ggsave(filename = "efeito_morf_rhinella_icterica.png",
 
 "efeito_morf_rhinella_icterica.png" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "efeito_morf_rhinella_icterica.png")
+                            name = "efeito_morf_rhinella_icterica.png",
+                            overwrite = TRUE)
 
 ### Modelo Rhinella icterica sem os outliers ----
 
@@ -847,7 +850,8 @@ tabela_flex_icterica |>
 
 "tabela_sts_morf_rhinella_cterica.docx" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "tabela_sts_morf_rhinella_cterica.docx")
+                            name = "tabela_sts_morf_rhinella_cterica.docx",
+                            overwrite = TRUE)
 
 #### Gráfico ----
 
@@ -887,7 +891,8 @@ ggsave(filename = "efeito_morf_rhinella_icterica_rm.png",
 
 "efeito_morf_rhinella_icterica_rm.png" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "efeito_morf_rhinella_icterica_rm.png")
+                            name = "efeito_morf_rhinella_icterica_rm.png",
+                            overwrite = TRUE)
 
 ## Comprimento do trajeto ----
 
@@ -1120,7 +1125,8 @@ tabela_flex_traj |>
 
 "tabela_sts_morf_traj_rhinella.docx" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "tabela_sts_morf_traj_rhinella.docx")
+                            name = "tabela_sts_morf_traj_rhinella.docx",
+                            overwrite = TRUE)
 
 ### Gráfico ----
 
@@ -1159,7 +1165,8 @@ ggsave(filename = "efeito_morf_rhinella_crucifer_traj.png",
 
 "efeito_morf_rhinella_crucifer_traj.png" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "efeito_morf_rhinella_crucifer_traj.png")
+                            name = "efeito_morf_rhinella_crucifer_traj.png",
+                            overwrite = TRUE)
 
 #### Rhinella icterica ----
 
@@ -1197,4 +1204,5 @@ ggsave(filename = "efeito_morf_rhinella_icterica_traj.png",
 
 "efeito_morf_rhinella_icterica_traj.png" |>
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
-                            name = "efeito_morf_rhinella_icterica_traj.png")
+                            name = "efeito_morf_rhinella_icterica_traj.png",
+                            overwrite = TRUE)
