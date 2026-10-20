@@ -1483,6 +1483,7 @@ vars_rhinella |>
   dplyr::left_join(tabela_flex_traj$body$dataset |>
                      dplyr::rename("Espécie" = 1,
                                    "Preditor" = 2) |>
+                     dplyr::mutate(p = p |> readr::parse_number()) |>
                      dplyr::select(1, 2, 4, 5),
                    by = c("Espécie", "Preditor")) |>
   ggplot(aes(`Predictor value`, trajeto_percorrido)) +
