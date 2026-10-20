@@ -1582,7 +1582,11 @@ modelos_glm_tort <- purrr::pmap(
   tidyr::expand_grid(
     sps = c("Rhinella crucifer",
             "Rhinella icterica"),
-    var = c("peso", "proporcao_cmp")),
+    var = c("peso",
+            "proporcao_cmp",
+            "umidade_relativa_maxima",
+            "temperatura_maxima",
+            "temperatura_minima")),
   \(sps, var){
 
     formula <- paste0("tortuosidade ~ ", var) |>
@@ -1599,7 +1603,11 @@ modelos_glm_tort <- purrr::pmap(
   .progress = TRUE) |>
   setNames(tidyr::expand_grid(sps = c("Rhinella crucifer",
                                       "Rhinella icterica"),
-                              var = c("peso", "proporcao_cmp")) |>
+                              var = c("peso",
+                                      "proporcao_cmp",
+                                      "umidade_relativa_maxima",
+                                      "temperatura_maxima",
+                                      "temperatura_minima")) |>
              dplyr::mutate(mod = paste(sps, var, sep = "_")) |>
              dplyr::pull(mod))
 
