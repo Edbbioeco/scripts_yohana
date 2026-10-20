@@ -669,6 +669,52 @@ ggsave(filename = "efeito_morf_rhinella_icterica.png",
 
 #### Identifcar os outliers ----
 
+medias_areas <- area_mof_rhinella |>
+  dplyr::summarise(sd = area |> sd(),
+                   area = area |> mean(),
+                   .by = c(Espécie, Tipo))
+
+medias_areas
+
+area_mof_rhinella |>
+  ggplot(aes(Espécie, area, fill = Tipo)) +
+  ggbeeswarm::geom_quasirandom(shape = 21, color = "black", size = 7,
+                               dodge.width = 0.7,
+                               stroke = 1.5) +
+  geom_errorbar(data = medias_areas,
+                aes(x = Espécie, y = area,
+                    ymin = area - sd, ymax = area + sd,
+                    group = Tipo),
+                linewidth = 1.25,
+                width = 0.35,
+                position = position_dodge(width = 0.7)) +
+  geom_point(data = medias_areas,
+             aes(x = Espécie, y = area),
+             position = position_dodge(width = 0.7),
+             size = 5,
+             show.legend = FALSE) +
+  scale_fill_manual(values = c("orange", "royalblue")) +
+  labs(x = "Species",
+       y = "Area (m²)",
+       fill = NULL) +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.text.x = element_text(face = "italic"),
+        axis.title = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(color = "black", size = 20),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1))
+
+ggsave(filename = "dispersao_area_de_vida.png",
+       height = 12,
+       width = 12)
+
+"dispersao_area_de_vida.png" |>
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
+                            name = "dispersao_area_de_vida.png",
+                            overwrite = TRUE)
+
 id_ri_rem <- area_mof_rhinella |>
   dplyr::filter(Espécie == "Rhinella icterica") |>
   dplyr::slice_max(area, n = 2, by = Tipo) |>
@@ -1172,4 +1218,3 @@ ggsave(filename = "efeito_morf_traj.png",
   googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "efeito_morf_traj.png",
                             overwrite = TRUE)
-
