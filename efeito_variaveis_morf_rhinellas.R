@@ -1153,7 +1153,7 @@ area_mof_rhinella |>
   ggh4x::facet_grid2(Espécie ~ Preditor,
                      scales = "free",
                      independent = "all") +
-  labs(y = "Runned traject (m²)") +
+  labs(y = "Runned traject (m)") +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.title = element_text(color = "black", size = 20),
