@@ -394,6 +394,12 @@ cor_rhinellas <- purrr::map_dfr(
     cor_mat <- amb_trat |>
       dplyr::filter(Espécie == sps) |>
       dplyr::select_if(is.numeric) |>
+      dplyr::rename("Max temperature (°C)" = "Temperatura máxima",
+                    "Min temperature (°C)" = "Temperatura mínima",
+                    "Mean relative humidity" = "Umidade Relativa -média",
+                    "Max relative humidity" = "Umidade Relativa -máxima",
+                    "Min relative humidity" = "Umidade Relativa - mínima",
+                    "Precipitation (mm)" = "Precipitação") |>
       cor(method = "spearman") |>
       as.matrix()
 
