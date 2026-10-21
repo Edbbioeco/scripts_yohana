@@ -26,6 +26,8 @@ library(DHARMa)
 
 library(ggh4x)
 
+library(glmmTMB)
+
 # Dados ----
 
 ## Dados de movimentação ----
