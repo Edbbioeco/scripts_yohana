@@ -215,6 +215,11 @@ ggsave(plot = mapa_icterica,
        filename = "mapa_area_vida_rhinella_icterica.png",
        height = 12, width = 16)
 
+"mapa_area_vida_rhinella_icterica.png" |>
+  googledrive::drive_upload(media = _,
+                            name = "mapa_area_vida_rhinella_icterica.png",
+                            overwrite = TRUE)
+
 ### Rhinella crucifer ----
 
 mapa_crucifer <- purrr::map(
