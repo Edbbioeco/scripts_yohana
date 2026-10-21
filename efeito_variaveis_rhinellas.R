@@ -1724,7 +1724,7 @@ tabela_flex_tort |>
 ### Gráfico ----
 
 vars_rhinella |>
-  dplyr::filter(ID %notin% id_ri_rem_traj) |>
+  dplyr::filter(ID %notin% id_ri_rem_tort) |>
   tidyr::pivot_longer(cols = c(peso,
                                `Proporção CMP`,
                                `Umidade Relativa -máxima`,
