@@ -336,3 +336,8 @@ area_rhinella |>
 ggsave(filename = "dispersao_area_devida.png",
        height = 12,
        width = 12)
+
+"dispersao_area_devida.png" |>
+  googledrive::drive_upload(media = _,
+                            name = "dispersao_area_devida.png",
+                            overwrite = TRUE)
