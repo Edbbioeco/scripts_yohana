@@ -1195,7 +1195,7 @@ vars_rhinella |>
              show.legend = FALSE,
              color = "red") +
   labs(x = "Species",
-       y = "Runned traject (m)",
+       y = "Runned track (m)",
        fill = NULL) +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
@@ -1502,7 +1502,7 @@ vars_rhinella |>
   ggh4x::facet_grid2(Preditor ~ Espécie,
                      scales = "free",
                      independent = "all") +
-  labs(y = "Runned traject (m)") +
+  labs(y = "Runned track (m)") +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.title = element_text(color = "black", size = 20),
