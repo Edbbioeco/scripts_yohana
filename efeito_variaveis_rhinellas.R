@@ -315,6 +315,12 @@ cor_rhinellas <- purrr::map_dfr(
     cor_mat <- morf |>
       dplyr::filter(Espécie == sps) |>
       dplyr::select_if(is.numeric) |>
+      dplyr::rename("Body mass (g)" = "peso",
+                    "Anterior Limb proportion" = "Proporção CMA",
+                    "Posterior Limb proportion" = "Proporção CMP",
+                    "Anterior Limb length" = "CMA",
+                    "Posterior Limb length" = "CMP",
+                    "SVL" = "crc") |>
       cor(method = "spearman") |>
       as.matrix()
 
