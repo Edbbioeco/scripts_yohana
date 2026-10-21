@@ -115,3 +115,8 @@ ggplot(data = uso_trat,
 
 ggsave(filename = "uso_habitat_especies.png",
        height = 12, width = 16)
+
+"uso_habitat_especies.png" |>
+  googledrive::drive_upload(media = _,
+                            name = "uso_habitat_especies.png",
+                            overwrite = TRUE)
