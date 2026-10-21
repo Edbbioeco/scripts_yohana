@@ -279,6 +279,11 @@ ggsave(plot = mapa_crucifer,
        filename = "mapa_area_vida_rhinella_crucifer.png",
        height = 12, width = 16)
 
+"mapa_area_vida_rhinella_crucifer.png" |>
+  googledrive::drive_upload(media = _,
+                            name = "mapa_area_vida_rhinella_crucifer.png",
+                            overwrite = TRUE)
+
 ## Dispersão dos valores de área de vida ----
 
 ### Calcular média ----
