@@ -54,3 +54,11 @@ dados_rhinellas <- purrr::map_dfr(
 dados_rhinellas
 
 dados_rhinellas |> dplyr::glimpse()
+
+## Converter coordenadas ----
+
+dados_rhinellas %<>%
+  dplyr::mutate(Longitude = Longitude |> parzer::parse_lon(),
+                Latitude = Latitude |> parzer::parse_lat())
+
+dados_rhinellas
