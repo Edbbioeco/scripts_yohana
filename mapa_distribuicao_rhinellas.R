@@ -6,6 +6,10 @@ library(readxl)
 
 library(tidyverse)
 
+library(magrittr)
+
+library(parzer)
+
 library(geobr)
 
 library(terra)
