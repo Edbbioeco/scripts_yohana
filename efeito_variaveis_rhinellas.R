@@ -340,7 +340,7 @@ cor_rhinellas_morf <- purrr::map_dfr(
 
 cor_rhinellas_morf
 
-cor_rhinellas |>
+cor_rhinellas_morf |>
   ggplot(aes(Var1, Var2, fill = value, label = value)) +
   geom_tile(color = "black", linewidth = 1) +
   geom_text(size = 8) +
