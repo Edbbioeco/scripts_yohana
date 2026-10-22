@@ -57,7 +57,7 @@ uso_trat <- uso |>
                   "Árvore" ~ "Tree",
                   "Bambu" ~ "Bamboo",
                   "Borda de brejo" ~ "Marsh edge",
-                  "Chão" ~ "Clen ground",
+                  "Chão" ~ "Clean ground",
                   "Embaixo da serrapilheira" ~ "Under leaflitter",
                   "Embaixo de tronco" ~ "Under fallen tree",
                   "Enterrado" ~ "Buried",
