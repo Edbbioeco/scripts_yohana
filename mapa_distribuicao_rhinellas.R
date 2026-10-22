@@ -12,7 +12,7 @@ library(parzer)
 
 library(geosphere)
 
-library(geobr)
+library(sf)
 
 library(terra)
 
