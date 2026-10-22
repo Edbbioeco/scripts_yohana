@@ -66,3 +66,29 @@ dados_rhinellas %<>%
                 Latitude = Latitude |> parzer::parse_lat())
 
 dados_rhinellas
+
+## Completar coordenadas ----
+
+dados_rhinellas <- purrr::reduce(
+  .init = dados_rhinellas,
+  .x = 1:nrow(dados_rhinellas),
+  .f = \(dados, x){
+
+    if(is.na(dados$Longitude[x]) || is.na(dados$Latitude[x])){
+
+      dest <- geosphere::destPoint(
+        p = c(dados$Longitude[x - 1], dados$Latitude[x - 1]),
+        b = dados$`Angulo de virada`[x - 1],
+        d = dados$`Distância (m)`[x - 1])
+
+      dados$Longitude[x] <- dest[1]
+
+      dados$Latitude[x]  <- dest[2]
+
+    }
+
+    dados
+
+  })
+
+dados_rhinellas
