@@ -113,7 +113,7 @@ ggplot() +
 
 ### Importando ----
 
-img_sat <- terra::rast("imagem_uc_capivara.tif")
+img_sat <- terra::rast("imagem_satelite_esec.tif")
 
 ### Visualizando ----
 
