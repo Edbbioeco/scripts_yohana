@@ -401,7 +401,8 @@ cor_rhinellas_amb <- purrr::map_dfr(
                     "Mean relative humidity" = "Umidade Relativa -média",
                     "Max relative humidity" = "Umidade Relativa -máxima",
                     "Min relative humidity" = "Umidade Relativa - mínima",
-                    "Precipitation (mm)" = "Precipitação") |>
+                    "Precipitation (mm)" = "Precipitação",
+                    "Mean temperature (°C)" = "Temperatura média") |>
       cor(method = "spearman") |>
       as.matrix()
 
