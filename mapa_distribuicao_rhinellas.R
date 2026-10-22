@@ -185,6 +185,10 @@ ggplot(uc_capivara) +
                        title.hjust = 0.5
 
                      )) +
+  ggspatial::annotation_scale(location = "br",
+                              text_col = "gold",
+                              text_cex = 1.5,
+                              bar_cols = c("black", "gold")) +
   theme_bw() +
   theme(aspect.ratio = 1,
         axis.text = element_text(color = "black", size = 20),
