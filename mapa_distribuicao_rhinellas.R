@@ -95,6 +95,21 @@ dados_rhinellas <- purrr::reduce(
 
 dados_rhinellas
 
+### Transformar em shapefile ----
+
+dados_rhinellas_sf <- dados_rhinellas |>
+  sf::st_as_sf(coords = c(2:3),
+               crs = 4674) |>
+  dplyr::summarise(do.union = FALSE,
+                   .by = ID) |>
+  sf::st_cast("LINESTRING")
+
+dados_rhinellas_sf
+
+ggplot() +
+  geom_sf(data = uc_capivara, color = "black") +
+  geom_sf(data = dados_rhinellas_sf, aes(color = Espécie))
+
 ## ESEC ----
 
 ### Importando ----
