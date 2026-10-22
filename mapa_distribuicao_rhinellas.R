@@ -169,9 +169,9 @@ janelas
 
 ## Criar mapa ----
 
-ggplot() +
+ggplot(uc_capivara) +
   tidyterra::geom_spatraster_rgb(data = img_sat) +
-  geom_sf(data = uc_capivara, color = "red", fill = NA, linewidth = 1) +
+  geom_sf(, color = "red", fill = NA, linewidth = 1) +
   geom_sf(data = dados_rhinellas_sf, aes(color = Espécie), linewidth = 2) +
   coord_sf(expand = FALSE) +
   labs(color = "Species") +
@@ -182,6 +182,10 @@ ggplot() +
                        title.hjust = 0.5
 
                      )) +
+  ggmagnify::geom_magnify(from = dados_rhinellas_sf |>
+                            dplyr::filter(Espécie == "Rhinella crucifer") |>
+                            sf::st_bbox(),
+                          to = janelas[["Rhinella crucifer"]]) +
   theme_bw() +
   theme(aspect.ratio = 1,
         axis.text = element_text(color = "black", size = 20),
