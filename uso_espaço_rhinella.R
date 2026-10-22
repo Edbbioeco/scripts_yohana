@@ -68,7 +68,7 @@ uso_trat <- uso |>
 
         "Buried",
         "Burrowed in the ground",
-        "Clen ground",
+        "Clean ground",
         "Under leaflitter",
         "Under fallen tree",
         "Tree",
