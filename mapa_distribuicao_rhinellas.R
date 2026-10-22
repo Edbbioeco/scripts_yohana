@@ -107,7 +107,6 @@ dados_rhinellas_sf <- dados_rhinellas |>
 dados_rhinellas_sf
 
 ggplot() +
-  geom_sf(data = uc_capivara, color = "black") +
   geom_sf(data = dados_rhinellas_sf, aes(color = Espécie))
 
 ## ESEC ----
@@ -122,7 +121,8 @@ uc_capivara <- sf::st_read("uc_municipal_ceuc_outros_construcao.shp") |>
 uc_capivara
 
 ggplot() +
-  geom_sf(data = uc_capivara, color = "black")
+  geom_sf(data = uc_capivara, color = "black") +
+  geom_sf(data = dados_rhinellas_sf, aes(color = Espécie))
 
 ## Imagem de satélite ----
 
