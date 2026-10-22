@@ -101,3 +101,10 @@ dados_rhinellas
 
 uc_capivara <- sf::st_read("uc_municipal_ceuc_outros_construcao.shp") |>
   dplyr::filter(nome |> stringr::str_detect("Capivara"))
+
+### Visualizar ----
+
+uc_capivara
+
+ggplot() +
+  geom_sf(data = uc_capivara, color = "black")
