@@ -144,6 +144,29 @@ ggplot() +
 
 # Mapa ----
 
+## Calcular janelas ----
+
+source("https://raw.githubusercontent.com/Edbbioeco/Funcoes/main/calc_ggmagnify.R")
+
+janelas <- purrr::map(
+  c("Rhinella crucifer", "Rhinella icterica"),
+  \(sps){
+
+    origem <- dados_rhinellas_sf |>
+      dplyr::filter(Espécie == sps) |>
+      sf::st_bbox()
+
+    calc_ggmagnify(x0 = -51.85,
+                   y0 = -25.07,
+                   origem = origem |> list(),
+                   largura = 0.001)
+
+    },
+  .progress = TRUE) |>
+  setNames(c("Rhinella crucifer", "Rhinella icterica"))
+
+janelas
+
 ## Criar mapa ----
 
 ggplot() +
