@@ -318,10 +318,10 @@ cor_rhinellas_morf <- purrr::map_dfr(
       dplyr::filter(Espécie == sps) |>
       dplyr::select_if(is.numeric) |>
       dplyr::rename("Body mass (g)" = "peso",
-                    "Anterior Limb proportion" = "Proporção CMA",
-                    "Posterior Limb proportion" = "Proporção CMP",
-                    "Anterior Limb length" = "CMA",
-                    "Posterior Limb length" = "CMP",
+                    "Hindlimb proportion" = "Proporção CMA",
+                    "Forelimb proportion" = "Proporção CMP",
+                    "Hindlimb length" = "CMA",
+                    "Forelimb length" = "CMP",
                     "SVL" = "crc") |>
       cor(method = "spearman") |>
       as.matrix()
@@ -718,7 +718,7 @@ tabela_flex <- purrr::map_dfr(
   dplyr::mutate(term = dplyr::case_when(
 
     term == "peso" ~ "Body mass (g)",
-    term == "proporcao_cmp" ~ "Posterior Limb proportion",
+    term == "proporcao_cmp" ~ "Forelimb proportion",
     term == "umidade_relativa_maxima" ~ "Max relative precipitation (mm)",
     term == "temperatura_maxima" ~ "Max temperature (°C)",
     term == "temperatura_minima" ~ "Min temperature (°C)"
@@ -772,7 +772,7 @@ vars_rhinella |>
   dplyr::mutate(Preditor  = dplyr::case_when(
 
     Preditor == "peso" ~ "Body mass (g)",
-    Preditor == "Proporção CMP" ~ "Posterior Limb proportion",
+    Preditor == "Proporção CMP" ~ "Forelimb proportion",
     Preditor == "Umidade Relativa -máxima" ~ "Max relative precipitation (mm)",
     Preditor == "Temperatura máxima" ~ "Max temperature (°C)",
     Preditor == "Temperatura mínima" ~ "Min temperature (°C)"
@@ -823,7 +823,7 @@ vars_rhinella |>
   dplyr::mutate(Preditor  = dplyr::case_when(
 
     Preditor == "peso" ~ "Body mass (g)",
-    Preditor == "Proporção CMP" ~ "Posterior Limb proportion",
+    Preditor == "Proporção CMP" ~ "Forelimb proportion",
     Preditor == "Umidade Relativa -máxima" ~ "Max relative precipitation (mm)",
     Preditor == "Temperatura máxima" ~ "Max temperature (°C)",
     Preditor == "Temperatura mínima" ~ "Min temperature (°C)"
@@ -1073,7 +1073,7 @@ tabela_flex_rm <- purrr::map_dfr(
   dplyr::mutate(term = dplyr::case_when(
 
     term == "peso" ~ "Body mass (g)",
-    term == "proporcao_cmp" ~ "Posterior Limb proportion",
+    term == "proporcao_cmp" ~ "Forelimb proportion",
     term == "umidade_relativa_maxima" ~ "Max relative precipitation (mm)",
     term == "temperatura_maxima" ~ "Max temperature (°C)",
     term == "temperatura_minima" ~ "Min temperature (°C)"
@@ -1125,7 +1125,7 @@ vars_rhinella |>
   dplyr::mutate(Preditor  = dplyr::case_when(
 
     Preditor == "peso" ~ "Body mass (g)",
-    Preditor == "Proporção CMP" ~ "Posterior Limb proportion",
+    Preditor == "Proporção CMP" ~ "Forelimb proportion",
     Preditor == "Umidade Relativa -máxima" ~ "Max relative precipitation (mm)",
     Preditor == "Temperatura máxima" ~ "Max temperature (°C)",
     Preditor == "Temperatura mínima" ~ "Min temperature (°C)"
@@ -1446,7 +1446,7 @@ tabela_flex_traj <- purrr::map_dfr(
   dplyr::mutate(term = dplyr::case_when(
 
     term == "peso" ~ "Body mass (g)",
-    term == "proporcao_cmp" ~ "Posterior Limb proportion",
+    term == "proporcao_cmp" ~ "Forelimb proportion",
     term == "umidade_relativa_maxima" ~ "Max relative precipitation (mm)",
     term == "temperatura_maxima" ~ "Max temperature (°C)",
     term == "temperatura_minima" ~ "Min temperature (°C)"
@@ -1496,7 +1496,7 @@ vars_rhinella |>
   dplyr::mutate(Preditor  = dplyr::case_when(
 
     Preditor == "peso" ~ "Body mass (g)",
-    Preditor == "Proporção CMP" ~ "Posterior Limb proportion",
+    Preditor == "Proporção CMP" ~ "Forelimb proportion",
     Preditor == "Umidade Relativa -máxima" ~ "Max relative precipitation (mm)",
     Preditor == "Temperatura máxima" ~ "Max temperature (°C)",
     Preditor == "Temperatura mínima" ~ "Min temperature (°C)"
@@ -1701,7 +1701,7 @@ tabela_flex_tort <- purrr::map_dfr(
   dplyr::mutate(rowname = dplyr::case_when(
 
     rowname == "peso" ~ "Body mass (g)",
-    rowname == "proporcao_cmp" ~ "Posterior Limb proportion",
+    rowname == "proporcao_cmp" ~ "Forelimb proportion",
     rowname == "umidade_relativa_maxima" ~ "Max relative precipitation (mm)",
     rowname == "temperatura_maxima" ~ "Max temperature (°C)",
     rowname == "temperatura_minima" ~ "Min temperature (°C)"
@@ -1751,7 +1751,7 @@ vars_rhinella |>
   dplyr::mutate(Preditor  = dplyr::case_when(
 
     Preditor == "peso" ~ "Body mass (g)",
-    Preditor == "Proporção CMP" ~ "Posterior Limb proportion",
+    Preditor == "Proporção CMP" ~ "Forelimb proportion",
     Preditor == "Umidade Relativa -máxima" ~ "Max relative precipitation (mm)",
     Preditor == "Temperatura máxima" ~ "Max temperature (°C)",
     Preditor == "Temperatura mínima" ~ "Min temperature (°C)"
