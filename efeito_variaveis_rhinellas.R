@@ -388,7 +388,7 @@ ggsave(filename = "multicolinearidade_morf_rhinella.png",
 
 ### Dados ambientais ----
 
-cor_rhinellas <- purrr::map_dfr(
+cor_rhinellas_amb <- purrr::map_dfr(
   c("Rhinella crucifer",
     "Rhinella icterica"),
   \(sps){
@@ -417,7 +417,7 @@ cor_rhinellas <- purrr::map_dfr(
   },
   .progress = TRUE)
 
-cor_rhinellas
+cor_rhinellas_amb
 
 cor_rhinellas |>
   ggplot(aes(Var1, Var2, fill = value, label = value)) +
