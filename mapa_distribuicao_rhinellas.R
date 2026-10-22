@@ -148,33 +148,33 @@ ggplot() +
 
 source("https://raw.githubusercontent.com/Edbbioeco/Funcoes/main/calc_ggmagnify.R")
 
-janelas <- purrr::map(
-  c("Rhinella crucifer", "Rhinella icterica"),
-  \(sps){
-
-    origem <- dados_rhinellas_sf |>
-      dplyr::filter(Espécie == sps &
+ori <- dados_rhinellas_sf |>
+      dplyr::filter(Espécie == "Rhinella crucifer" &
                       ID %notin% c("RC3", "RC4", "RC5")) |>
       sf::st_bbox()
 
-    calc_ggmagnify(x0 = -51.85,
-                   y0 = -25.07,
-                   origem = origem,
-                   largura = 0.01,
-                   corrigir_lat = TRUE) |>
-      purrr::pluck(1)
+ori
 
-    },
-  .progress = TRUE) |>
-  setNames(c("Rhinella crucifer", "Rhinella icterica"))
+janelas <- calc_ggmagnify(x0 = -51.845,
+                          y0 = -25.07,
+                          origem = ori,
+                          fator = 10)
 
 janelas
 
 ## Criar mapa ----
 
 ggplot(uc_capivara) +
-  tidyterra::geom_spatraster_rgb(data = img_sat) +
-  geom_sf(, color = "red", fill = NA, linewidth = 1) +
+  tidyterra::geom_spatraster_rgb(data = img_sat |>
+                                   terra::mask(uc_capivara |>
+                                                 sf::st_bbox() |>
+                                                 sf::st_as_sfc() |>
+                                                 sf::st_as_sf()) |>
+                                   terra::crop(uc_capivara |>
+                                                 sf::st_bbox() |>
+                                                 sf::st_as_sfc() |>
+                                                 sf::st_as_sf())) +
+  geom_sf(color = "red", fill = NA, linewidth = 1) +
   geom_sf(data = dados_rhinellas_sf, aes(color = Espécie), linewidth = 1) +
   coord_sf(expand = FALSE) +
   labs(color = "Species") +
@@ -185,15 +185,6 @@ ggplot(uc_capivara) +
                        title.hjust = 0.5
 
                      )) +
-  ggmagnify::geom_magnify(from = dados_rhinellas_sf |>
-                            dplyr::filter(Espécie == "Rhinella crucifer" &
-                                            ID %notin% c("RC3", "RC4", "RC5")) |>
-                            sf::st_bbox() |>
-                            (\(x) x[c("xmin", "xmax", "ymin", "ymax")])(),
-                          to = janelas[["Rhinella crucifer"]] |> unname(),
-                          colour = "gold",
-                          linewidth = 1,
-                          aspect = "free") +
   theme_bw() +
   theme(aspect.ratio = 1,
         axis.text = element_text(color = "black", size = 20),
@@ -203,4 +194,12 @@ ggplot(uc_capivara) +
         strip.text = element_text(color = "black", size = 20),
         panel.border = element_rect(color = "black", linewidth = 1),
         plot.title = element_text(color = "black", size = 20,
-                                  face = "italic"))
+                                  face = "italic")) +
+  ggmagnify::geom_magnify(from = dados_rhinellas_sf |>
+                            dplyr::filter(Espécie == "Rhinella crucifer" &
+                                            ID %notin% c("RC3", "RC4", "RC5")) |>
+                            sf::st_bbox() |>
+                            (\(x) x[c("xmin", "xmax", "ymin", "ymax")])(),
+                          to = janelas,
+                          colour = "gold",
+                          linewidth = 1)
