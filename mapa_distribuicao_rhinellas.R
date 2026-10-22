@@ -114,3 +114,11 @@ ggplot() +
 ### Importando ----
 
 img_sat <- terra::rast("imagem_uc_capivara.tif")
+
+### Visualizando ----
+
+img_sat
+
+ggplot() +
+  tidyterra::geom_spatraster_rgb(data = img_sat) +
+  geom_sf(data = uc_capivara, color = "red", fill = NA, linewidth = 1)
