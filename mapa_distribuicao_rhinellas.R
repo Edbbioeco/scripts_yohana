@@ -142,3 +142,30 @@ ggplot() +
   geom_sf(data = uc_capivara, color = "red", fill = NA, linewidth = 1) +
   geom_sf(data = dados_rhinellas_sf, aes(color = Espécie))
 
+# Mapa ----
+
+## Criar mapa ----
+
+ggplot() +
+  tidyterra::geom_spatraster_rgb(data = img_sat) +
+  geom_sf(data = uc_capivara, color = "red", fill = NA, linewidth = 1) +
+  geom_sf(data = dados_rhinellas_sf, aes(color = Espécie), linewidth = 2) +
+  coord_sf(expand = FALSE) +
+  labs(color = "Species") +
+  scale_color_manual(values = c("orange", "royalblue"),
+                     guide = guide_legend(
+
+                       title.position = "top",
+                       title.hjust = 0.5
+
+                     )) +
+  theme_bw() +
+  theme(aspect.ratio = 1,
+        axis.text = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20, face = "italic"),
+        legend.title = element_text(color = "black", size = 20),
+        legend.position = "bottom",
+        strip.text = element_text(color = "black", size = 20),
+        panel.border = element_rect(color = "black", linewidth = 1),
+        plot.title = element_text(color = "black", size = 20,
+                                  face = "italic"))
