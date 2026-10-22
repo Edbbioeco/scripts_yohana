@@ -153,13 +153,16 @@ janelas <- purrr::map(
   \(sps){
 
     origem <- dados_rhinellas_sf |>
-      dplyr::filter(Espécie == sps) |>
+      dplyr::filter(Espécie == sps &
+                      ID %notin% c("RC3", "RC4", "RC5")) |>
       sf::st_bbox()
 
     calc_ggmagnify(x0 = -51.85,
                    y0 = -25.07,
-                   origem = origem |> list(),
-                   largura = 0.001)
+                   origem = origem,
+                   largura = 0.01,
+                   corrigir_lat = TRUE) |>
+      purrr::pluck(1)
 
     },
   .progress = TRUE) |>
@@ -172,7 +175,7 @@ janelas
 ggplot(uc_capivara) +
   tidyterra::geom_spatraster_rgb(data = img_sat) +
   geom_sf(, color = "red", fill = NA, linewidth = 1) +
-  geom_sf(data = dados_rhinellas_sf, aes(color = Espécie), linewidth = 2) +
+  geom_sf(data = dados_rhinellas_sf, aes(color = Espécie), linewidth = 1) +
   coord_sf(expand = FALSE) +
   labs(color = "Species") +
   scale_color_manual(values = c("orange", "royalblue"),
@@ -183,9 +186,14 @@ ggplot(uc_capivara) +
 
                      )) +
   ggmagnify::geom_magnify(from = dados_rhinellas_sf |>
-                            dplyr::filter(Espécie == "Rhinella crucifer") |>
-                            sf::st_bbox(),
-                          to = janelas[["Rhinella crucifer"]]) +
+                            dplyr::filter(Espécie == "Rhinella crucifer" &
+                                            ID %notin% c("RC3", "RC4", "RC5")) |>
+                            sf::st_bbox() |>
+                            (\(x) x[c("xmin", "xmax", "ymin", "ymax")])(),
+                          to = janelas[["Rhinella crucifer"]] |> unname(),
+                          colour = "gold",
+                          linewidth = 1,
+                          aspect = "free") +
   theme_bw() +
   theme(aspect.ratio = 1,
         axis.text = element_text(color = "black", size = 20),
