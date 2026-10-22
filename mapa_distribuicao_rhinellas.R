@@ -108,3 +108,9 @@ uc_capivara
 
 ggplot() +
   geom_sf(data = uc_capivara, color = "black")
+
+## Imagem de satélite ----
+
+### Importando ----
+
+img_sat <- terra::rast("imagem_uc_capivara.tif")
