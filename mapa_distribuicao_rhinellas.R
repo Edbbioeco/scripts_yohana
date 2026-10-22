@@ -158,7 +158,8 @@ ori
 janelas <- calc_ggmagnify(x0 = -51.845,
                           y0 = -25.07,
                           origem = ori,
-                          fator = 10)
+                          fator = 10) |>
+  purrr::pluck(1)
 
 janelas
 
@@ -199,10 +200,7 @@ mapa_zoom <- ggplot(uc_capivara) +
         panel.border = element_rect(color = "black", linewidth = 1),
         plot.title = element_text(color = "black", size = 20,
                                   face = "italic")) +
-  ggmagnify::geom_magnify(from = dados_rhinellas_sf |>
-                            dplyr::filter(Espécie == "Rhinella crucifer" &
-                                            ID %notin% c("RC3", "RC4", "RC5")) |>
-                            sf::st_bbox() |>
+  ggmagnify::geom_magnify(from = ori |>
                             (\(x) x[c("xmin", "xmax", "ymin", "ymax")])(),
                           to = janelas,
                           colour = "gold",
