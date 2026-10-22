@@ -164,7 +164,7 @@ janelas
 
 ## Criar mapa ----
 
-ggplot(uc_capivara) +
+mapa_zoom <- ggplot(uc_capivara) +
   tidyterra::geom_spatraster_rgb(data = img_sat |>
                                    terra::mask(uc_capivara |>
                                                  sf::st_bbox() |>
@@ -208,7 +208,10 @@ ggplot(uc_capivara) +
                           colour = "gold",
                           linewidth = 1)
 
-ggsave(filename = "mapa_distribuicao_rhinellas.png",
+mapa_zoom
+
+ggsave(plot = mapa_zoom,
+       filename = "mapa_distribuicao_rhinellas.png",
        height = 12,
        width = 16)
 
