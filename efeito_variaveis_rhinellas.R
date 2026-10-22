@@ -309,7 +309,7 @@ tort_traj_rhinella
 
 ### Dados morfológicos ----
 
-cor_rhinellas <- purrr::map_dfr(
+cor_rhinellas_morf <- purrr::map_dfr(
   c("Rhinella crucifer",
     "Rhinella icterica"),
   \(sps){
@@ -338,7 +338,7 @@ cor_rhinellas <- purrr::map_dfr(
     },
   .progress = TRUE)
 
-cor_rhinellas
+cor_rhinellas_morf
 
 cor_rhinellas |>
   ggplot(aes(Var1, Var2, fill = value, label = value)) +
