@@ -94,3 +94,10 @@ dados_rhinellas <- purrr::reduce(
   })
 
 dados_rhinellas
+
+## ESEC ----
+
+### Importando ----
+
+uc_capivara <- sf::st_read("uc_municipal_ceuc_outros_construcao.shp") |>
+  dplyr::filter(nome |> stringr::str_detect("Capivara"))
