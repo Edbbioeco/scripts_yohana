@@ -207,3 +207,11 @@ ggplot(uc_capivara) +
                           to = janelas,
                           colour = "gold",
                           linewidth = 1)
+
+ggsave(filename = "mapa_distribuicao_rhinellas.png",
+       height = 12,
+       width = 16)
+
+"mapa_distribuicao_rhinellas.png" |>
+  googledrive::drive_upload(media = _,
+                            name = "mapa_distribuicao_rhinellas.png")
