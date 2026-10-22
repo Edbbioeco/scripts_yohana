@@ -136,4 +136,5 @@ img_sat
 
 ggplot() +
   tidyterra::geom_spatraster_rgb(data = img_sat) +
-  geom_sf(data = uc_capivara, color = "red", fill = NA, linewidth = 1)
+  geom_sf(data = uc_capivara, color = "red", fill = NA, linewidth = 1) +
+  geom_sf(data = dados_rhinellas_sf, aes(color = Espécie))
