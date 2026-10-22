@@ -10,6 +10,8 @@ library(magrittr)
 
 library(parzer)
 
+library(geosphere)
+
 library(geobr)
 
 library(terra)
