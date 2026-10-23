@@ -1071,7 +1071,8 @@ tabela_flex_rm <- purrr::map_dfr(
                       dplyr::pull(p.value) |>
                       purrr::pluck(2),
                     R2 = modelo |>
-                      performance::r2_kullback())
+                      performance::r2_kullback() |>
+                      round(3))
 
   },
   .progress = TRUE) |>
