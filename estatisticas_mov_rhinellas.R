@@ -153,3 +153,19 @@ area_rhinella |>
                    sd = area |> sd() |> round(2),
                    .by = Espécie)
 
+
+### Áreas de homerange por espécies e indivíduo ----
+
+area_rhinella |>
+  sf::st_drop_geometry() |>
+  dplyr::select(Espécie, idivíduo, Tipo, area) |>
+  dplyr::arrange(Espécie,
+                 Tipo,
+                 area |> dplyr::desc()) |>
+  dplyr::mutate(ordem = dplyr::row_number(),
+                .by = c(Espécie, Tipo)) |>
+  dplyr::arrange(Espécie,
+                 ordem,
+                 Tipo) |>
+  dplyr::select(-ordem) |>
+  dplyr::mutate(area = area |> round(2))
