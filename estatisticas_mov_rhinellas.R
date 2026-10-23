@@ -105,11 +105,11 @@ ggplot() +
 area_rhinella <- purrr::pmap_dfr(
   dados_rhinellas |>
     dplyr::select(Espécie, ID) |>
-    dplyr::distinct(sps = Espécie, id = ID),
-  \(sps, id){
+    dplyr::distinct(sps = Espécie, ind = ID),
+  \(sps, ind){
 
     KDE95 <- dados_rhinellas_sf |>
-      dplyr::filter(ID == id) |>
+      dplyr::filter(ID == ind) |>
       sf::as_Spatial() |>
       adehabitatHR::kernelUD(h = "href",
                              extent = 3) |>
@@ -117,10 +117,10 @@ area_rhinella <- purrr::pmap_dfr(
       sf::st_as_sf() |>
       dplyr::mutate(Tipo = "KDE 95%",
                     Espécie = sps,
-                    idivíduo = id)
+                    idivíduo = ind)
 
     kde50 <- dados_rhinellas_sf |>
-      dplyr::filter(ID == id) |>
+      dplyr::filter(ID == ind) |>
       sf::as_Spatial() |>
       adehabitatHR::kernelUD(h = "href",
                              extent = 3) |>
@@ -128,7 +128,7 @@ area_rhinella <- purrr::pmap_dfr(
       sf::st_as_sf() |>
       dplyr::mutate(Tipo = "KDE 50%",
                     Espécie = sps,
-                    idivíduo = id)
+                    idivíduo = ind)
 
     dplyr::bind_rows(kde50, KDE95)
 
@@ -152,3 +152,4 @@ area_rhinella |>
   dplyr::summarise(media = area |> mean() |> round(2),
                    sd = area |> sd() |> round(2),
                    .by = Espécie)
+
