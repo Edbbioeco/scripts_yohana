@@ -103,3 +103,44 @@ dados_rhinellas_sf
 
 ggplot() +
   geom_sf(data = dados_rhinellas_sf, aes(color = Espécie))
+
+# Estatísticas das áreas de vida ----
+
+## Calcular área de vida ----
+
+area_rhinella <- purrr::pmap_dfr(
+  dados_rhinellas |>
+    dplyr::select(Espécie, ID) |>
+    dplyr::distinct(sps = Espécie, id = ID),
+  \(sps, id){
+
+    KDE95 <- dados_rhinellas_sf |>
+      dplyr::filter(ID == id) |>
+      sf::as_Spatial() |>
+      adehabitatHR::kernelUD(h = "href",
+                             extent = 3) |>
+      adehabitatHR::getverticeshr(percent = 90) |>
+      sf::st_as_sf() |>
+      dplyr::mutate(Tipo = "KDE 95%",
+                    Espécie = sps,
+                    idivíduo = id)
+
+    kde50 <- dados_rhinellas_sf |>
+      dplyr::filter(ID == id) |>
+      sf::as_Spatial() |>
+      adehabitatHR::kernelUD(h = "href",
+                             extent = 3) |>
+      adehabitatHR::getverticeshr(percent = 50) |>
+      sf::st_as_sf() |>
+      dplyr::mutate(Tipo = "KDE 50%",
+                    Espécie = sps,
+                    idivíduo = id)
+
+    dplyr::bid_rows(kde50, KDE95)
+
+  },
+  .progress = TRUE) |>
+  dplyr::mutate(Tipo = Tipo |> forcats::fct_relevel(c("KDE 95%",
+                                                      "KDE 50%")))
+
+area_rhinella
