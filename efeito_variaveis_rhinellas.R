@@ -1420,8 +1420,17 @@ purrr::imap_dfr(
   \(modelo, id){
 
     modelo |>
-      broom::tidy() |>
-      dplyr::mutate(modelo = id)
+      marginaleffects::avg_comparisons() |>
+      tibble::as_tibble() |>
+      dplyr::mutate(statistic = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(statistic) |>
+                      purrr::pluck(2),
+                    p.value = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(p.value) |>
+                      purrr::pluck(2),
+                    modelo = id)
 
   },
   .progress = TRUE) |>
