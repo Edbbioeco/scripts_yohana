@@ -91,13 +91,7 @@ dados_rhinellas
 
 dados_rhinellas_sf <- dados_rhinellas |>
   sf::st_as_sf(coords = c(2:3),
-               crs = 4674) |>
-  dplyr::group_by(ID) |>
-  dplyr::summarise(do.union = FALSE) |>
-  sf::st_cast("LINESTRING") |>
-  dplyr::left_join(dados_rhinellas |>
-                     dplyr::select(ID, Espécie),
-                   by = "ID")
+               crs = 4674)
 
 dados_rhinellas_sf
 
@@ -136,7 +130,7 @@ area_rhinella <- purrr::pmap_dfr(
                     Espécie = sps,
                     idivíduo = id)
 
-    dplyr::bid_rows(kde50, KDE95)
+    dplyr::bind_rows(kde50, KDE95)
 
   },
   .progress = TRUE) |>
