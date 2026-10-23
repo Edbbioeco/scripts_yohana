@@ -26,6 +26,8 @@ library(DHARMa)
 
 library(marginaleffects)
 
+library(flextable)
+
 library(ggh4x)
 
 library(glmmTMB)
