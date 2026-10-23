@@ -86,3 +86,20 @@ dados_rhinellas <- purrr::reduce(
   })
 
 dados_rhinellas
+
+### Transformar em shapefile ----
+
+dados_rhinellas_sf <- dados_rhinellas |>
+  sf::st_as_sf(coords = c(2:3),
+               crs = 4674) |>
+  dplyr::group_by(ID) |>
+  dplyr::summarise(do.union = FALSE) |>
+  sf::st_cast("LINESTRING") |>
+  dplyr::left_join(dados_rhinellas |>
+                     dplyr::select(ID, Espécie),
+                   by = "ID")
+
+dados_rhinellas_sf
+
+ggplot() +
+  geom_sf(data = dados_rhinellas_sf, aes(color = Espécie))
