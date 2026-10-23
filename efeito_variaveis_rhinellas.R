@@ -1060,21 +1060,28 @@ tabela_flex_rm <- purrr::map_dfr(
   \(modelo){
 
     modelo |>
-      broom::tidy() |>
-      dplyr::mutate(R2 = modelo |>
-                      performance::r2_kullback(adjust = TRUE) |>
-                      as.numeric() |>
-                      round(3))
+      marginaleffects::avg_comparisons() |>
+      tibble::as_tibble() |>
+      dplyr::mutate(statistic = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(statistic) |>
+                      purrr::pluck(2),
+                    p.value = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(p.value) |>
+                      purrr::pluck(2),
+                    R2 = modelo |>
+                      performance::r2_kullback())
 
   },
   .progress = TRUE) |>
-  dplyr::filter(!term |> stringr::str_detect("Intercept")) |>
   dplyr::mutate(p.value = dplyr::case_when(
 
     p.value < 0.01 ~ "< 0.01",
     .default = p.value |> round(2) |> as.character()
 
   )) |>
+  dplyr::select(-c(2, 7:9)) |>
   dplyr::mutate(Species = c("Rhinella crucifer",
                             "Rhinella icterica") |>
                   rep(each = 10),
@@ -1101,7 +1108,7 @@ tabela_flex_rm <- purrr::map_dfr(
                 "pseudo-R²" = 8) |>
   tidyr::unite(4:5,
                sep = " ± ",
-               col = "β1 ± SE") |>
+               col = "ME ± SE") |>
   flextable::flextable() |>
   flextable::align(align = "center",
                    part = "all") |>
