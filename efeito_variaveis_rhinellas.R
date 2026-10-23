@@ -1025,7 +1025,6 @@ purrr::imap_dfr(
 
   },
   .progress = TRUE) |>
-  dplyr::filter(!term |> stringr::str_detect("Intercept")) |>
   dplyr::mutate(p.value = dplyr::case_when(
 
     p.value < 0.01 ~ "< 0.01",
