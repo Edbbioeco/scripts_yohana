@@ -382,7 +382,7 @@ ggsave(filename = "multicolinearidade_morf_rhinella.png",
        width = 16)
 
 "multicolinearidade_morf_rhinella.png" |>
-  googledrive::drive_upload(media = _,
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "multicolinearidade_morf_rhinella.png",
                             overwrite = TRUE)
 
@@ -462,7 +462,7 @@ ggsave(filename = "multicolinearidade_amb_rhinella.png",
        width = 16)
 
 "multicolinearidade_amb_rhinella.png" |>
-  googledrive::drive_upload(media = _,
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "multicolinearidade_amb_rhinella.png",
                             overwrite = TRUE)
 
