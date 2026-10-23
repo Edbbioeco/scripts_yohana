@@ -661,7 +661,8 @@ purrr::imap_dfr(
   \(modelo, id){
 
     modelo |>
-      broom::tidy() |>
+      marginaleffects::avg_comparisons() |>
+      tibble::as_tibble() |>
       dplyr::mutate(modelo = id)
 
   },
@@ -693,7 +694,8 @@ tabela_flex <- purrr::map_dfr(
   \(modelo){
 
     modelo |>
-      broom::tidy() |>
+      marginaleffects::avg_comparisons() |>
+      tibble::as_tibble()|>
       dplyr::mutate(R2 = modelo |>
                       performance::r2_kullback(adjust = TRUE) |>
                       as.numeric() |>
@@ -701,6 +703,7 @@ tabela_flex <- purrr::map_dfr(
 
   },
   .progress = TRUE) |>
+  dplyr::select(-c(2, 7:9)) |>
   dplyr::filter(!term |> stringr::str_detect("Intercept")) |>
   dplyr::mutate(p.value = dplyr::case_when(
 
