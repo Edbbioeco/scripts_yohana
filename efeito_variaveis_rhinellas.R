@@ -1461,21 +1461,29 @@ tabela_flex_traj <- purrr::map_dfr(
   \(modelo){
 
     modelo |>
-      broom::tidy() |>
-      dplyr::mutate(R2 = modelo |>
-                      performance::r2_kullback(adjust = TRUE) |>
-                      as.numeric() |>
+      marginaleffects::avg_comparisons() |>
+      tibble::as_tibble() |>
+      dplyr::mutate(statistic = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(statistic) |>
+                      purrr::pluck(2),
+                    p.value = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(p.value) |>
+                      purrr::pluck(2),
+                    R2 = modelo |>
+                      performance::r2_kullback() |>
                       round(3))
 
   },
   .progress = TRUE) |>
-  dplyr::filter(!term |> stringr::str_detect("Intercept")) |>
   dplyr::mutate(p.value = dplyr::case_when(
 
     p.value < 0.01 ~ "< 0.01",
-    .default = p.value |> round(3) |> as.character()
+    .default = p.value |> round(2) |> as.character()
 
   )) |>
+  dplyr::select(-c(2, 7:9)) |>
   dplyr::mutate(Species = c("Rhinella crucifer",
                             "Rhinella icterica") |>
                   rep(each = 5),
@@ -1490,8 +1498,8 @@ tabela_flex_traj <- purrr::map_dfr(
     term == "temperatura_minima" ~ "Min temperature (°C)"
 
   ),
-  estimate = estimate |> round(4),
-  std.error = std.error |> round(5),
+  estimate = estimate |> round(2),
+  std.error = std.error |> round(2),
   statistic = statistic |> round(2)) |>
   dplyr::rename("Predictor" = 2,
                 "t" = 5,
@@ -1499,12 +1507,14 @@ tabela_flex_traj <- purrr::map_dfr(
                 "pseudo-R²" = 7) |>
   tidyr::unite(3:4,
                sep = " ± ",
-               col = "β1 ± SE") |>
+               col = "ME ± SE") |>
   flextable::flextable() |>
   flextable::align(align = "center",
                    part = "all") |>
   flextable::width(j = 1, width = 1.5) |>
-  flextable::width(j = 3, width = 1.25) |>
+  flextable::width(j = 2, width = 1.25) |>
+  flextable::width(j = 3, width = 1.5) |>
+  flextable::width(j = 6, width = 1.5) |>
   flextable::italic(j = 1, part = "body") |>
   flextable::bg(i = ~abs(t) > 1.833113 &
                   readr::parse_number(p) < 0.05,
