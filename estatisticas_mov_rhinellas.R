@@ -169,3 +169,15 @@ area_rhinella |>
                  Tipo) |>
   dplyr::select(-ordem) |>
   dplyr::mutate(area = area |> round(2))
+
+### Diferenças em KDE 95% para KDE50% ----
+
+area_rhinella |>
+  sf::st_drop_geometry() |>
+  dplyr::select(Espécie, idivíduo, Tipo, area) |>
+  tidyr::pivot_wider(names_from = Tipo,
+                     values_from = area) |>
+  dplyr::mutate(area = `KDE 95%` - `KDE 50%`) |>
+  dplyr::summarise(media = area |> mean() |> round(2),
+                   sd = area |> sd() |> round(2),
+                   .by = Espécie)
