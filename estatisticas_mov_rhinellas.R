@@ -46,3 +46,9 @@ dados_rhinellas <- purrr::map_dfr(
 
   },
   .progress = TRUE)
+
+### Visualizar ----
+
+dados_rhinellas
+
+dados_rhinellas |> dplyr::glimpse()
