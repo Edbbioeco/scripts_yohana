@@ -135,7 +135,11 @@ area_rhinella <- purrr::pmap_dfr(
   },
   .progress = TRUE) |>
   dplyr::mutate(Tipo = Tipo |> forcats::fct_relevel(c("KDE 95%",
-                                                      "KDE 50%")))
+                                                      "KDE 50%"))) |>
+  dplyr::mutate(area = geometry |>
+                  sf::st_transform(crs = 31982) |>
+                  sf::st_area() |>
+                  as.numeric())
 
 area_rhinella
 
