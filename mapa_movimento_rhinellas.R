@@ -216,7 +216,7 @@ ggsave(plot = mapa_icterica,
        height = 12, width = 16)
 
 "mapa_area_vida_rhinella_icterica.png" |>
-  googledrive::drive_upload(media = _,
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "mapa_area_vida_rhinella_icterica.png",
                             overwrite = TRUE)
 
@@ -280,7 +280,7 @@ ggsave(plot = mapa_crucifer,
        height = 12, width = 16)
 
 "mapa_area_vida_rhinella_crucifer.png" |>
-  googledrive::drive_upload(media = _,
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "mapa_area_vida_rhinella_crucifer.png",
                             overwrite = TRUE)
 
@@ -338,6 +338,6 @@ ggsave(filename = "dispersao_area_devida.png",
        width = 12)
 
 "dispersao_area_devida.png" |>
-  googledrive::drive_upload(media = _,
+  googledrive::drive_upload(path = Sys.getenv("pasta_artigo_rhinella"),
                             name = "dispersao_area_devida.png",
                             overwrite = TRUE)
