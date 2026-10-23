@@ -1731,24 +1731,35 @@ tabela_flex_tort <- purrr::map_dfr(
   modelos_glm_tort,
   \(modelo){
 
-    modelo |>
-      summary() %>%
-      .$coefficients %>%
-      .$cond |>
-      as.data.frame() |>
-      tibble::rownames_to_column() |>
-      dplyr::mutate(R2 = modelo |>
+    modelo  |>
+      marginaleffects::avg_comparisons() |>
+      tibble::as_tibble() |>
+      dplyr::mutate(statistic = modelo |>
+                      summary() %>%
+                      .$coefficients %>%
+                      .$cond |>
+                      as.data.frame() |>
+                      dplyr::pull(`z value`) |>
+                      purrr::pluck(2),
+                    p.value = modelo |>
+                      summary() %>%
+                      .$coefficients %>%
+                      .$cond |>
+                      as.data.frame() |>
+                      dplyr::pull(`Pr(>|z|)`)|>
+                      purrr::pluck(2),
+                    R2 = modelo |>
                       performance::r2_ferrari(adjust = TRUE) |>
                       as.numeric() |>
                       round(3))
 
-  },
+    },
   .progress = TRUE) |>
-  dplyr::filter(!rowname |> stringr::str_detect("Intercept")) |>
-  dplyr::mutate(`Pr(>|z|)` = dplyr::case_when(
+  dplyr::select(-c(2, 7:9)) |>
+  dplyr::mutate(p.value = dplyr::case_when(
 
-    `Pr(>|z|)` < 0.01 ~ "< 0.01",
-    .default = `Pr(>|z|)` |> round(2) |> as.character()
+    p.value < 0.01 ~ "< 0.01",
+    .default = p.value |> round(2) |> as.character()
 
   )) |>
   dplyr::mutate(Species = c("Rhinella crucifer",
@@ -1756,25 +1767,25 @@ tabela_flex_tort <- purrr::map_dfr(
                   rep(each = 5),
                 .before = 1) |>
   as.data.frame() |>
-  dplyr::mutate(rowname = dplyr::case_when(
+  dplyr::mutate(term = dplyr::case_when(
 
-    rowname == "peso" ~ "Body mass (g)",
-    rowname == "proporcao_cmp" ~ "Forelimb proportion",
-    rowname == "umidade_relativa_maxima" ~ "Max relative precipitation (mm)",
-    rowname == "temperatura_maxima" ~ "Max temperature (°C)",
-    rowname == "temperatura_minima" ~ "Min temperature (°C)"
+    term == "peso" ~ "Body mass (g)",
+    term == "proporcao_cmp" ~ "Forelimb proportion",
+    term == "umidade_relativa_maxima" ~ "Max relative precipitation (mm)",
+    term == "temperatura_maxima" ~ "Max temperature (°C)",
+    term == "temperatura_minima" ~ "Min temperature (°C)"
 
   ),
-  Estimate = Estimate |> round(3),
-  `Std. Error` = `Std. Error` |> round(4),
-  `z value` = `z value` |> round(2)) |>
+  estimate = estimate |> round(4),
+  std.error = std.error |> round(3),
+  statistic = statistic |> round(2)) |>
   dplyr::rename("Predictor" = 2,
                 "z" = 5,
                 "p" = 6,
                 "pseudo-R²" = 7) |>
   tidyr::unite(3:4,
                sep = " ± ",
-               col = "β1 ± SE") |>
+               col = "ME ± SE") |>
   flextable::flextable() |>
   flextable::align(align = "center",
                    part = "all") |>
