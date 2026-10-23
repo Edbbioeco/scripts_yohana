@@ -138,3 +138,13 @@ area_rhinella <- purrr::pmap_dfr(
                                                       "KDE 50%")))
 
 area_rhinella
+
+## Estatísticas descritivas ----
+
+### Medias por espécies ----
+
+area_rhinella |>
+  sf::st_drop_geometry() |>
+  dplyr::summarise(media = area |> mean() |> round(2),
+                   sd = area |> sd() |> round(2),
+                   .by = Espécie)
