@@ -628,7 +628,8 @@ purrr::imap_dfr(
   \(modelo, id){
 
     modelo |>
-      broom::tidy() |>
+      marginaleffects::avg_comparisons() |>
+      tibble::as_tibble() |>
       dplyr::mutate(modelo = id)
 
     },
