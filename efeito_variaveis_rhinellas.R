@@ -1165,7 +1165,7 @@ vars_rhinella |>
                                    p = p |> readr::parse_number()) |>
                      dplyr::select(1, 2, 3, 5, 6),
                    by = c("Espécie", "Tipo", "Preditor")) |>
-  ggplot(aes(area, `Predictor value`, color = Tipo, fill = Tipo)) +
+  ggplot(aes(`Predictor value`, area, color = Tipo, fill = Tipo)) +
   geom_point(size = 5,
              shape = 21,
              color = "black",
@@ -1180,7 +1180,7 @@ vars_rhinella |>
                      independent = "all") +
   scale_color_manual(values = c("orange4", "royalblue4")) +
   scale_fill_manual(values = c("orange", "royalblue")) +
-  labs(x = "Log 10 Area (m²)",
+  labs(y = "Log 10 Area (m²)",
        color = NULL,
        fill = NULL) +
   theme_bw() +
