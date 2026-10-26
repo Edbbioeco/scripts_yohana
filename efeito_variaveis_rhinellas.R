@@ -1178,8 +1178,10 @@ vars_rhinella |>
   ggh4x::facet_grid2(Preditor ~ Espécie,
                      scales = "free",
                      independent = "all") +
-  scale_color_manual(values = c("orange4", "royalblue4")) +
-  scale_fill_manual(values = c("orange", "royalblue")) +
+  scale_color_manual(values = c("orange4", "royalblue4"),
+                     breaks = c("KDE 95%", "KDE 50%")) +
+  scale_fill_manual(values = c("orange", "royalblue"),
+                    breaks = c("KDE 95%", "KDE 50%")) +
   labs(y = "Log 10 Area (m²)",
        color = NULL,
        fill = NULL) +
