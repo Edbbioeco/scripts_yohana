@@ -141,3 +141,7 @@ div_func_alfa_trat |>
   ggview::canvas(height = 10, width = 12)
 
 ggsave(filename = "dissertacao_div_alfa_func.png", height = 10, width = 12)
+
+ggsave(filename = "figuras_atigo_dissertacao/Scarpin et al. Fig. 4.tiff",
+       height = 10, width = 12,
+       dpi = 350)
