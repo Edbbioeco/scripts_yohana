@@ -132,3 +132,8 @@ beta_dfs |>
   ggview::canvas(height = 10, width = 12)
 
 ggsave(filename = "dissertacao_div_beta_tax_bray.png", height = 10, width = 12)
+
+ggsave(filename = "figuras_atigo_dissertacao/Scarpin et al. Fig. 3.tiff",
+       height = 10, width = 12,
+       dpi = 350)
+
