@@ -97,3 +97,7 @@ hill_data |>
   ggview::canvas(height = 10, width = 12)
 
 ggsave(filename = "dissertacao_div_alfa_tax_hill.png", height = 10, width = 12)
+
+ggsave(filename = "Scarpin et al. Fig. 2.tiff",
+       height = 10, width = 12,
+       dpi = 350)
