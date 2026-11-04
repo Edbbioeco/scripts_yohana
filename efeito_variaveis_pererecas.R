@@ -159,9 +159,14 @@ amb <- "Artigo pererecas" |>
                               path = tempfile(fileext = ".xlsx")) |>
   dplyr::pull(local_path) |>
   readxl::read_xlsx() |>
-  dplyr::filter(INDIVIDUO |> stringr::str_detect("BF|PT")) |>
+  dplyr::filter(INDIVIDUO |> stringr::str_detect("B|PT")) |>
   dplyr::rename("ID" = 1) |>
-  dplyr::mutate(Especie = dplyr::case_when(
+  dplyr::mutate(ID = dplyr::case_when(
+
+    ID |> stringr::str_detect("B") ~ ID |> stringr::str_replace("B", "BF"),
+    .default = ID
+  ),
+                Especie = dplyr::case_when(
 
     ID |> stringr::str_detect("BF") ~ "Boana faber",
     .default = "Phyllomedusa tetraploidea"
