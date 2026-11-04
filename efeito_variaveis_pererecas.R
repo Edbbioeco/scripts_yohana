@@ -63,4 +63,9 @@ mov <- purrr::pmap_dfr(
     },
   .progress = TRUE)
 
+### Visualizar ----
+
+mov
+
+mov |> dplyr::glimpse()
 
