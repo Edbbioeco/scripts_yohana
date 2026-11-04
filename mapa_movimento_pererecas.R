@@ -87,3 +87,16 @@ mov <- purrr::reduce(
     })
 
 mov
+
+## Área de vida ----
+
+## Transformar os pontos em shapefile ----
+
+mov_sf <- mov |>
+  sf::st_as_sf(coords = c(2:3),
+               crs = 4674)
+
+mov_sf
+
+ggplot() +
+  geom_sf(data = mov_sf, aes(color = Especie))
