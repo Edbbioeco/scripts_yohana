@@ -115,3 +115,25 @@ mov_sf
 
 ggplot() +
   geom_sf(data = mov_sf, aes(color = Especie))
+
+## Dados morfológicos ----
+
+## Importar ----
+
+morf <- purrr::map_dfr(
+  c("Boana faber", "Phyllomedusa tetraploidea"),
+  \(sps){
+
+    "Artigo pererecas" |>
+      googledrive::drive_get() |>
+      googledrive::drive_ls() |>
+      dplyr::filter(name |> stringr::str_detect("médias")) |>
+      dplyr::pull(id) |>
+      googledrive::drive_download(file = _,
+                                  path = tempfile(fileext = ".xlsx")) |>
+      dplyr::pull(local_path) |>
+      readxl::read_xlsx(sheet = sps) |>
+      dplyr::mutate(Especie = sps)
+
+    },
+  .progress = TRUE)
