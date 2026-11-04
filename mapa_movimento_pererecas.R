@@ -17,3 +17,9 @@ library(adehabitatHR)
 library(ggspatial)
 
 library(patchwork)
+
+# Dados ----
+
+## Ativar Google Drive ----
+
+googledrive::drive_auth("edson.nilton@ufpe.br")
