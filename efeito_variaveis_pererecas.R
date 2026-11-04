@@ -170,3 +170,37 @@ amb <- "Artigo pererecas" |>
 amb
 
 amb |> dplyr::glimpse()
+
+# Multicolinearidade ----
+
+## Dados mordológicos ----
+
+cor_morf <- purrr::map_dfr(
+  c("Boana faber", "Phyllomedusa tetraploidea"),
+  \(sps){
+
+    matriz <- morf |>
+      dplyr::filter(Especie == sps) |>
+      dplyr::select_if(is.numeric) |>
+      dplyr::rename("Body mass (g)" = "peso",
+                    "Hindlimb proportion" = "Proporção CMA",
+                    "Forelimb proportion" = "Proporção CMP",
+                    "Hindlimb length" = "CMA",
+                    "Forelimb length" = "CMP",
+                    "SVL" = "crc") |>
+      cor(method = "spearman") |>
+      as.matrix()
+
+    matriz[upper.tri(matriz)] <- NA
+
+    matriz |>
+      reshape2::melt() |>
+      tidyr::drop_na() |>
+      dplyr::filter(Var1 != Var2) |>
+      dplyr::mutate(value = value |> round(2),
+                    Especie = sps)
+
+    },
+  .progress = TRUE)
+
+cor_morf
