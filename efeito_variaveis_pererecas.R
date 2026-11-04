@@ -31,3 +31,11 @@ library(flextable)
 library(ggh4x)
 
 library(glmmTMB)
+
+# Dados ----
+
+## Dados de movimentação ----
+
+### Ativar Google Drive ----
+
+googledrive::drive_auth("edson.nilton@ufpe.br")
