@@ -285,3 +285,49 @@ cor_amb <- purrr::map_dfr(
   .progress = TRUE)
 
 cor_amb
+
+cor_amb |>
+  ggplot(aes(Var1, Var2, fill = value, label = value)) +
+  geom_tile(color = "black", linewidth = 1) +
+  geom_text(size = 8) +
+  labs(x = NULL,
+       y = NULL,
+       fill = "Spearman correlation") +
+  coord_equal() +
+  facet_wrap(~Especie) +
+  scale_fill_gradientn(colours = c(viridis::viridis(n = 10) |> rev(),
+                                   viridis::viridis(n = 10)),
+                       limits = c(-1, 1),
+                       guide = guide_colourbar(
+
+                         title.position = "top",
+                         title.hjust = 0.5,
+                         frame.colour = "black",
+                         ticks.colour = "black",
+                         ticks.linewidth = 0.75,
+                         barwidth = 30,
+                         barheight = 1.5
+
+                       )) +
+  theme_bw() +
+  theme(aspect.ratio = 1,
+        axis.text = element_text(color = "black", size = 20),
+        axis.text.x = element_text(angle = 90,
+                                   hjust = 1, vjust = 0.5),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(color = "black", size = 20),
+        legend.position = "bottom",
+        strip.text = element_text(color = "black", size = 30,
+                                  face = "italic"),
+        strip.background = element_rect(color = "black",
+                                        linewidth = 1.5),
+        panel.border = element_rect(color = "black", linewidth = 1.5))
+
+ggsave(filename = "multicolinearidade_amb_pererecas.png",
+       height = 12,
+       width = 16)
+
+"multicolinearidade_amb_pererecas.png" |>
+  googledrive::drive_upload(path = "Artigo pererecas",
+                            name = "multicolinearidade_amb_pererecas.png",
+                            overwrite = TRUE)
