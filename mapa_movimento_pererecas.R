@@ -215,3 +215,67 @@ ggsave(plot = mapa_boana,
   googledrive::drive_upload(path = "Artigo pererecas",
                             name = "mapa_area_vida_boana_faber.png",
                             overwrite = TRUE)
+
+### Phyllomedusa tetraploidea ----
+
+mapa_phyllomedusa <- purrr::map(
+  mov_sf |>
+    dplyr::filter(Especie == "Phyllomedusa tetraploidea") |>
+    dplyr::pull(ID) |>
+    unique(),
+  \(ind){
+
+    ggplot() +
+      geom_sf(data = mov_sf |>
+                dplyr::rename("Indivíduo" = ID) |>
+                dplyr::filter(Indivíduo == ind),
+              aes(color = "Individual traject")) +
+      geom_sf(data = mov_sf |>
+                dplyr::rename("Indivíduo" = ID) |>
+                dplyr::filter(Indivíduo == ind) |>
+                dplyr::summarise(do.union = FALSE) |>
+                sf::st_cast("LINESTRING"),
+              aes(color = "Individual traject")) +
+      geom_sf(data = area_perereca |>
+                dplyr::filter(Indivíduo == ind),
+              aes(color = Tipo),
+              fill = "transparent",
+              linewidth = 1) +
+      scale_color_manual(values = c("orange", "royalblue", "black")) +
+      labs(x = NULL,
+           y = NULL,
+           color = NULL) +
+      ggspatial::annotation_scale(location = "br",
+                                  text_col = "black",
+                                  text_cex = 1.5,
+                                  bar_cols = c("black", "gold")) +
+      facet_wrap(~Indivíduo) +
+      theme_bw() +
+      theme(aspect.ratio = 1,
+            axis.text = element_text(color = "black", size = 10),
+            axis.text.x = element_text(angle = 90,
+                                       hjust = 1, vjust = 0.5),
+            legend.text = element_text(color = "black", size = 20),
+            legend.title = element_text(color = "black", size = 20),
+            strip.text = element_text(color = "black", size = 20),
+            strip.background = element_rect(color = "black",
+                                            linewidth = 1.5),
+            panel.border = element_rect(color = "black", linewidth = 1),
+            plot.title = element_text(color = "black", size = 20,
+                                      face = "italic"))
+
+  },
+  .progress = TRUE) |>
+  patchwork::wrap_plots(guides = "collect", ncol = 5) &
+  theme(legend.position = "bottom")
+
+mapa_phyllomedusa
+
+ggsave(plot = mapa_boana,
+       filename = "mapa_area_vida_phyllomedusa_tetraploidea.png",
+       height = 15, width = 15)
+
+"mapa_area_vida_phyllomedusa_tetraploidea.png" |>
+  googledrive::drive_upload(path = "Artigo pererecas",
+                            name = "mapa_area_vida_phyllomedusa_tetraploidea.png",
+                            overwrite = TRUE)
