@@ -100,3 +100,52 @@ mov_sf
 
 ggplot() +
   geom_sf(data = mov_sf, aes(color = Especie))
+
+## Calcular áreas de vida ----
+
+area_perereca <- purrr::map_dfr(
+  mov_sf$Especie |> unique(),
+  \(perereca){
+
+    id <- mov_sf |>
+      dplyr::filter(Especie == perereca) |>
+      dplyr::pull(ID) |>
+      unique()
+
+    purrr::map(
+      id,
+      \(ind){
+
+        KDE95 <- mov_sf |>
+          dplyr::filter(Especie == perereca & ID == ind) |>
+          sf::as_Spatial() |>
+          adehabitatHR::kernelUD(h = "href",
+                                 extent = 3) |>
+          adehabitatHR::getverticeshr(percent = 90) |>
+          sf::st_as_sf() |>
+          dplyr::mutate(Tipo = "KDE 95%",
+                        Espécie = perereca,
+                        Indivíduo = ind)
+
+        kde50 <- mov_sf |>
+          dplyr::filter(Especie == perereca & ID == ind) |>
+          sf::as_Spatial() |>
+          adehabitatHR::kernelUD(h = "href",
+                                 extent = 3) |>
+          adehabitatHR::getverticeshr(percent = 50) |>
+          sf::st_as_sf() |>
+          dplyr::mutate(Tipo = "KDE 50%",
+                        Especie = perereca,
+                        Indivíduo = ind)
+
+        dplyr::bind_rows(kde50, KDE95)
+
+      }
+    )
+
+  },
+  .progress = TRUE) |>
+  dplyr::mutate(Tipo = Tipo |> forcats::fct_relevel(c("KDE 95%",
+                                                      "KDE 50%")))
+
+area_perereca
