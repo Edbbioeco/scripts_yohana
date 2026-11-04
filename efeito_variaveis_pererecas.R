@@ -164,3 +164,9 @@ amb <- "Artigo pererecas" |>
     ID |> stringr::str_detect("BF") ~ "Boana faber",
     .default = "Phyllomedusa tetraploidea"
     ))
+
+### Visualizar ----
+
+amb
+
+amb |> dplyr::glimpse()
