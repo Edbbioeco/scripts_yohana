@@ -252,3 +252,36 @@ ggsave(filename = "multicolinearidade_morf_pererecas.png",
   googledrive::drive_upload(path = "Artigo pererecas",
                             name = "multicolinearidade_morf_pererecas.png",
                             overwrite = TRUE)
+
+## Dados ambientais ----
+
+cor_amb <- purrr::map_dfr(
+  c("Boana faber", "Phyllomedusa tetraploidea"),
+  \(sps){
+
+    matriz <- amb |>
+      dplyr::filter(Especie == sps) |>
+      dplyr::select_if(is.numeric) |>
+      dplyr::rename("Max temperature (°C)" = "Temperatura máxima",
+                    "Min temperature (°C)" = "Temperatura mínima",
+                    "Mean relative humidity" = "Umidade Relativa -média",
+                    "Max relative humidity" = "Umidade Relativa -máxima",
+                    "Min relative humidity" = "Umidade Relativa - mínima",
+                    "Precipitation (mm)" = "Precipitação",
+                    "Mean temperature (°C)" = "Temperatura média") |>
+      cor(method = "spearman") |>
+      as.matrix()
+
+    matriz[upper.tri(matriz)] <- NA
+
+    matriz |>
+      reshape2::melt() |>
+      tidyr::drop_na() |>
+      dplyr::filter(Var1 != Var2) |>
+      dplyr::mutate(value = value |> round(2),
+                    Especie = sps)
+
+  },
+  .progress = TRUE)
+
+cor_amb
