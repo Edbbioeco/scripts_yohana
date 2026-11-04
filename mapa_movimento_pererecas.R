@@ -152,7 +152,7 @@ area_perereca
 
 ## Mapas ----
 
-### Rhinella icterica ----
+### Boana Faber ----
 
 mapa_boana <- purrr::map(
   mov_sf |>
