@@ -52,3 +52,11 @@ mov <- purrr::pmap_dfr(
 mov
 
 mov |> dplyr::glimpse()
+
+## Converter Coordenadas ----
+
+mov %<>%
+  dplyr::mutate(Longitude = Longitude |> parzer::parse_lon(),
+                Latitude = Latitude |> parzer::parse_lat())
+
+mov
