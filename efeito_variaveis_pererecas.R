@@ -143,3 +143,24 @@ morf <- purrr::map_dfr(
 morf
 
 morf |> dplyr::glimpse()
+
+## Dados ambientais ----
+
+### Importar ----
+
+amb <- "Artigo pererecas" |>
+  googledrive::drive_get() |>
+  googledrive::drive_ls() |>
+  dplyr::filter(name |> stringr::str_detect("AMB")) |>
+  dplyr::pull(id) |>
+  googledrive::drive_download(file = _,
+                              path = tempfile(fileext = ".xlsx")) |>
+  dplyr::pull(local_path) |>
+  readxl::read_xlsx() |>
+  dplyr::filter(INDIVIDUO |> stringr::str_detect("BF|PT")) |>
+  dplyr::rename("ID" = 1) |>
+  dplyr::mutate(Especie = dplyr::case_when(
+
+    ID |> stringr::str_detect("BF") ~ "Boana faber",
+    .default = "Phyllomedusa tetraploidea"
+    ))
