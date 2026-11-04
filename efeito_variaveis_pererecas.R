@@ -76,3 +76,31 @@ mov <- mov |>
                 Latitude = Latitude |> parzer::parse_lat())
 
 mov
+
+### Complear as coordenadas ----
+
+mov <- purrr::reduce(
+  .x = 1:nrow(mov),
+  .init = mov,
+  .f = \(dados, linha){
+
+    if(is.na(dados$Longitude[linha]) || is.na(dados$Latitude[linha])){
+
+      destino <- geosphere::destPoint(
+        p = c(dados$Longitude[linha - 1], dados$Latitude[linha - 1]),
+        b = dados$`Angulo de virada`[linha - 1],
+        d = dados$`Distância (m)`
+        )
+
+      dados$Longitude[linha] <- destino[1]
+
+      dados$Latitude[linha] <- destino[2]
+
+      }
+
+    dados
+
+    }
+  )
+
+mov
