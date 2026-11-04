@@ -12,6 +12,8 @@ library(geosphere)
 
 library(sf)
 
+library(viridis)
+
 library(adehabitatHR)
 
 library(ggbeeswarm)
