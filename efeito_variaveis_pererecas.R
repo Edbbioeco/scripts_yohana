@@ -795,7 +795,19 @@ purrr::imap_dfr(
                 estimate = estimate |> round(2),
                 std.error = std.error |> round(2),
                 t = t |> round(2)) |>
-  dplyr::arrange(KDE |> forcats::fct_relevel("95%", "50%")) |>
+  dplyr::arrange(KDE |> dplyr::desc()) |>
+  dplyr::arrange(Predictor |> forcats::fct_relevel(c("Body mass (g)",
+                                                     "SVL (mm)",
+                                                     "Forelimb lenght (mm)",
+                                                     "Hidelimb lenght (mm)",
+                                                     "Forelimb proportion",
+                                                     "Hidelimb proportion",
+                                                     "Precipitation (mm)",
+                                                     "Max relative humidity (%)",
+                                                     "Min relative humidity (%)",
+                                                     "Max temperature (°C)",
+                                                     "Min temperature (°C)"))) |>
+  dplyr::arrange(Species |> dplyr::desc()) |>
   tidyr::unite(4:5,
                sep = " ± ",
                col = "ME ± SE") |>
@@ -804,9 +816,9 @@ purrr::imap_dfr(
   flextable::align(align = "center",
                    part = "all") |>
   flextable::width(j = 1, width = 1.5) |>
-  flextable::width(j = 3, width = 1.25) |>
+  flextable::width(j = 3, width = 1.5) |>
   flextable::width(j = 4, width = 1.5) |>
-  flextable::width(j = 7, width = 1.5) |>
+  flextable::width(j = 7, width = 1) |>
   flextable::italic(j = 1, part = "body") |>
   flextable::bg(i = ~abs(t) > qt(p = 0.05, df = 13, lower.tail = FALSE) &
                   readr::parse_number(p) < 0.05,
