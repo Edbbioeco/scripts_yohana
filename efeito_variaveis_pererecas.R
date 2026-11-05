@@ -392,3 +392,14 @@ area_perereca <- purrr::map_dfr(
 
 area_perereca
 
+## Gráfico de dispersão ----
+
+### Calcular médias ----
+
+medias_area <- area_perereca |>
+  sf::st_drop_geometry() |>
+  dplyr::summarise(sd = area |> sd(),
+                   area = area |> mean(),
+                   .by = c(Especie, Tipo))
+
+medias_area
