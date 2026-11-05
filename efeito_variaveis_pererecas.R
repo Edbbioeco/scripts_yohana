@@ -464,12 +464,15 @@ id_area_rm
 ## Unir os dados ----
 
 area_df <- area_perereca |>
-  dplyr::left_join(morf,
+  dplyr::left_join(morf |>
+                     dplyr::select(-Especie),
                    by = "ID") |>
-  dplyr::left_join(amb,
+  dplyr::left_join(amb |>
+                     dplyr::select(-Especie),
                    by = "ID") |>
   janitor::clean_names()
 
 area_df
 
 area_df |> dplyr::glimpse()
+
