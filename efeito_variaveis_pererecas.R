@@ -735,3 +735,80 @@ purrr::imap_dfr(
     },
   .progress = TRUE) |>
   dplyr::select(-c(2, 7:9))
+
+## Tabela das estatísticas ----
+
+purrr::imap_dfr(
+  modelos_glm_area,
+  \(modelo, nome){
+
+    modelo |>
+      marginaleffects::avg_comparisons() |>
+      tibble::as_tibble() |>
+      dplyr::mutate(statistic = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(statistic) |>
+                      purrr::pluck(2),
+                    p.value = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(p.value) |>
+                      purrr::pluck(2),
+                    R2 = modelo |>
+                      performance::r2_kullback() |>
+                      round(3),
+                    modelo = nome)
+
+  },
+  .progress = TRUE)|>
+  dplyr::mutate(p.value = dplyr::case_when(
+
+    p.value < 0.01 ~ "< 0.01",
+    .default = p.value |> round(2) |> as.character()
+
+  )) |>
+  dplyr::select(-c(2, 7:9)) |>
+  tidyr::separate(col = modelo,
+                  into = c("Species",
+                           "KDE",
+                           "Predictor"),
+                  sep = "_") |>
+  dplyr::relocate(Species:Predictor, .before = 1) |>
+  dplyr::select(-Predictor) |>
+  dplyr::rename("Predictor" = term,
+                "t" = statistic,
+                "p" = p.value,
+                "pseudo-R³" = R2) |>
+  dplyr::mutate(KDE = KDE |> stringr::str_remove("KDE "),
+                Predictor = dplyr::case_match(
+                  Predictor,
+                  "peso" ~ "Body mass (g)",
+                  "crc" ~ "SVL (mm)",
+                  "cmp" ~ "Forelimb lenght (mm)",
+                  "cma" ~ "Hidelimb lenght (mm)",
+                  "proporcao_cmp" ~ "Forelimb proportion",
+                  "proporcao_cma" ~ "Hidelimb proportion",
+                  "precipitacao" ~ "Precipitation (mm)",
+                  "umidade_relativa_maxima" ~ "Max relative humidity (%)",
+                  "umidade_relativa_minima" ~ "Min relative humidity (%)",
+                  "temperatura_maxima" ~ "Max temperature (°C)",
+                  "temperatura_minima" ~ "Min temperature (°C)"
+                ),
+                estimate = estimate |> round(2),
+                std.error = std.error |> round(2),
+                t = t |> round(2)) |>
+  dplyr::arrange(KDE |> forcats::fct_relevel("95%", "50%")) |>
+  tidyr::unite(4:5,
+               sep = " ± ",
+               col = "ME ± SE") |>
+  as.data.frame() |>
+  flextable::flextable() |>
+  flextable::align(align = "center",
+                   part = "all") |>
+  flextable::width(j = 1, width = 1.5) |>
+  flextable::width(j = 3, width = 1.25) |>
+  flextable::width(j = 4, width = 1.5) |>
+  flextable::width(j = 7, width = 1.5) |>
+  flextable::italic(j = 1, part = "body") |>
+  flextable::bg(i = ~abs(t) > qt(p = 0.05, df = 13, lower.tail = FALSE) &
+                  readr::parse_number(p) < 0.05,
+                bg = "gray")
