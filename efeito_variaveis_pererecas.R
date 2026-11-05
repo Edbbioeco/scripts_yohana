@@ -973,3 +973,12 @@ grrafico_area_boana
 (grafico_area_phyllomedusa + grafico_area_boana) +
   patchwork::plot_layout(guide = "collect") &
   theme(legend.position = "bottom")
+
+ggsave(filename = "grafico_pontos_area.png",
+       height = 25,
+       width = 30)
+
+"grafico_pontos_area.png" |>
+  googledrive::drive_upload(path = "Artigo pererecas",
+                            name = "grafico_pontos_area.png",
+                            overwrite = TRUE)
