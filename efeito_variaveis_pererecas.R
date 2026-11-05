@@ -336,3 +336,55 @@ ggsave(filename = "multicolinearidade_amb_pererecas.png",
   googledrive::drive_upload(path = "Artigo pererecas",
                             name = "multicolinearidade_amb_pererecas.png",
                             overwrite = TRUE)
+
+# Área d vida ----
+
+## Calcular ----
+
+area_perereca <- purrr::map_dfr(
+  mov_sf$Especie |> unique(),
+  \(perereca){
+
+    id <- mov_sf |>
+      dplyr::filter(Especie == perereca) |>
+      dplyr::pull(ID) |>
+      unique()
+
+    purrr::map(
+      id,
+      \(ind){
+
+        KDE95 <- mov_sf |>
+          dplyr::filter(Especie == perereca & ID == ind) |>
+          sf::as_Spatial() |>
+          adehabitatHR::kernelUD(h = "href",
+                                 extent = 5) |>
+          adehabitatHR::getverticeshr(percent = 95) |>
+          sf::st_as_sf() |>
+          dplyr::mutate(Tipo = "KDE 95%",
+                        Espécie = perereca,
+                        Indivíduo = ind)
+
+        kde50 <- mov_sf |>
+          dplyr::filter(Especie == perereca & ID == ind) |>
+          sf::as_Spatial() |>
+          adehabitatHR::kernelUD(h = "href",
+                                 extent = 5) |>
+          adehabitatHR::getverticeshr(percent = 50) |>
+          sf::st_as_sf() |>
+          dplyr::mutate(Tipo = "KDE 50%",
+                        Especie = perereca,
+                        Indivíduo = ind)
+
+        dplyr::bind_rows(kde50, KDE95)
+
+      }
+    )
+
+  },
+  .progress = TRUE) |>
+  dplyr::mutate(Tipo = Tipo |> forcats::fct_relevel(c("KDE 95%",
+                                                      "KDE 50%")))
+
+area_perereca
+
