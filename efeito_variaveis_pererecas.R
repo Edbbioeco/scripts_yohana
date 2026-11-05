@@ -591,3 +591,102 @@ purrr::imap(
 
     },
   .progress = TRUE)
+
+## Modelos lineares generalizados ----
+
+### Criar modelos ----
+
+modelos_glm_area <- purrr::pmap(
+  tidyr::expand_grid(sps = mov_sf$Especie |> unique(),
+                     kde = area_perereca$Tipo |> unique()),
+  \(sps, kde){
+
+    if(sps == "Boana faber"){
+
+      purrr::map(
+        c("peso",
+          "crc",
+          "cma",
+          "proporcao_cmp",
+          "precipitacao",
+          "umidade_relativa_maxima",
+          "umidade_relativa_minima",
+          "temperatura_maxima",
+          "temperatura_minima"),
+        \(var){
+
+          formula <- paste0("area ~ ", var) |>
+            as.formula()
+
+          glm(formula,
+              data = area_df |>
+                dplyr::filter(especie == sps & tipo == kde),
+              family = Gamma(link = "log"))
+
+        }
+      )
+
+    } else {
+
+      purrr::map(
+        c("peso",
+          "crc",
+          "cmp",
+          "cma",
+          "proporcao_cmp",
+          "precipitacao",
+          "umidade_relativa_maxima",
+          "umidade_relativa_minima",
+          "temperatura_maxima",
+          "temperatura_minima"),
+        \(var){
+
+          formula <- paste0("area ~ ", var) |>
+            as.formula()
+
+          glm(formula,
+              data = area_df |>
+                dplyr::filter(especie == sps & tipo == kde),
+              family = Gamma(link = "log"))
+
+        }
+      )
+
+    }
+
+  },
+  .progress = TRUE) |>
+  purrr::flatten() |>
+  purrr::set_names(tidyr::expand_grid(sps = "Boana faber",
+                                      kde = area_perereca$Tipo |> unique(),
+                                      var = c("peso",
+                                              "crc",
+                                              "cma",
+                                              "proporcao_cmp",
+                                              "precipitacao",
+                                              "umidade_relativa_maxima",
+                                              "umidade_relativa_minima",
+                                              "temperatura_maxima",
+                                              "temperatura_minima")) |>
+                     dplyr::bind_rows(
+                       tidyr::expand_grid(
+                         sps = "Phyllomedusa tetraploidea",
+                         kde = area_perereca$Tipo |> unique(),
+                         var = c("peso",
+                                 "crc",
+                                 "cmp",
+                                 "cma",
+                                 "proporcao_cmp",
+                                 "precipitacao",
+                                 "umidade_relativa_maxima",
+                                 "umidade_relativa_minima",
+                                 "temperatura_maxima",
+                                 "temperatura_minima"))
+                     ) |>
+                     tidyr::unite(
+                       col = "nome",
+                       dplyr::everything(),
+                       sep = "_")|>
+                     dplyr::pull(nome))
+
+modelos_glm_area
