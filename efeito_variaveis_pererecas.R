@@ -504,7 +504,9 @@ modelos_lm_area <- purrr::pmap(
 
           lm(formula,
              data = area_df |>
-               dplyr::filter(especie == sps & tipo == kde))
+               dplyr::filter(especie == sps &
+                               tipo == kde &
+                               id != id_area_rm))
 
           }
         )
@@ -529,7 +531,9 @@ modelos_lm_area <- purrr::pmap(
 
             lm(formula,
                data = area_df |>
-                 dplyr::filter(especie == sps & tipo == kde))
+                 dplyr::filter(especie == sps &
+                                 tipo == kde &
+                                 id != id_area_rm))
 
             }
           )
@@ -690,3 +694,14 @@ modelos_glm_area <- purrr::pmap(
                      dplyr::pull(nome))
 
 modelos_glm_area
+
+### Avaliar o modelo ----
+
+purrr::map(
+  modelos_glm_area,
+  \(modelo){
+
+    modelo |> DHARMa::simulateResiduals(plot = TRUE)
+
+    },
+  .progress = TRUE)
