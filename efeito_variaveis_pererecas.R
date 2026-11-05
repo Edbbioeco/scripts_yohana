@@ -666,6 +666,7 @@ modelos_glm_area <- purrr::pmap(
   .progress = TRUE) |>
   purrr::flatten() |>
   purrr::set_names(tidyr::expand_grid(sps = "Phyllomedusa tetraploidea",
+                                      kde = area_perereca$Tipo |> unique(),
                                       var = c("peso",
                                               "crc",
                                               "cmp",
@@ -675,10 +676,10 @@ modelos_glm_area <- purrr::pmap(
                                               "umidade_relativa_maxima",
                                               "umidade_relativa_minima",
                                               "temperatura_maxima",
-                                              "temperatura_minima"),
-                                      kde = area_perereca$Tipo |> unique()) |>
+                                              "temperatura_minima")) |>
                      dplyr::bind_rows(
                        tidyr::expand_grid(sps = "Boana faber",
+                                          kde = area_perereca$Tipo |> unique(),
                                           var = c("peso",
                                                   "crc",
                                                   "cma",
@@ -687,8 +688,7 @@ modelos_glm_area <- purrr::pmap(
                                                   "umidade_relativa_maxima",
                                                   "umidade_relativa_minima",
                                                   "temperatura_maxima",
-                                                  "temperatura_minima"),
-                                          kde = area_perereca$Tipo |> unique())
+                                                  "temperatura_minima"))
                      ) |>
                      tidyr::unite(
                        col = "nome",
