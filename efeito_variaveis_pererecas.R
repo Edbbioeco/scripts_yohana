@@ -624,7 +624,9 @@ modelos_glm_area <- purrr::pmap(
 
           glm(formula,
               data = area_df |>
-                dplyr::filter(especie == sps & tipo == kde),
+                dplyr::filter(especie == sps &
+                                tipo == kde &
+                                id != id_area_rm),
               family = Gamma(link = "log"))
 
         }
@@ -650,7 +652,9 @@ modelos_glm_area <- purrr::pmap(
 
           glm(formula,
               data = area_df |>
-                dplyr::filter(especie == sps & tipo == kde),
+                dplyr::filter(especie == sps &
+                                tipo == kde &
+                                id != id_area_rm),
               family = Gamma(link = "log"))
 
         }
