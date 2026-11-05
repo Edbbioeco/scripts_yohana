@@ -543,10 +543,11 @@ modelos_lm_area <- purrr::pmap(
     },
   .progress = TRUE) |>
   purrr::flatten() |>
-  purrr::set_names(tidyr::expand_grid(sps = "Boana faber",
+  purrr::set_names(tidyr::expand_grid(sps = "Phyllomedusa tetraploidea",
                                       kde = area_perereca$Tipo |> unique(),
                                       var = c("peso",
                                               "crc",
+                                              "cmp",
                                               "cma",
                                               "proporcao_cmp",
                                               "precipitacao",
@@ -555,20 +556,18 @@ modelos_lm_area <- purrr::pmap(
                                               "temperatura_maxima",
                                               "temperatura_minima")) |>
                      dplyr::bind_rows(
-                       tidyr::expand_grid(
-                         sps = "Phyllomedusa tetraploidea",
-                         kde = area_perereca$Tipo |> unique(),
-                         var = c("peso",
-                                 "crc",
-                                 "cmp",
-                                 "cma",
-                                 "proporcao_cmp",
-                                 "precipitacao",
-                                 "umidade_relativa_maxima",
-                                 "umidade_relativa_minima",
-                                 "temperatura_maxima",
-                                 "temperatura_minima"))
-                       ) |>
+                       tidyr::expand_grid(sps = "Boana faber",
+                                          kde = area_perereca$Tipo |> unique(),
+                                          var = c("peso",
+                                                  "crc",
+                                                  "cma",
+                                                  "proporcao_cmp",
+                                                  "precipitacao",
+                                                  "umidade_relativa_maxima",
+                                                  "umidade_relativa_minima",
+                                                  "temperatura_maxima",
+                                                  "temperatura_minima"))
+                     ) |>
                      tidyr::unite(
                        col = "nome",
                        dplyr::everything(),
