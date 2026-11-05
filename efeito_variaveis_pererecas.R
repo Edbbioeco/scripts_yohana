@@ -435,3 +435,12 @@ area_perereca |>
         legend.title = element_text(color = "black", size = 20),
         legend.position = "bottom",
         panel.border = element_rect(color = "black", linewidth = 1))
+
+ggsave(filename = "dispersao_area_perereca.png",
+       height = 12,
+       width = 12)
+
+"dispersao_area_perereca.png" |>
+  googledrive::drive_upload(path = "Artigo pererecas",
+                            name = "dispersao_area_perereca.png",
+                            overwrite = TRUE)
