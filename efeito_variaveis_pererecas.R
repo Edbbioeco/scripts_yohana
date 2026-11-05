@@ -363,7 +363,7 @@ area_perereca <- purrr::map_dfr(
           sf::st_as_sf() |>
           dplyr::mutate(Tipo = "KDE 95%",
                         Especie = perereca,
-                        Indivíduo = ind)
+                        ID = ind)
 
         kde50 <- mov_sf |>
           dplyr::filter(Especie == perereca & ID == ind) |>
@@ -374,7 +374,7 @@ area_perereca <- purrr::map_dfr(
           sf::st_as_sf() |>
           dplyr::mutate(Tipo = "KDE 50%",
                         Especie = perereca,
-                        Indivíduo = ind)
+                        ID = ind)
 
         dplyr::bind_rows(kde50, KDE95)
 
@@ -460,3 +460,5 @@ id_area_rm <- area_perereca |>
   unique()
 
 id_area_rm
+
+
