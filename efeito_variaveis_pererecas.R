@@ -814,7 +814,7 @@ df_sts_area <- purrr::imap_dfr(
 
 df_sts_area
 
-tabela_sts_area<- df_sts_area |>
+tabela_sts_area <- df_sts_area |>
   flextable::flextable() |>
   flextable::align(align = "center",
                    part = "all") |>
@@ -836,3 +836,140 @@ tabela_sts_area |>
   googledrive::drive_upload(path = "Artigo pererecas",
                             name = "tabela_sts_area.docx",
                             overwrite = TRUE)
+
+## Gráfico ----
+
+grafico_area_phyllomedusa <- area_df |>
+  dplyr::filter(especie == "Phyllomedusa tetraploidea") |>
+  tidyr::pivot_longer(cols = c("peso",
+                               "crc",
+                               "cmp",
+                               "cma",
+                               "proporcao_cmp",
+                               "precipitacao",
+                               "umidade_relativa_maxima",
+                               "umidade_relativa_minima",
+                               "temperatura_maxima",
+                               "temperatura_minima"),
+                      names_to = "Predictor",
+                      values_to = "Predictor value") |>
+  dplyr::mutate(Predictor = dplyr::case_match(
+    Predictor,
+    "peso" ~ "Body mass (g)",
+    "crc" ~ "SVL (mm)",
+    "cmp" ~ "Forelimb lenght (mm)",
+    "cma" ~ "Hidelimb lenght (mm)",
+    "proporcao_cmp" ~ "Forelimb proportion",
+    "proporcao_cma" ~ "Hidelimb proportion",
+    "precipitacao" ~ "Precipitation (mm)",
+    "umidade_relativa_maxima" ~ "Max relative humidity (%)",
+    "umidade_relativa_minima" ~ "Min relative humidity (%)",
+    "temperatura_maxima" ~ "Max temperature (°C)",
+    "temperatura_minima" ~ "Min temperature (°C)"
+  )) |>
+  dplyr::left_join(df_sts_area |>
+                     dplyr::mutate(tipo = paste0("KDE ", KDE),
+                                   p = p |> readr::parse_number()) |>
+                     dplyr::select(especie = Species, tipo, Predictor, t, p),
+                   by = c("especie", "tipo", "Predictor")) |>
+  ggplot(aes(`Predictor value`, area |> log(),
+             color = tipo, fill = tipo)) +
+  geom_point(size = 5,
+             shape = 21,
+             color = "black",
+             stroke = 1.5) +
+  geom_smooth(data = . %>%
+                dplyr::filter(abs(t) > 1.883 &
+                                p < 0.05),
+              method = "lm",
+              se = FALSE) +
+  facet_wrap(~Predictor, ncol = 2, scales = "free_x") +
+  scale_color_manual(values = c("orange4", "royalblue4"),
+                     breaks = c("KDE 95%", "KDE 50%")) +
+  scale_fill_manual(values = c("orange", "royalblue"),
+                    breaks = c("KDE 95%", "KDE 50%")) +
+  labs(y = "Log 10 Area (m²)",
+       color = NULL,
+       fill = NULL,
+       title = "Phyllomedusa tetraploidea") +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 30),
+        axis.title = element_text(color = "black", size = 30),
+        legend.text = element_text(color = "black", size = 30),
+        legend.title = element_text(color = "black", size = 30),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1),
+        strip.text = element_text(color = "black", size = 35),
+        strip.text.y.right = element_text(size = 16.5),
+        plot.title = element_text(color = "black", size = 35, face = "italic",
+                                  hjust = 0.5))
+
+grafico_area_boana <- area_df |>
+  dplyr::filter(especie == "Boana faber") |>
+  tidyr::pivot_longer(cols = c("peso",
+                               "crc",
+                               "cma",
+                               "proporcao_cmp",
+                               "precipitacao",
+                               "umidade_relativa_maxima",
+                               "umidade_relativa_minima",
+                               "temperatura_maxima",
+                               "temperatura_minima"),
+                      names_to = "Predictor",
+                      values_to = "Predictor value") |>
+  dplyr::mutate(Predictor = dplyr::case_match(
+    Predictor,
+    "peso" ~ "Body mass (g)",
+    "crc" ~ "SVL (mm)",
+    "cmp" ~ "Forelimb lenght (mm)",
+    "cma" ~ "Hidelimb lenght (mm)",
+    "proporcao_cmp" ~ "Forelimb proportion",
+    "proporcao_cma" ~ "Hidelimb proportion",
+    "precipitacao" ~ "Precipitation (mm)",
+    "umidade_relativa_maxima" ~ "Max relative humidity (%)",
+    "umidade_relativa_minima" ~ "Min relative humidity (%)",
+    "temperatura_maxima" ~ "Max temperature (°C)",
+    "temperatura_minima" ~ "Min temperature (°C)"
+  )) |>
+  dplyr::left_join(df_sts_area |>
+                     dplyr::mutate(tipo = paste0("KDE ", KDE),
+                                   p = p |> readr::parse_number()) |>
+                     dplyr::select(especie = Species, tipo, Predictor, t, p),
+                   by = c("especie", "tipo", "Predictor")) |>
+  ggplot(aes(`Predictor value`, area |> log(),
+             color = tipo, fill = tipo)) +
+  geom_point(size = 5,
+             shape = 21,
+             color = "black",
+             stroke = 1.5) +
+  geom_smooth(data = . %>%
+                dplyr::filter(abs(t) > 1.883 &
+                                p < 0.05),
+              method = "lm",
+              se = FALSE) +
+  facet_wrap(~Predictor, ncol = 2, scales = "free_x") +
+  scale_color_manual(values = c("orange4", "royalblue4"),
+                     breaks = c("KDE 95%", "KDE 50%")) +
+  scale_fill_manual(values = c("orange", "royalblue"),
+                    breaks = c("KDE 95%", "KDE 50%")) +
+  labs(y = "Log 10 Area (m²)",
+       color = NULL,
+       fill = NULL,
+       title = "Boana faber") +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 30),
+        axis.title = element_text(color = "black", size = 30),
+        legend.text = element_text(color = "black", size = 30),
+        legend.title = element_text(color = "black", size = 30),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1),
+        strip.text = element_text(color = "black", size = 35),
+        strip.text.y.right = element_text(size = 16.5),
+        plot.title = element_text(color = "black", size = 35, face = "italic",
+                                  hjust = 0.5))
+
+grrafico_area_boana
+
+(grafico_area_phyllomedusa + grafico_area_boana) +
+  patchwork::plot_layout(guide = "collect") &
+  theme(legend.position = "bottom")
