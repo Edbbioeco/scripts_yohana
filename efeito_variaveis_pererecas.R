@@ -362,7 +362,7 @@ area_perereca <- purrr::map_dfr(
           adehabitatHR::getverticeshr(percent = 95) |>
           sf::st_as_sf() |>
           dplyr::mutate(Tipo = "KDE 95%",
-                        Espécie = perereca,
+                        Especie = perereca,
                         Indivíduo = ind)
 
         kde50 <- mov_sf |>
