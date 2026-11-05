@@ -403,3 +403,35 @@ medias_area <- area_perereca |>
                    .by = c(Especie, Tipo))
 
 medias_area
+
+### Gráfico ----
+
+area_perereca |>
+  ggplot(aes(Especie, area, fill = Tipo)) +
+  ggbeeswarm::geom_quasirandom(shape = 21, color = "black", size = 7,
+                               dodge.width = 0.7,
+                               stroke = 1.5) +
+  geom_errorbar(data = medias_area,
+                aes(x = Especie, y = area,
+                    ymin = area - sd, ymax = area + sd,
+                    group = Tipo),
+                linewidth = 1.25,
+                width = 0.35,
+                position = position_dodge(width = 0.7)) +
+  geom_point(data = medias_area,
+             aes(x = Especie, y = area),
+             position = position_dodge(width = 0.7),
+             size = 5,
+             show.legend = FALSE) +
+  scale_fill_manual(values = c("orange", "royalblue")) +
+  labs(x = "Species",
+       y = "Area (m²)",
+       fill = NULL) +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.text.x = element_text(face = "italic"),
+        axis.title = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(color = "black", size = 20),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1))
