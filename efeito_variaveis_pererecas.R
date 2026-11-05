@@ -444,3 +444,19 @@ ggsave(filename = "dispersao_area_perereca.png",
   googledrive::drive_upload(path = "Artigo pererecas",
                             name = "dispersao_area_perereca.png",
                             overwrite = TRUE)
+
+### Identificar os outliers ----
+
+area_perereca |>
+  dplyr::filter(Especie == "Boana faber") |>
+  dplyr::slice_max(area, n = 1, by = Tipo) |>
+  dplyr::select(Indivíduo, Tipo, Especie)
+
+id_area_rm <- area_perereca |>
+  dplyr::filter(Especie == "Boana faber") |>
+  dplyr::slice_max(area, n = 1, by = Tipo) |>
+  dplyr::select(Indivíduo, Tipo, Especie) |>
+  dplyr::pull(Indivíduo) |>
+  unique()
+
+id_area_rm
