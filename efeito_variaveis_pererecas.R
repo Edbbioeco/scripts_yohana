@@ -824,3 +824,11 @@ tabela_sts_area <- purrr::imap_dfr(
                 bg = "gray")
 
 tabela_sts_area
+
+tabela_sts_area |>
+  flextable::save_as_docx(path = "tabela_sts_area.docx")
+
+"tabela_sts_area.docx" |>
+  googledrive::drive_upload(path = "Artigo pererecas",
+                            name = "tabela_sts_area.docx",
+                            overwrite = TRUE)
