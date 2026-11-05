@@ -665,31 +665,30 @@ modelos_glm_area <- purrr::pmap(
   },
   .progress = TRUE) |>
   purrr::flatten() |>
-  purrr::set_names(tidyr::expand_grid(sps = "Boana faber",
-                                      kde = area_perereca$Tipo |> unique(),
+  purrr::set_names(tidyr::expand_grid(sps = "Phyllomedusa tetraploidea",
                                       var = c("peso",
                                               "crc",
+                                              "cmp",
                                               "cma",
                                               "proporcao_cmp",
                                               "precipitacao",
                                               "umidade_relativa_maxima",
                                               "umidade_relativa_minima",
                                               "temperatura_maxima",
-                                              "temperatura_minima")) |>
+                                              "temperatura_minima"),
+                                      kde = area_perereca$Tipo |> unique()) |>
                      dplyr::bind_rows(
-                       tidyr::expand_grid(
-                         sps = "Phyllomedusa tetraploidea",
-                         kde = area_perereca$Tipo |> unique(),
-                         var = c("peso",
-                                 "crc",
-                                 "cmp",
-                                 "cma",
-                                 "proporcao_cmp",
-                                 "precipitacao",
-                                 "umidade_relativa_maxima",
-                                 "umidade_relativa_minima",
-                                 "temperatura_maxima",
-                                 "temperatura_minima"))
+                       tidyr::expand_grid(sps = "Boana faber",
+                                          var = c("peso",
+                                                  "crc",
+                                                  "cma",
+                                                  "proporcao_cmp",
+                                                  "precipitacao",
+                                                  "umidade_relativa_maxima",
+                                                  "umidade_relativa_minima",
+                                                  "temperatura_maxima",
+                                                  "temperatura_minima"),
+                                          kde = area_perereca$Tipo |> unique())
                      ) |>
                      tidyr::unite(
                        col = "nome",
