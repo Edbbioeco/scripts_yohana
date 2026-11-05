@@ -91,7 +91,7 @@ mov <- purrr::reduce(
       destino <- geosphere::destPoint(
         p = c(dados$Longitude[linha - 1], dados$Latitude[linha - 1]),
         b = dados$`Angulo de virada`[linha - 1],
-        d = dados$`Distância (m)`
+        d = dados$`Distância (m)`[linha - 1]
         )
 
       dados$Longitude[linha] <- destino[1]
