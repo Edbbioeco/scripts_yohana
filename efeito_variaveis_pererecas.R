@@ -736,7 +736,7 @@ purrr::imap_dfr(
 
 ## Tabela das estatísticas ----
 
-purrr::imap_dfr(
+tabela_sts_area <- purrr::imap_dfr(
   modelos_glm_area,
   \(modelo, nome){
 
@@ -822,3 +822,5 @@ purrr::imap_dfr(
   flextable::bg(i = ~abs(t) > qt(p = 0.05, df = 13, lower.tail = FALSE) &
                   readr::parse_number(p) < 0.05,
                 bg = "gray")
+
+tabela_sts_area
