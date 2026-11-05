@@ -736,7 +736,7 @@ purrr::imap_dfr(
 
 ## Tabela das estatísticas ----
 
-tabela_sts_area <- purrr::imap_dfr(
+df_sts_area <- purrr::imap_dfr(
   modelos_glm_area,
   \(modelo, nome){
 
@@ -810,7 +810,11 @@ tabela_sts_area <- purrr::imap_dfr(
   tidyr::unite(4:5,
                sep = " ± ",
                col = "ME ± SE") |>
-  as.data.frame() |>
+  as.data.frame()
+
+df_sts_area
+
+tabela_sts_area<- df_sts_area |>
   flextable::flextable() |>
   flextable::align(align = "center",
                    part = "all") |>
