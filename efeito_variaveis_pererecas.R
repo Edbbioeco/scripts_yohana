@@ -572,3 +572,22 @@ modelos_lm_area <- purrr::pmap(
                      dplyr::pull(nome))
 
 modelos_lm_area
+
+### Avaliar os modelos ----
+
+purrr::imap(
+  modelos_lm_area,
+  \(modelo, id){
+
+    message(id) |> print()
+
+    modelo |>
+      performance::check_normality() |>
+      print()
+
+    modelo |>
+      performance::check_heteroscedasticity() |>
+      print()
+
+    },
+  .progress = TRUE)
