@@ -1220,3 +1220,23 @@ id_dz_rm <- dz_perereca |>
   unique()
 
 id_dz_rm
+
+## Unir os dados ----
+
+dz_df <- dz_perereca |>
+  dplyr::left_join(morf |>
+                     dplyr::select(-Especie),
+                   by = "ID") |>
+  dplyr::left_join(amb |>
+                     dplyr::select(-Especie) |>
+                     dplyr::summarise(
+                       dplyr::across(
+                         .cols = dplyr::where(is.numeric),
+                         .fns = ~.x |> mean()),
+                       .by = ID),
+                   by = "ID") |>
+  janitor::clean_names()
+
+dz_df
+
+dz_df |> dplyr::glimpse()
