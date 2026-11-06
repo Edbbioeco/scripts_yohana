@@ -1328,3 +1328,30 @@ purrr::map(
 
   },
   .progress = TRUE)
+
+### Estatísticas do modelo ----
+
+purrr::imap_dfr(
+  modelos_lm_dz,
+  \(modelo, nome){
+
+    modelo |>
+      marginaleffects::avg_comparisons() |>
+      tibble::as_tibble() |>
+      dplyr::mutate(statistic = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(statistic) |>
+                      purrr::pluck(2),
+                    p.value = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(p.value) |>
+                      purrr::pluck(2),
+                    R2 = modelo |>
+                      performance::r2() |>
+                      purrr::pluck(2) |>
+                      round(3),
+                    modelo = nome)
+
+  },
+  .progress = TRUE) |>
+  dplyr::select(-c(2, 7:9))
