@@ -455,7 +455,7 @@ area_perereca |>
 id_area_rm <- area_perereca |>
   dplyr::filter(Especie == "Boana faber") |>
   dplyr::slice_max(area, n = 1, by = Tipo) |>
-  dplyr::select(Indivíduo, Tipo, Especie) |>
+  dplyr::select(ID, Tipo, Especie) |>
   dplyr::pull(ID) |>
   unique()
 
