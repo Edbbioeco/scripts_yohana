@@ -1207,13 +1207,13 @@ ggsave(filename = "dispersao_dz_perereca.png",
 ### Identificar os outliers ----
 
 dz_perereca |>
-  dplyr::filter(Especie == "Boana faber") |>
-  dplyr::slice_max(dz, n = 1) |>
+  dplyr::filter(Especie == "Phyllomedusa tetraploidea") |>
+  dplyr::slice_max(dz, n = 3) |>
   dplyr::select(ID, Especie)
 
 id_dz_rm <- dz_perereca |>
-  dplyr::filter(Especie == "Boana faber") |>
-  dplyr::slice_max(dz, n = 1) |>
+  dplyr::filter(Especie == "Phyllomedusa tetraploidea") |>
+  dplyr::slice_max(dz, n = 3) |>
   dplyr::select(ID, Especie) |>
   dplyr::pull(ID) |>
   unique()
@@ -1270,13 +1270,13 @@ modelos_lm_dz <- purrr::pmap(
       ),
   \(sps, var){
 
-    formula <- paste0("area ~ ", var) |>
+    formula <- paste0("dz ~ ", var) |>
       as.formula()
 
     lm(formula,
-       data = area_df |>
+       data = dz_df |>
          dplyr::filter(especie == sps &
-                         id != id_area_rm))
+                         id %notin% id_dz_rm))
 
     },
   .progress = TRUE) |>
