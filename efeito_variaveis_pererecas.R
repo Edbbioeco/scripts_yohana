@@ -468,7 +468,12 @@ area_df <- area_perereca |>
                      dplyr::select(-Especie),
                    by = "ID") |>
   dplyr::left_join(amb |>
-                     dplyr::select(-Especie),
+                     dplyr::select(-Especie) |>
+                     dplyr::summarise(
+                       dplyr::across(
+                         .cols = dplyr::where(is.numeric),
+                         .fns = ~.x |> mean()),
+                       .by = ID),
                    by = "ID") |>
   janitor::clean_names()
 
@@ -1139,3 +1144,4 @@ ggsave(filename = "grafico_pontos_area_completo.png",
   googledrive::drive_upload(path = "Artigo pererecas",
                             name = "grafico_pontos_area_completo.png",
                             overwrite = TRUE)
+
