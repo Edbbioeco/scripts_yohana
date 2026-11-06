@@ -1161,10 +1161,10 @@ dz_perereca
 
 ### Calcular médias ----
 
-medias_dz <- dz_df |>
+medias_dz <- dz_perereca |>
   dplyr::summarise(sd = dz |> sd(),
                    dz = dz |> mean(),
-                   .by = especie)
+                   .by = Especie)
 
 medias_dz
 
