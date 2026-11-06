@@ -1145,3 +1145,25 @@ ggsave(filename = "grafico_pontos_area_completo.png",
                             name = "grafico_pontos_area_completo.png",
                             overwrite = TRUE)
 
+# Deslocamento vertical ----
+
+## Calcular ----
+
+dz_df <- mov |>
+  dplyr::summarise(dz = (`Altura (m)` - dplyr::lag(`Altura (m)`)) |>
+                     sum(na.rm = TRUE),
+                   .by = ID) |>
+  as.data.frame() |>
+  dplyr::left_join(morf,
+                   by = "ID") |>
+  dplyr::left_join(amb |>
+                     dplyr::select(-Especie) |>
+                     dplyr::summarise(
+                       dplyr::across(
+                         .cols = dplyr::where(is.numeric),
+                         .fns = ~.x |> mean()),
+                       .by = ID),
+                   by = "ID") |>
+  janitor::clean_names()
+
+dz_df
