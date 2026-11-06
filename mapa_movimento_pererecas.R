@@ -271,7 +271,7 @@ mapa_phyllomedusa <- purrr::map(
 
 mapa_phyllomedusa
 
-ggsave(plot = mapa_boana,
+ggsave(plot = mapa_phyllomedusa,
        filename = "mapa_area_vida_phyllomedusa_tetraploidea.png",
        height = 15, width = 15)
 
