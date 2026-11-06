@@ -872,6 +872,7 @@ grafico_area_phyllomedusa <- area_df |>
                                    p = p |> readr::parse_number()) |>
                      dplyr::select(especie = Species, tipo, Predictor, t, p),
                    by = c("especie", "tipo", "Predictor")) |>
+  dplyr::filter(id_2 != id_area_rm) |>
   ggplot(aes(`Predictor value`, area |> log(),
              color = tipo, fill = tipo)) +
   geom_point(size = 5,
@@ -936,6 +937,7 @@ grafico_area_boana <- area_df |>
                                    p = p |> readr::parse_number()) |>
                      dplyr::select(especie = Species, tipo, Predictor, t, p),
                    by = c("especie", "tipo", "Predictor")) |>
+  dplyr::filter(id_2 != id_area_rm) |>
   ggplot(aes(`Predictor value`, area |> log(),
              color = tipo, fill = tipo)) +
   geom_point(size = 5,
