@@ -1275,8 +1275,7 @@ modelos_lm_dz <- purrr::pmap(
 
     lm(formula,
        data = dz_df |>
-         dplyr::filter(especie == sps &
-                         id %notin% id_dz_rm))
+         dplyr::filter(especie == sps))
 
     },
   .progress = TRUE) |>
