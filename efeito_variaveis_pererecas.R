@@ -450,13 +450,13 @@ ggsave(filename = "dispersao_area_perereca.png",
 area_perereca |>
   dplyr::filter(Especie == "Boana faber") |>
   dplyr::slice_max(area, n = 1, by = Tipo) |>
-  dplyr::select(Indivíduo, Tipo, Especie)
+  dplyr::select(ID, Tipo, Especie)
 
 id_area_rm <- area_perereca |>
   dplyr::filter(Especie == "Boana faber") |>
   dplyr::slice_max(area, n = 1, by = Tipo) |>
   dplyr::select(Indivíduo, Tipo, Especie) |>
-  dplyr::pull(Indivíduo) |>
+  dplyr::pull(ID) |>
   unique()
 
 id_area_rm
