@@ -1170,24 +1170,20 @@ medias_dz
 
 ### Gráfico ----
 
-dz_df |>
+dz_perereca |>
   ggplot(aes(Especie, dz)) +
   ggbeeswarm::geom_quasirandom(color = "black", size = 7, stroke = 1.5) +
   geom_errorbar(data = medias_dz,
-                aes(x = Especie, y = area,
-                    ymin = dz - sd, ymax = dz + sd,
-                    group = Tipo),
+                aes(x = Especie, y = dz,
+                    ymin = dz - sd, ymax = dz + sd),
                 linewidth = 1.25,
                 width = 0.35,
-                position = position_dodge(width = 0.7),
                 color = "red") +
-  geom_point(data = medias_area,
+  geom_point(data = medias_dz,
              aes(x = Especie, y = dz),
-             position = position_dodge(width = 0.7),
              size = 5,
              show.legend = FALSE,
              color = "red") +
-  scale_fill_manual(values = c("orange", "royalblue")) +
   labs(x = "Species",
        y = "Δz (m)",
        fill = NULL) +
