@@ -839,6 +839,8 @@ tabela_sts_area |>
 
 ## Gráfico ----
 
+## Gráfico com todas as variáveis ----
+
 grafico_area_phyllomedusa <- area_df |>
   dplyr::filter(especie == "Phyllomedusa tetraploidea") |>
   tidyr::pivot_longer(cols = c("peso",
@@ -904,6 +906,8 @@ grafico_area_phyllomedusa <- area_df |>
         strip.text.y.right = element_text(size = 16.5),
         plot.title = element_text(color = "black", size = 35, face = "italic",
                                   hjust = 0.5))
+
+grafico_area_phyllomedusa
 
 grafico_area_boana <- area_df |>
   dplyr::filter(especie == "Boana faber") |>
@@ -976,11 +980,11 @@ grafico_area_boana
   patchwork::plot_layout(guide = "collect") &
   theme(legend.position = "bottom")
 
-ggsave(filename = "grafico_pontos_area.png",
+ggsave(filename = "grafico_pontos_area_completo.png",
        height = 25,
        width = 30)
 
-"grafico_pontos_area.png" |>
+"grafico_pontos_area_completo.png" |>
   googledrive::drive_upload(path = "Artigo pererecas",
-                            name = "grafico_pontos_area.png",
+                            name = "grafico_pontos_area_completo.png",
                             overwrite = TRUE)
