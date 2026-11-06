@@ -1150,8 +1150,7 @@ ggsave(filename = "grafico_pontos_area_completo.png",
 ## Calcular ----
 
 dz_perereca <- mov |>
-  dplyr::summarise(dz = (`Altura (m)` - dplyr::lag(`Altura (m)`)) |>
-                     sum(na.rm = TRUE),
+  dplyr::summarise(dz = max(`Altura (m)`) - min(`Altura (m)`),
                    .by = c(ID, Especie)) |>
   as.data.frame()
 
