@@ -1311,3 +1311,20 @@ modelos_lm_dz <- purrr::pmap(
                      dplyr::pull(nome))
 
 modelos_lm_dz
+
+### Avaliar os modelos ----
+
+purrr::map(
+  modelos_lm_dz,
+  \(modelo){
+
+    modelo |>
+      performance::check_normality() |>
+      print()
+
+    modelo |>
+      performance::check_heteroscedasticity() |>
+      print()
+
+  },
+  .progress = TRUE)
