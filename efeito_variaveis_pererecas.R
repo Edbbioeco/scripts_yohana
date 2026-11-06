@@ -1167,3 +1167,14 @@ dz_df <- mov |>
   janitor::clean_names()
 
 dz_df
+
+## Gráfico de dispersão ----
+
+### Calcular médias ----
+
+medias_dz <- dz_df |>
+  dplyr::summarise(sd = dz |> sd(),
+                   dz = dz |> mean(),
+                   .by = especie)
+
+medias_dz
