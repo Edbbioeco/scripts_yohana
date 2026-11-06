@@ -1354,3 +1354,5 @@ purrr::imap_dfr(
   },
   .progress = TRUE) |>
   dplyr::select(-c(2, 7:9))
+
+qt(df = 5, p = 0.05, lower.tail = FALSE)
