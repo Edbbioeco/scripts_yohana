@@ -1240,3 +1240,74 @@ dz_df <- dz_perereca |>
 dz_df
 
 dz_df |> dplyr::glimpse()
+
+## Modelos Lineares ----
+
+### Criar os modelos ----
+
+modelos_lm_dz <- purrr::pmap(
+  tibble::tibble(sps = "Boana faber",
+                 var = c("peso",
+                         "crc",
+                         "cma",
+                         "proporcao_cmp",
+                         "precipitacao",
+                         "umidade_relativa_maxima",
+                         "umidade_relativa_minima",
+                         "temperatura_maxima",
+                         "temperatura_minima")) |>
+    dplyr::bind_rows(
+      tibble::tibble(sps = "Phyllomedusa tetraploidea",
+                     var = c("peso",
+                             "crc",
+                             "cmp",
+                             "cma",
+                             "proporcao_cmp",
+                             "precipitacao",
+                             "umidade_relativa_maxima",
+                             "umidade_relativa_minima",
+                             "temperatura_maxima",
+                             "temperatura_minima"))
+      ),
+  \(sps, var){
+
+    formula <- paste0("area ~ ", var) |>
+      as.formula()
+
+    lm(formula,
+       data = area_df |>
+         dplyr::filter(especie == sps &
+                         id != id_area_rm))
+
+    },
+  .progress = TRUE) |>
+  purrr::set_names(tibble::tibble(sps = "Boana faber",
+                                  var = c("peso",
+                                          "crc",
+                                          "cma",
+                                          "proporcao_cmp",
+                                          "precipitacao",
+                                          "umidade_relativa_maxima",
+                                          "umidade_relativa_minima",
+                                          "temperatura_maxima",
+                                          "temperatura_minima")) |>
+                     dplyr::bind_rows(
+                       tibble::tibble(sps = "Phyllomedusa tetraploidea",
+                                      var = c("peso",
+                                              "crc",
+                                              "cmp",
+                                              "cma",
+                                              "proporcao_cmp",
+                                              "precipitacao",
+                                              "umidade_relativa_maxima",
+                                              "umidade_relativa_minima",
+                                              "temperatura_maxima",
+                                              "temperatura_minima"))
+                     ) |>
+                     tidyr::unite(
+                       col = "nome",
+                       dplyr::everything(),
+                       sep = "_")|>
+                     dplyr::pull(nome))
+
+modelos_lm_dz
