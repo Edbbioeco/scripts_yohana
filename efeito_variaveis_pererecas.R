@@ -968,7 +968,7 @@ grafico_area_boana <- area_df |>
         plot.title = element_text(color = "black", size = 35, face = "italic",
                                   hjust = 0.5))
 
-grrafico_area_boana
+grafico_area_boana
 
 (grafico_area_phyllomedusa + grafico_area_boana) +
   patchwork::plot_layout(guide = "collect") &
