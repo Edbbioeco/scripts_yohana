@@ -1149,24 +1149,13 @@ ggsave(filename = "grafico_pontos_area_completo.png",
 
 ## Calcular ----
 
-dz_df <- mov |>
+dz_perereca <- mov |>
   dplyr::summarise(dz = (`Altura (m)` - dplyr::lag(`Altura (m)`)) |>
                      sum(na.rm = TRUE),
-                   .by = ID) |>
-  as.data.frame() |>
-  dplyr::left_join(morf,
-                   by = "ID") |>
-  dplyr::left_join(amb |>
-                     dplyr::select(-Especie) |>
-                     dplyr::summarise(
-                       dplyr::across(
-                         .cols = dplyr::where(is.numeric),
-                         .fns = ~.x |> mean()),
-                       .by = ID),
-                   by = "ID") |>
-  janitor::clean_names()
+                   .by = c(ID, Especie)) |>
+  as.data.frame()
 
-dz_df
+dz_perereca
 
 ## Gráfico de dispersão ----
 
