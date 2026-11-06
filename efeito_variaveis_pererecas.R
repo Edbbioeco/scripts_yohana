@@ -839,7 +839,7 @@ tabela_sts_area |>
 
 ## Gráfico ----
 
-## Gráfico com todas as variáveis ----
+### Gráfico com todas as variáveis ----
 
 grafico_area_phyllomedusa <- area_df |>
   dplyr::filter(especie == "Phyllomedusa tetraploidea") |>
