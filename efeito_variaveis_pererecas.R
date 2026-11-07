@@ -1542,3 +1542,138 @@ ggsave(filename = "grafico_pontos_dz.png",
   googledrive::drive_upload(path = "Artigo pererecas",
                             name = "grafico_pontos_dz.png",
                             overwrite = TRUE)
+
+### Gráfico com todas as variáveis ----
+
+grafico_dz_phyllomedusa <- dz_df |>
+  dplyr::filter(especie == "Phyllomedusa tetraploidea") |>
+  tidyr::pivot_longer(cols = c("peso",
+                               "crc",
+                               "cmp",
+                               "cma",
+                               "proporcao_cmp",
+                               "precipitacao",
+                               "umidade_relativa_maxima",
+                               "umidade_relativa_minima",
+                               "temperatura_maxima",
+                               "temperatura_minima"),
+                      names_to = "Predictor",
+                      values_to = "Predictor value") |>
+  dplyr::mutate(Predictor = dplyr::case_match(
+    Predictor,
+    "peso" ~ "Body mass (g)",
+    "crc" ~ "SVL (mm)",
+    "cmp" ~ "Forelimb lenght (mm)",
+    "cma" ~ "Hidelimb lenght (mm)",
+    "proporcao_cmp" ~ "Forelimb proportion",
+    "proporcao_cma" ~ "Hidelimb proportion",
+    "precipitacao" ~ "Precipitation (mm)",
+    "umidade_relativa_maxima" ~ "Max relative humidity (%)",
+    "umidade_relativa_minima" ~ "Min relative humidity (%)",
+    "temperatura_maxima" ~ "Max temperature (°C)",
+    "temperatura_minima" ~ "Min temperature (°C)"
+  )) |>
+  dplyr::left_join(df_sts_dz |>
+                     dplyr::mutate(p = p |> readr::parse_number()) |>
+                     dplyr::select(especie = Species, Predictor, t, p),
+                   by = c("especie", "Predictor")) |>
+  ggplot(aes(`Predictor value`, dz)) +
+  geom_point(size = 5,
+             color = "black",
+             stroke = 1.5) +
+  geom_smooth(data = . %>%
+                dplyr::filter(abs(t) > qt(df = 8, p = 0.05, lower.tail = FALSE) &
+                                p <= 0.05),
+              method = "lm",
+              se = FALSE) +
+  facet_wrap(~Predictor, ncol = 2, scales = "free_x") +
+  labs(y = "Δz (m)",
+       color = NULL,
+       fill = NULL,
+       title = "Phyllomedusa tetraploidea") +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 30),
+        axis.title = element_text(color = "black", size = 30),
+        legend.text = element_text(color = "black", size = 30),
+        legend.title = element_text(color = "black", size = 30),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1),
+        strip.text = element_text(color = "black", size = 35),
+        strip.text.y.right = element_text(size = 16.5),
+        plot.title = element_text(color = "black", size = 35, face = "italic",
+                                  hjust = 0.5))
+
+grafico_dz_phyllomedusa
+
+grafico_dz_boana <- dz_df |>
+  dplyr::filter(especie == "Boana faber") |>
+  tidyr::pivot_longer(cols = c("peso",
+                               "crc",
+                               "cma",
+                               "proporcao_cmp",
+                               "precipitacao",
+                               "umidade_relativa_maxima",
+                               "umidade_relativa_minima",
+                               "temperatura_maxima",
+                               "temperatura_minima"),
+                      names_to = "Predictor",
+                      values_to = "Predictor value") |>
+  dplyr::mutate(Predictor = dplyr::case_match(
+    Predictor,
+    "peso" ~ "Body mass (g)",
+    "crc" ~ "SVL (mm)",
+    "cmp" ~ "Forelimb lenght (mm)",
+    "cma" ~ "Hidelimb lenght (mm)",
+    "proporcao_cmp" ~ "Forelimb proportion",
+    "proporcao_cma" ~ "Hidelimb proportion",
+    "precipitacao" ~ "Precipitation (mm)",
+    "umidade_relativa_maxima" ~ "Max relative humidity (%)",
+    "umidade_relativa_minima" ~ "Min relative humidity (%)",
+    "temperatura_maxima" ~ "Max temperature (°C)",
+    "temperatura_minima" ~ "Min temperature (°C)"
+  )) |>
+  dplyr::left_join(df_sts_dz |>
+                     dplyr::mutate(p = p |> readr::parse_number()) |>
+                     dplyr::select(especie = Species, Predictor, t, p),
+                   by = c("especie", "Predictor")) |>
+  ggplot(aes(`Predictor value`, dz)) +
+  geom_point(size = 5,
+             color = "black",
+             stroke = 1.5) +
+  geom_smooth(data = . %>%
+                dplyr::filter(abs(t) > qt(df = 5, p = 0.05, lower.tail = FALSE) &
+                                p <= 0.05),
+              method = "lm",
+              se = FALSE) +
+  facet_wrap(~Predictor, ncol = 2, scales = "free_x") +
+  labs(y = "Δz (m)",
+       color = NULL,
+       fill = NULL,
+       title = "Boana faber") +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 30),
+        axis.title = element_text(color = "black", size = 30),
+        legend.text = element_text(color = "black", size = 30),
+        legend.title = element_text(color = "black", size = 30),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1),
+        strip.text = element_text(color = "black", size = 35),
+        strip.text.y.right = element_text(size = 16.5),
+        plot.title = element_text(color = "black", size = 35, face = "italic",
+                                  hjust = 0.5))
+
+grafico_dz_boana
+
+(grafico_dz_phyllomedusa + grafico_dz_boana) +
+  patchwork::plot_layout(guide = "collect") &
+  theme(legend.position = "bottom")
+
+ggsave(filename = "grafico_pontos_dz_completo.png",
+       height = 25,
+       width = 30)
+
+"grafico_pontos_dz_completo.png" |>
+  googledrive::drive_upload(path = "Artigo pererecas",
+                            name = "grafico_pontos_dz_completo.png",
+                            overwrite = TRUE)
+
