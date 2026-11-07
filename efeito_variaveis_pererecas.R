@@ -1355,3 +1355,107 @@ purrr::imap_dfr(
   dplyr::select(-c(2, 7:9))
 
 qt(df = 5, p = 0.05, lower.tail = FALSE)
+
+### Tabela das estatísticas ----
+
+df_sts_dz <- purrr::imap_dfr(
+  modelos_lm_dz,
+  \(modelo, nome){
+
+    modelo |>
+      marginaleffects::avg_comparisons() |>
+      tibble::as_tibble() |>
+      dplyr::mutate(statistic = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(statistic) |>
+                      purrr::pluck(2),
+                    p.value = modelo |>
+                      broom::tidy() |>
+                      dplyr::pull(p.value) |>
+                      purrr::pluck(2),
+                    R2 = modelo |>
+                      performance::r2() |>
+                      purrr::pluck(2) |>
+                      round(3),
+                    modelo = nome)
+
+  },
+  .progress = TRUE) |>
+  dplyr::select(-c(2, 7:9)) |>
+  dplyr::mutate(p.value = dplyr::case_when(
+
+    p.value < 0.01 ~ "< 0.01",
+    .default = p.value |> round(2) |> as.character()
+
+  )) |>
+  tidyr::separate(col = modelo,
+                  into = c("Species",
+                           "KDE",
+                           "Predictor"),
+                  sep = "_") |>
+  dplyr::relocate(Species:Predictor, .before = 1) |>
+  dplyr::select(-Predictor) |>
+  dplyr::rename("Predictor" = term,
+                "t" = statistic,
+                "p" = p.value,
+                "R³" = R2) |>
+  dplyr::mutate(KDE = KDE |> stringr::str_remove("KDE "),
+                Predictor = dplyr::case_match(
+                  Predictor,
+                  "peso" ~ "Body mass (g)",
+                  "crc" ~ "SVL (mm)",
+                  "cmp" ~ "Forelimb lenght (mm)",
+                  "cma" ~ "Hidelimb lenght (mm)",
+                  "proporcao_cmp" ~ "Forelimb proportion",
+                  "proporcao_cma" ~ "Hidelimb proportion",
+                  "precipitacao" ~ "Precipitation (mm)",
+                  "umidade_relativa_maxima" ~ "Max relative humidity (%)",
+                  "umidade_relativa_minima" ~ "Min relative humidity (%)",
+                  "temperatura_maxima" ~ "Max temperature (°C)",
+                  "temperatura_minima" ~ "Min temperature (°C)"
+                ),
+                estimate = estimate |> round(2),
+                std.error = std.error |> round(2),
+                t = t |> round(2)) |>
+  dplyr::arrange(KDE |> dplyr::desc()) |>
+  dplyr::arrange(Predictor |> forcats::fct_relevel(c("Body mass (g)",
+                                                     "SVL (mm)",
+                                                     "Forelimb lenght (mm)",
+                                                     "Hidelimb lenght (mm)",
+                                                     "Forelimb proportion",
+                                                     "Hidelimb proportion",
+                                                     "Precipitation (mm)",
+                                                     "Max relative humidity (%)",
+                                                     "Min relative humidity (%)",
+                                                     "Max temperature (°C)",
+                                                     "Min temperature (°C)"))) |>
+  dplyr::arrange(Species |> dplyr::desc()) |>
+  tidyr::unite(4:5,
+               sep = " ± ",
+               col = "ME ± SE") |>
+  as.data.frame()
+
+df_sts_dz
+
+tabela_sts_dz <- df_sts_dz |>
+  flextable::flextable() |>
+  flextable::align(align = "center",
+                   part = "all") |>
+  flextable::width(j = 1, width = 1.5) |>
+  flextable::width(j = 3, width = 1.5) |>
+  flextable::width(j = 4, width = 1.5) |>
+  flextable::width(j = 7, width = 1) |>
+  flextable::italic(j = 1, part = "body") |>
+  flextable::bg(i = ~abs(t) > qt(p = 0.05, df = 8, lower.tail = FALSE) &
+                  readr::parse_number(p) <= 0.05,
+                bg = "gray")
+
+tabela_sts_dz
+
+tabela_sts_dz |>
+  flextable::save_as_docx(path = "tabela_sts_dz.docx")
+
+"tabela_sts_dz.docx" |>
+  googledrive::drive_upload(path = "Artigo pererecas",
+                            name = "tabela_sts_dz.docx",
+                            overwrite = TRUE)
