@@ -1127,22 +1127,6 @@ ggsave(filename = "dispersao_dz_perereca.png",
                             name = "dispersao_dz_perereca.png",
                             overwrite = TRUE)
 
-### Identificar os outliers ----
-
-dz_perereca |>
-  dplyr::filter(Especie == "Phyllomedusa tetraploidea") |>
-  dplyr::slice_max(dz, n = 3) |>
-  dplyr::select(ID, Especie)
-
-id_dz_rm <- dz_perereca |>
-  dplyr::filter(Especie == "Phyllomedusa tetraploidea") |>
-  dplyr::slice_max(dz, n = 3) |>
-  dplyr::select(ID, Especie) |>
-  dplyr::pull(ID) |>
-  unique()
-
-id_dz_rm
-
 ## Unir os dados ----
 
 dz_df <- dz_perereca |>
