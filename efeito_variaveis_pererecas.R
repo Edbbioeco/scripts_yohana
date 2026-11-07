@@ -464,7 +464,6 @@ id_area_rm
 ## Unir os dados ----
 
 area_df <- area_perereca |>
-  dplyr::rename("ID" = Indivíduo) |>
   dplyr::left_join(morf |>
                      dplyr::select(-Especie),
                    by = "ID") |>
