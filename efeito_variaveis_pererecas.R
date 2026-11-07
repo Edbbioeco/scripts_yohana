@@ -1257,7 +1257,7 @@ purrr::imap_dfr(
   .progress = TRUE) |>
   dplyr::select(-c(2, 7:9))
 
-qt(df = 5, p = 0.05, lower.tail = FALSE)
+qt(df = 13, p = 0.05, lower.tail = FALSE)
 
 ### Tabela das estatísticas ----
 
@@ -1349,7 +1349,7 @@ tabela_sts_dz <- df_sts_dz |>
   flextable::width(j = 4, width = 1.5) |>
   flextable::width(j = 7, width = 1) |>
   flextable::italic(j = 1, part = "body") |>
-  flextable::bg(i = ~abs(t) > qt(p = 0.05, df = 8, lower.tail = FALSE) &
+  flextable::bg(i = ~abs(t) > qt(p = 0.05, df = 13, lower.tail = FALSE) &
                   readr::parse_number(p) <= 0.05,
                 bg = "gray")
 
