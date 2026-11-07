@@ -1459,3 +1459,86 @@ tabela_sts_dz |>
   googledrive::drive_upload(path = "Artigo pererecas",
                             name = "tabela_sts_dz.docx",
                             overwrite = TRUE)
+
+## Gráfico ----
+
+### Gráfico com apenas as variáveis significativas ----
+
+purrr::map(
+  c("Phyllomedusa tetraploidea", "Boana faber"),
+  \(sps){
+
+    dz_df |>
+      tidyr::pivot_longer(cols = c("peso",
+                                   "crc",
+                                   "cmp",
+                                   "cma",
+                                   "proporcao_cmp",
+                                   "precipitacao",
+                                   "umidade_relativa_maxima",
+                                   "umidade_relativa_minima",
+                                   "temperatura_maxima",
+                                   "temperatura_minima"),
+                          names_to = "Predictor",
+                          values_to = "Predictor value") |>
+      dplyr::mutate(Predictor = dplyr::case_match(
+        Predictor,
+        "peso" ~ "Body mass (g)",
+        "crc" ~ "SVL (mm)",
+        "cmp" ~ "Forelimb lenght (mm)",
+        "cma" ~ "Hidelimb lenght (mm)",
+        "proporcao_cmp" ~ "Forelimb proportion",
+        "proporcao_cma" ~ "Hidelimb proportion",
+        "precipitacao" ~ "Precipitation (mm)",
+        "umidade_relativa_maxima" ~ "Max relative humidity (%)",
+        "umidade_relativa_minima" ~ "Min relative humidity (%)",
+        "temperatura_maxima" ~ "Max temperature (°C)",
+        "temperatura_minima" ~ "Min temperature (°C)"
+      )) |>
+      dplyr::left_join(df_sts_dz |>
+                         dplyr::mutate(p = p |> readr::parse_number()) |>
+                         dplyr::select(especie = Species, Predictor, t, p),
+                       by = c("especie", "Predictor")) |>
+      as.data.frame() |>
+      dplyr::group_by(Predictor) |>
+      dplyr::filter(p <= 0.05 & especie == sps) |>
+      dplyr::ungroup() |>
+      as.data.frame() |>
+      ggplot(aes(`Predictor value`, dz)) +
+      geom_point(size = 5,
+                 color = "black",
+                 stroke = 1.5) +
+      geom_smooth(data = . %>%
+                    dplyr::filter(abs(t) > qt(df = 5, p = 0.05, lower.tail = FALSE) &
+                                    p <= 0.05),
+                  method = "lm",
+                  se = FALSE) +
+      facet_wrap(~Predictor, scales = "free_x", ncol = 1) +
+      labs(y = "Δz (m)",
+           color = NULL,
+           fill = NULL,
+           title = sps) +
+      theme_bw() +
+      theme(axis.text = element_text(color = "black", size = 30),
+            axis.title = element_text(color = "black", size = 30),
+            legend.text = element_text(color = "black", size = 30),
+            legend.title = element_text(color = "black", size = 30),
+            legend.position = "bottom",
+            panel.border = element_rect(color = "black", linewidth = 1),
+            strip.text = element_text(color = "black", size = 35),
+            strip.text.y.right = element_text(size = 16.5),
+            plot.title = element_text(color = "black", size = 35, face = "italic",
+                                      hjust = 0.5))
+
+    },
+  .progress = TRUE) |>
+  patchwork::wrap_plots()
+
+ggsave(filename = "grafico_pontos_dz.png",
+       height = 20,
+       width = 25)
+
+"grafico_pontos_area.png" |>
+  googledrive::drive_upload(path = "Artigo pererecas",
+                            name = "grafico_pontos_dz.png",
+                            overwrite = TRUE)
