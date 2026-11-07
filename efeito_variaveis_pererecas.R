@@ -337,7 +337,7 @@ ggsave(filename = "multicolinearidade_amb_pererecas.png",
                             name = "multicolinearidade_amb_pererecas.png",
                             overwrite = TRUE)
 
-# Área d vida ----
+# Área de vida ----
 
 ## Calcular ----
 
