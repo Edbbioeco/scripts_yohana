@@ -464,6 +464,7 @@ id_area_rm
 ## Unir os dados ----
 
 area_df <- area_perereca |>
+  dplyr::rename("ID" = Indivíduo) |>
   dplyr::left_join(morf |>
                      dplyr::select(-Especie),
                    by = "ID") |>
@@ -476,6 +477,7 @@ area_df <- area_perereca |>
                        .by = ID),
                    by = "ID") |>
   janitor::clean_names()
+
 
 area_df
 
@@ -821,7 +823,7 @@ tabela_sts_area <- df_sts_area |>
   flextable::width(j = 7, width = 1) |>
   flextable::italic(j = 1, part = "body") |>
   flextable::bg(i = ~abs(t) > qt(p = 0.05, df = 13, lower.tail = FALSE) &
-                  readr::parse_number(p) < 0.05,
+                  readr::parse_number(p) <= 0.05,
                 bg = "gray")
 
 tabela_sts_area
@@ -973,6 +975,7 @@ grafico_area_boana <- area_df |>
         strip.text.y.right = element_text(size = 16.5),
         plot.title = element_text(color = "black", size = 35, face = "italic",
                                   hjust = 0.5))
+
 
 (grafico_area_phyllomedusa + grafico_area_boana) +
   patchwork::plot_layout(guide = "collect") &
