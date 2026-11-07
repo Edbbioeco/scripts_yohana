@@ -526,8 +526,6 @@ modelos_lm_area <- purrr::pmap(
             "proporcao_cmp",
             "precipitacao",
             "umidade_relativa_maxima",
-            "umidade_relativa_minima",
-            "temperatura_maxima",
             "temperatura_minima"),
           \(var){
 
@@ -557,8 +555,6 @@ modelos_lm_area <- purrr::pmap(
                                               "proporcao_cmp",
                                               "precipitacao",
                                               "umidade_relativa_maxima",
-                                              "umidade_relativa_minima",
-                                              "temperatura_maxima",
                                               "temperatura_minima")) |>
                      dplyr::bind_rows(
                        tidyr::expand_grid(sps = "Boana faber",
