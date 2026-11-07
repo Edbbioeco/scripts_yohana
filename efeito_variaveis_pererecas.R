@@ -1171,8 +1171,6 @@ modelos_lm_dz <- purrr::pmap(
                              "proporcao_cmp",
                              "precipitacao",
                              "umidade_relativa_maxima",
-                             "umidade_relativa_minima",
-                             "temperatura_maxima",
                              "temperatura_minima"))
       ),
   \(sps, var){
@@ -1205,8 +1203,6 @@ modelos_lm_dz <- purrr::pmap(
                                               "proporcao_cmp",
                                               "precipitacao",
                                               "umidade_relativa_maxima",
-                                              "umidade_relativa_minima",
-                                              "temperatura_maxima",
                                               "temperatura_minima"))
                      ) |>
                      tidyr::unite(
