@@ -961,7 +961,7 @@ grafico_area_phyllomedusa <- area_df |>
              color = "black",
              stroke = 1.5) +
   geom_smooth(data = . %>%
-                dplyr::filter(abs(t) > 1.883 &
+                dplyr::filter(abs(t) > qt(df = 13, p = 0.05, lower.tail = FALSE) &
                                 p < 0.05),
               method = "lm",
               se = FALSE) +
@@ -1028,8 +1028,8 @@ grafico_area_boana <- area_df |>
              color = "black",
              stroke = 1.5) +
   geom_smooth(data = . %>%
-                dplyr::filter(abs(t) > 1.883 &
-                                p < 0.05),
+                dplyr::filter(abs(t) > qt(df = 13, p = 0.05, lower.tail = FALSE) &
+                                p <= 0.05),
               method = "lm",
               se = FALSE) +
   facet_wrap(~Predictor, ncol = 2, scales = "free_x") +
@@ -1059,13 +1059,13 @@ grafico_area_boana
   patchwork::plot_layout(guide = "collect") &
   theme(legend.position = "bottom")
 
-ggsave(filename = "grafico_pontos_area_completo.png",
+ggsave(filename = "grafico_pontos_area_pererecas_completo.png",
        height = 25,
        width = 30)
 
-"grafico_pontos_area_completo.png" |>
+"grafico_pontos_area_pererecas_completo.png" |>
   googledrive::drive_upload(path = "Artigo pererecas",
-                            name = "grafico_pontos_area_completo.png",
+                            name = "grafico_pontos_area_pererecas_completo.png",
                             overwrite = TRUE)
 
 # Deslocamento vertical ----
