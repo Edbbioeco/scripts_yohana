@@ -1562,12 +1562,12 @@ grafico_dz_boana
   patchwork::plot_layout(guide = "collect") &
   theme(legend.position = "bottom")
 
-ggsave(filename = "grafico_pontos_dz_completo.png",
+ggsave(filename = "grafico_pontos_dz_pererecas_completo.png",
        height = 25,
        width = 30)
 
-"grafico_pontos_dz_completo.png" |>
+"grafico_pontos_dz_pererecas_completo.png" |>
   googledrive::drive_upload(path = "Artigo pererecas",
-                            name = "grafico_pontos_dz_completo.png",
+                            name = "grafico_pontos_dz_pererecas_completo.png",
                             overwrite = TRUE)
 
