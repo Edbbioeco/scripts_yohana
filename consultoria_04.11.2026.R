@@ -14,4 +14,4 @@ library(patchwork)
 
 ## Autenticar Google Drive ----
 
-googledrive::drive_auth("edsonb.nilton@ufpe.br")
+googledrive::drive_auth("edson.nilton@ufpe.br")
