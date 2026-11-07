@@ -1356,11 +1356,11 @@ tabela_sts_dz <- df_sts_dz |>
 tabela_sts_dz
 
 tabela_sts_dz |>
-  flextable::save_as_docx(path = "tabela_sts_dz.docx")
+  flextable::save_as_docx(path = "tabela_sts_dz_perereca.docx")
 
-"tabela_sts_dz.docx" |>
+"tabela_sts_dz_perereca.docx" |>
   googledrive::drive_upload(path = "Artigo pererecas",
-                            name = "tabela_sts_dz.docx",
+                            name = "tabela_sts_dz_perereca.docx",
                             overwrite = TRUE)
 
 ## Gráfico ----
