@@ -1628,3 +1628,23 @@ ggsave(filename = "dispersao_alt_perereca.png",
   googledrive::drive_upload(path = "Artigo pererecas",
                             name = "dispersao_alt_perereca.png",
                             overwrite = TRUE)
+
+## Unir os dados ----
+
+alt_df <- alt_pererecas |>
+  dplyr::left_join(morf |>
+                     dplyr::select(-Especie),
+                   by = "ID") |>
+  dplyr::left_join(amb |>
+                     dplyr::select(-Especie) |>
+                     dplyr::summarise(
+                       dplyr::across(
+                         .cols = dplyr::where(is.numeric),
+                         .fns = ~.x |> mean()),
+                       .by = ID),
+                   by = "ID") |>
+  janitor::clean_names()
+
+alt_df
+
+alt_df |> dplyr::glimpse()
