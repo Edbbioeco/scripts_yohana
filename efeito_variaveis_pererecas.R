@@ -1585,25 +1585,25 @@ alt_med_pererecas
 
 ### Gráfico de médias ----
 
-medias_alt <- alt_med_pererecas |>
+medias_alt_med <- alt_med_pererecas |>
   dplyr::summarise(sd = `Altura média` |> sd(),
                    `Altura média` = `Altura média` |> mean(),
                    .by = Especie)
 
-medias_alt
+medias_alt_med
 
 ### Gráfico ----
 
 alt_med_pererecas |>
   ggplot(aes(Especie, `Altura média` )) +
   ggbeeswarm::geom_quasirandom(color = "black", size = 7, stroke = 1.5) +
-  geom_errorbar(data = medias_alt,
+  geom_errorbar(data = medias_alt_med,
                 aes(x = Especie, y = `Altura média` ,
                     ymin = `Altura média`  - sd, ymax = `Altura média`  + sd),
                 linewidth = 1.25,
                 width = 0.35,
                 color = "red") +
-  geom_point(data = medias_alt,
+  geom_point(data = medias_alt_med,
              aes(x = Especie, y = `Altura média` ),
              size = 5,
              show.legend = FALSE,
