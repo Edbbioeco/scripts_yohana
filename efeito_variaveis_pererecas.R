@@ -1648,3 +1648,69 @@ alt_df <- alt_pererecas |>
 alt_df
 
 alt_df |> dplyr::glimpse()
+
+## Modelos lineares ----
+
+### Criar modelos ----
+
+modelos_lm_alt <- purrr::pmap(
+  tibble::tibble(sps = "Boana faber",
+                 var = c("peso",
+                         "crc",
+                         "cma",
+                         "proporcao_cmp",
+                         "precipitacao",
+                         "umidade_relativa_maxima",
+                         "umidade_relativa_minima",
+                         "temperatura_maxima",
+                         "temperatura_minima")) |>
+    dplyr::bind_rows(
+      tibble::tibble(sps = "Phyllomedusa tetraploidea",
+                     var = c("peso",
+                             "crc",
+                             "cmp",
+                             "cma",
+                             "proporcao_cmp",
+                             "precipitacao",
+                             "umidade_relativa_maxima",
+                             "temperatura_minima"))
+    ),
+  \(sps, var){
+
+    formula <- paste0("altura_media ~ ", var) |>
+      as.formula()
+
+    lm(formula,
+       data = alt_df |>
+         dplyr::filter(especie == sps))
+
+  },
+  .progress = TRUE) |>
+  purrr::set_names(tibble::tibble(sps = "Boana faber",
+                                  var = c("peso",
+                                          "crc",
+                                          "cma",
+                                          "proporcao_cmp",
+                                          "precipitacao",
+                                          "umidade_relativa_maxima",
+                                          "umidade_relativa_minima",
+                                          "temperatura_maxima",
+                                          "temperatura_minima")) |>
+                     dplyr::bind_rows(
+                       tibble::tibble(sps = "Phyllomedusa tetraploidea",
+                                      var = c("peso",
+                                              "crc",
+                                              "cmp",
+                                              "cma",
+                                              "proporcao_cmp",
+                                              "precipitacao",
+                                              "umidade_relativa_maxima",
+                                              "temperatura_minima"))
+                     ) |>
+                     tidyr::unite(
+                       col = "nome",
+                       dplyr::everything(),
+                       sep = "_")|>
+                     dplyr::pull(nome))
+
+modelos_lm_alt
