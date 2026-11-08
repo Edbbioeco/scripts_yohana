@@ -126,3 +126,53 @@ df_rare <- tibble::tibble(Campanhas = 0:3,
                           sd = c(0, sd[1] |> rep(3)))
 
 df_rare
+
+## Gráfico ----
+
+ggplot() +
+  geom_line(data = df_rare,
+            aes(x = Campanhas, y = Espécies + sd,
+                linetype = "Desvio Padrão"),
+            color = "black",
+            linewidth = 2) +
+  geom_line(data = df_rare,
+            aes(x = Campanhas, y = Espécies,
+                linetype = "Curva de Acumulação de Espécies"),
+            color = "black",
+            linewidth = 2) +
+  geom_line(data = df_rare,
+            aes(x = Campanhas, y = Espécies - sd,
+                linetype = "Desvio Padrão"),
+            color = "black",
+            linewidth = 2) +
+  labs(title = "Curva do coletor",
+       linetype = NULL) +
+  scale_x_continuous(breaks = seq(0, 3, 1),
+                     limits = c(0, 3),
+                     expand = FALSE) +
+  scale_y_continuous(breaks = seq(0, 12, 2),
+                     limits = c(0, 12),
+                     expand = FALSE) +
+  guides(linetype = guide_legend(keywidth = unit(90, "pt"))) +
+  theme_classic() +
+  theme(plot.background = element_rect(fill = "white", color = NA),
+        panel.grid.major = element_line(color = "grey88", linewidth = 0.4),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        axis.text = element_text(color = "black", size = 25),
+        axis.text.x = element_text(margin = margin(t = 20)),
+        axis.text.y = element_text(margin = margin(r = 20)),
+        axis.title = element_text(color = "black", size = 25),
+        axis.title.y = element_text(margin = margin(r = 6)),
+        axis.title.x = element_text(margin = margin(t = 6)),
+        plot.title = element_text(hjust = 0.5, size = 45,
+                                  face = "plain", margin = margin(b = 8)),
+        legend.background = element_rect(fill = "white", color = NA),
+        legend.key = element_rect(fill = "white", color = NA),
+        legend.key.width = unit(28, "pt"),
+        legend.text = element_text(size = 25),
+        legend.title = element_blank(),
+        legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.spacing.x = unit(12, "pt"),
+        plot.margin = margin(10, 14, 8, 8))
