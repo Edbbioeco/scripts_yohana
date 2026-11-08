@@ -104,3 +104,17 @@ sd <- dados |>
   purrr::pluck("sd")
 
 sd
+
+## Calcular jackknife 1 ----
+
+jackk <- dados |>
+  dplyr::select(1, 3, 5) |>
+  tidyr::pivot_wider(names_from = Espécie,
+                     values_from = Quantidade,
+                     values_fill = 0,
+                     values_fn = max) |>
+  tibble::column_to_rownames(var = "Campanha") |>
+  vegan::specpool() |>
+  purrr::pluck("jack1")
+
+jackk
