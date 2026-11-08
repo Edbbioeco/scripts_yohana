@@ -1072,37 +1072,37 @@ ggsave(filename = "grafico_pontos_area_pererecas_completo.png",
 
 ## Calcular ----
 
-dz_perereca <- mov |>
-  dplyr::summarise(dz = max(`Altura (m)`) - min(`Altura (m)`),
+alt_perereca <- mov |>
+  dplyr::summarise(alt = max(`Altura (m)`) - min(`Altura (m)`),
                    .by = c(ID, Especie)) |>
   as.data.frame()
 
-dz_perereca
+alt_perereca
 
 ## Gráfico de dispersão ----
 
 ### Calcular médias ----
 
-medias_dz <- dz_perereca |>
-  dplyr::summarise(sd = dz |> sd(),
-                   dz = dz |> mean(),
+medias_alt <- alt_perereca |>
+  dplyr::summarise(sd = alt |> sd(),
+                   alt = alt |> mean(),
                    .by = Especie)
 
-medias_dz
+medias_alt
 
 ### Gráfico ----
 
-dz_perereca |>
-  ggplot(aes(Especie, dz)) +
+alt_perereca |>
+  ggplot(aes(Especie, alt)) +
   ggbeeswarm::geom_quasirandom(color = "black", size = 7, stroke = 1.5) +
-  geom_errorbar(data = medias_dz,
-                aes(x = Especie, y = dz,
-                    ymin = dz - sd, ymax = dz + sd),
+  geom_errorbar(data = medias_alt,
+                aes(x = Especie, y = alt,
+                    ymin = alt - sd, ymax = alt + sd),
                 linewidth = 1.25,
                 width = 0.35,
                 color = "red") +
-  geom_point(data = medias_dz,
-             aes(x = Especie, y = dz),
+  geom_point(data = medias_alt,
+             aes(x = Especie, y = alt),
              size = 5,
              show.legend = FALSE,
              color = "red") +
@@ -1118,18 +1118,18 @@ dz_perereca |>
         legend.position = "bottom",
         panel.border = element_rect(color = "black", linewidth = 1))
 
-ggsave(filename = "dispersao_dz_perereca.png",
+ggsave(filename = "dispersao_alt_perereca.png",
        height = 12,
        width = 12)
 
-"dispersao_dz_perereca.png" |>
+"dispersao_alt_perereca.png" |>
   googledrive::drive_upload(path = "Artigo pererecas",
-                            name = "dispersao_dz_perereca.png",
+                            name = "dispersao_alt_perereca.png",
                             overwrite = TRUE)
 
 ## Unir os dados ----
 
-dz_df <- dz_perereca |>
+alt_df <- alt_perereca |>
   dplyr::left_join(morf |>
                      dplyr::select(-Especie),
                    by = "ID") |>
@@ -1143,15 +1143,15 @@ dz_df <- dz_perereca |>
                    by = "ID") |>
   janitor::clean_names()
 
-dz_df
+alt_df
 
-dz_df |> dplyr::glimpse()
+alt_df |> dplyr::glimpse()
 
 ## Modelos Lineares ----
 
 ### Criar os modelos ----
 
-modelos_lm_dz <- purrr::pmap(
+modelos_lm_alt <- purrr::pmap(
   tibble::tibble(sps = "Boana faber",
                  var = c("peso",
                          "crc",
@@ -1175,11 +1175,11 @@ modelos_lm_dz <- purrr::pmap(
       ),
   \(sps, var){
 
-    formula <- paste0("dz ~ ", var) |>
+    formula <- paste0("alt ~ ", var) |>
       as.formula()
 
     lm(formula,
-       data = dz_df |>
+       data = alt_df |>
          dplyr::filter(especie == sps))
 
     },
@@ -1211,12 +1211,12 @@ modelos_lm_dz <- purrr::pmap(
                        sep = "_")|>
                      dplyr::pull(nome))
 
-modelos_lm_dz
+modelos_lm_alt
 
 ### Avaliar os modelos ----
 
 purrr::map(
-  modelos_lm_dz,
+  modelos_lm_alt,
   \(modelo){
 
     modelo |>
@@ -1233,7 +1233,7 @@ purrr::map(
 ### Estatísticas do modelo ----
 
 purrr::imap_dfr(
-  modelos_lm_dz,
+  modelos_lm_alt,
   \(modelo, nome){
 
     modelo |>
@@ -1261,8 +1261,8 @@ qt(df = 13, p = 0.05, lower.tail = FALSE)
 
 ### Tabela das estatísticas ----
 
-df_sts_dz <- purrr::imap_dfr(
-  modelos_lm_dz,
+df_sts_alt <- purrr::imap_dfr(
+  modelos_lm_alt,
   \(modelo, nome){
 
     modelo |>
@@ -1338,9 +1338,9 @@ df_sts_dz <- purrr::imap_dfr(
                col = "ME ± SE") |>
   as.data.frame()
 
-df_sts_dz
+df_sts_alt
 
-tabela_sts_dz <- df_sts_dz |>
+tabela_sts_alt <- df_sts_alt |>
   flextable::flextable() |>
   flextable::align(align = "center",
                    part = "all") |>
@@ -1353,21 +1353,21 @@ tabela_sts_dz <- df_sts_dz |>
                   readr::parse_number(p) <= 0.05,
                 bg = "gray")
 
-tabela_sts_dz
+tabela_sts_alt
 
-tabela_sts_dz |>
-  flextable::save_as_docx(path = "tabela_sts_dz_perereca.docx")
+tabela_sts_alt |>
+  flextable::save_as_docx(path = "tabela_sts_alt_perereca.docx")
 
-"tabela_sts_dz_perereca.docx" |>
+"tabela_sts_alt_perereca.docx" |>
   googledrive::drive_upload(path = "Artigo pererecas",
-                            name = "tabela_sts_dz_perereca.docx",
+                            name = "tabela_sts_alt_perereca.docx",
                             overwrite = TRUE)
 
 ## Gráfico ----
 
 ### Gráfico com apenas as variáveis significativas ----
 
-dz_df |>
+alt_df |>
   tidyr::pivot_longer(cols = c("peso",
                                "crc",
                                "cmp",
@@ -1394,7 +1394,7 @@ dz_df |>
     "temperatura_maxima" ~ "Max temperature (°C)",
     "temperatura_minima" ~ "Min temperature (°C)"
   )) |>
-  dplyr::left_join(df_sts_dz |>
+  dplyr::left_join(df_sts_alt |>
                      dplyr::mutate(p = p |> readr::parse_number()) |>
                      dplyr::select(especie = Species, Predictor, t, p),
                    by = c("especie", "Predictor")) |>
@@ -1403,7 +1403,7 @@ dz_df |>
   dplyr::filter(p <= 0.05 & especie == "Boana faber") |>
   dplyr::ungroup() |>
   as.data.frame() |>
-  ggplot(aes(`Predictor value`, dz)) +
+  ggplot(aes(`Predictor value`, alt)) +
   geom_point(size = 5,
              color = "black",
              stroke = 1.5) +
@@ -1428,18 +1428,18 @@ dz_df |>
         plot.title = element_text(color = "black", size = 35, face = "italic",
                                   hjust = 0.5))
 
-ggsave(filename = "grafico_pontos_dz_pererecas.png",
+ggsave(filename = "grafico_pontos_alt_pererecas.png",
        height = 20,
        width = 25)
 
-"grafico_pontos_dz_pererecas.png" |>
+"grafico_pontos_alt_pererecas.png" |>
   googledrive::drive_upload(path = "Artigo pererecas",
-                            name = "grafico_pontos_dz_pererecas.png",
+                            name = "grafico_pontos_alt_pererecas.png",
                             overwrite = TRUE)
 
 ### Gráfico com todas as variáveis ----
 
-grafico_dz_phyllomedusa <- dz_df |>
+grafico_alt_phyllomedusa <- alt_df |>
   dplyr::filter(especie == "Phyllomedusa tetraploidea") |>
   tidyr::pivot_longer(cols = c("peso",
                                "crc",
@@ -1467,11 +1467,11 @@ grafico_dz_phyllomedusa <- dz_df |>
     "temperatura_maxima" ~ "Max temperature (°C)",
     "temperatura_minima" ~ "Min temperature (°C)"
   )) |>
-  dplyr::left_join(df_sts_dz |>
+  dplyr::left_join(df_sts_alt |>
                      dplyr::mutate(p = p |> readr::parse_number()) |>
                      dplyr::select(especie = Species, Predictor, t, p),
                    by = c("especie", "Predictor")) |>
-  ggplot(aes(`Predictor value`, dz)) +
+  ggplot(aes(`Predictor value`, alt)) +
   geom_point(size = 5,
              color = "black",
              stroke = 1.5) +
@@ -1497,9 +1497,9 @@ grafico_dz_phyllomedusa <- dz_df |>
         plot.title = element_text(color = "black", size = 35, face = "italic",
                                   hjust = 0.5))
 
-grafico_dz_phyllomedusa
+grafico_alt_phyllomedusa
 
-grafico_dz_boana <- dz_df |>
+grafico_alt_boana <- alt_df |>
   dplyr::filter(especie == "Boana faber") |>
   tidyr::pivot_longer(cols = c("peso",
                                "crc",
@@ -1526,11 +1526,11 @@ grafico_dz_boana <- dz_df |>
     "temperatura_maxima" ~ "Max temperature (°C)",
     "temperatura_minima" ~ "Min temperature (°C)"
   )) |>
-  dplyr::left_join(df_sts_dz |>
+  dplyr::left_join(df_sts_alt |>
                      dplyr::mutate(p = p |> readr::parse_number()) |>
                      dplyr::select(especie = Species, Predictor, t, p),
                    by = c("especie", "Predictor")) |>
-  ggplot(aes(`Predictor value`, dz)) +
+  ggplot(aes(`Predictor value`, alt)) +
   geom_point(size = 5,
              color = "black",
              stroke = 1.5) +
@@ -1556,19 +1556,19 @@ grafico_dz_boana <- dz_df |>
         plot.title = element_text(color = "black", size = 35, face = "italic",
                                   hjust = 0.5))
 
-grafico_dz_boana
+grafico_alt_boana
 
-(grafico_dz_phyllomedusa + grafico_dz_boana) +
+(grafico_alt_phyllomedusa + grafico_alt_boana) +
   patchwork::plot_layout(guide = "collect") &
   theme(legend.position = "bottom")
 
-ggsave(filename = "grafico_pontos_dz_pererecas_completo.png",
+ggsave(filename = "grafico_pontos_alt_pererecas_completo.png",
        height = 25,
        width = 30)
 
-"grafico_pontos_dz_pererecas_completo.png" |>
+"grafico_pontos_alt_pererecas_completo.png" |>
   googledrive::drive_upload(path = "Artigo pererecas",
-                            name = "grafico_pontos_dz_pererecas_completo.png",
+                            name = "grafico_pontos_alt_pererecas_completo.png",
                             overwrite = TRUE)
 
 # Principal altura ----
@@ -1862,4 +1862,89 @@ tabela_sts_alt |>
 "tabela_sts_alt_perereca.docx" |>
   googledrive::drive_upload(path = "Artigo pererecas",
                             name = "tabela_sts_alt_perereca.docx",
+                            overwrite = TRUE)
+
+## Gráficos ----
+
+### Gráficos só com as variáveis significativas ----
+
+purrr::map(
+  c("Phyllomedusa tetraploidea",
+    "Boana faber"),
+  \(sps){
+
+    alt_df |>
+      tidyr::pivot_longer(cols = c("peso",
+                                   "crc",
+                                   "cmp",
+                                   "cma",
+                                   "proporcao_cmp",
+                                   "precipitacao",
+                                   "umidade_relativa_maxima",
+                                   "umidade_relativa_minima",
+                                   "temperatura_maxima",
+                                   "temperatura_minima"),
+                          names_to = "Predictor",
+                          values_to = "Predictor value") |>
+      dplyr::mutate(Predictor = dplyr::case_match(
+        Predictor,
+        "peso" ~ "Body mass (g)",
+        "crc" ~ "SVL (mm)",
+        "cmp" ~ "Forelimb lenght (mm)",
+        "cma" ~ "Hidelimb lenght (mm)",
+        "proporcao_cmp" ~ "Forelimb proportion",
+        "proporcao_cma" ~ "Hidelimb proportion",
+        "precipitacao" ~ "Precipitation (mm)",
+        "umidade_relativa_maxima" ~ "Max relative humidity (%)",
+        "umidade_relativa_minima" ~ "Min relative humidity (%)",
+        "temperatura_maxima" ~ "Max temperature (°C)",
+        "temperatura_minima" ~ "Min temperature (°C)"
+      )) |>
+      dplyr::left_join(df_sts_alt |>
+                         dplyr::mutate(p = p |> readr::parse_number()) |>
+                         dplyr::select(especie = Species, Predictor, t, p),
+                       by = c("especie", "Predictor")) |>
+      as.data.frame() |>
+      dplyr::group_by(Predictor) |>
+      dplyr::filter(p <= 0.05 & especie == sps) |>
+      dplyr::ungroup() |>
+      as.data.frame() |>
+      ggplot(aes(`Predictor value`, altura_media)) +
+      geom_point(size = 5,
+                 color = "black",
+                 stroke = 1.5) +
+      geom_smooth(data = . %>%
+                    dplyr::filter(abs(t) > qt(df = 13, p = 0.05,
+                                              lower.tail = FALSE) &
+                                    p <= 0.05),
+                  method = "lm",
+                  se = FALSE) +
+      facet_wrap(~Predictor, scales = "free_x", ncol = 1) +
+      labs(y = "Mean height (m)",
+           color = NULL,
+           fill = NULL,
+           title = sps) +
+      theme_bw() +
+      theme(axis.text = element_text(color = "black", size = 30),
+            axis.title = element_text(color = "black", size = 30),
+            legend.text = element_text(color = "black", size = 30),
+            legend.title = element_text(color = "black", size = 30),
+            legend.position = "bottom",
+            panel.border = element_rect(color = "black", linewidth = 1),
+            strip.text = element_text(color = "black", size = 35),
+            strip.text.y.right = element_text(size = 16.5),
+            plot.title = element_text(color = "black", size = 35, face = "italic",
+                                      hjust = 0.5))
+
+    },
+  .progress = TRUE) |>
+  patchwork::wrap_plots()
+
+ggsave(filename = "grafico_pontos_alt_meab_pererecas.png",
+       height = 20,
+       width = 25)
+
+"grafico_pontos_alt_meab_pererecas.png" |>
+  googledrive::drive_upload(path = "Artigo pererecas",
+                            name = "grafico_pontos_alt_meab_pererecas.png",
                             overwrite = TRUE)
