@@ -43,3 +43,9 @@ dados <- purrr::map(
                                 "Dados Mastofauna - CGH Cacatu")) |>
       dplyr::pull(name) |>
       stringr::str_remove(".xlsx"))
+
+## Visualizar ----
+
+dados
+
+dados |> dplyr::glimpse()
