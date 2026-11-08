@@ -145,7 +145,8 @@ ggplot() +
                 linetype = "Desvio Padrão"),
             color = "black",
             linewidth = 2) +
-  labs(title = "Curva do coletor",
+  labs(y = "Espécies",
+       title = "Curva do coletor",
        linetype = NULL) +
   scale_x_continuous(breaks = seq(0, 3, 1),
                      limits = c(0, 3),
