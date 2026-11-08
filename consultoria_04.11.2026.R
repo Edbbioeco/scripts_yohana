@@ -186,3 +186,71 @@ ggsave(filename = "gráfico_rarefacao_04.11.2026.png",
   googledrive::drive_upload(path = "Recitech/CGH Cacatu",
                             name = "gráfico_rarefacao_04.11.2026.png",
                             overwrite = TRUE)
+
+# Diversidade de espécies ----
+
+## Calcular ----
+
+div_df <- purrr::pmap_dfr(
+  tidyr::expand_grid(campanha = dados$Campanha |> unique(),
+                     indice = c("simpson", "shannon", "pielou")),
+  \(campanha, indice){
+
+    if(indice == "pielou"){
+
+      shannon <- dados |>
+        dplyr::select(- `Nome comum`) |>
+        dplyr::filter(Campanha == campanha) |>
+        tidyr::pivot_wider(names_from = Espécie,
+                           values_from = Quantidade,
+                           values_fill = 0,
+                           values_fn = max) |>
+        tibble::column_to_rownames(var = "Área") |>
+        dplyr::select_if(is.numeric) |>
+        vegan::diversity(index = "shannon")
+
+      riq <- dados |>
+        dplyr::select(- `Nome comum`) |>
+        dplyr::filter(Campanha == campanha) |>
+        tidyr::pivot_wider(names_from = Espécie,
+                           values_from = Quantidade,
+                           values_fill = 0,
+                           values_fn = max) |>
+        tibble::column_to_rownames(var = "Área") |>
+        dplyr::select_if(is.numeric) |>
+        vegan::specnumber()
+
+      tibble::tibble(indice = indice,
+                     diversidade = (shannon / log(riq)),
+                     Campanha = campanha,
+                     Área = shannon |> names())
+
+    } else {
+
+      div <- dados |>
+        dplyr::select(- `Nome comum`) |>
+        dplyr::filter(Campanha == campanha) |>
+        tidyr::pivot_wider(names_from = Espécie,
+                           values_from = Quantidade,
+                           values_fill = 0,
+                           values_fn = max) |>
+        tibble::column_to_rownames(var = "Área") |>
+        dplyr::select_if(is.numeric) |>
+        vegan::diversity(index = indice)
+
+      tibble::tibble(indice = indice,
+                     diversidade = div,
+                     Campanha = campanha,
+                     Área = div |> names())
+
+      }
+
+    },
+  .progress = TRUE) |>
+  dplyr::mutate(diversidade = dplyr::case_when(
+
+    diversidade |> is.nan() ~ 0,
+    .default = diversidade
+  ))
+
+div_df
