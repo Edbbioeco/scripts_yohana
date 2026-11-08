@@ -1631,7 +1631,7 @@ ggsave(filename = "dispersao_alt_perereca.png",
 
 ## Unir os dados ----
 
-alt_df <- alt_med_pererecas |>
+alt_med_df <- alt_med_pererecas |>
   dplyr::left_join(morf |>
                      dplyr::select(-Especie),
                    by = "ID") |>
@@ -1645,9 +1645,9 @@ alt_df <- alt_med_pererecas |>
                    by = "ID") |>
   janitor::clean_names()
 
-alt_df
+alt_med_df
 
-alt_df |> dplyr::glimpse()
+alt_med_df |> dplyr::glimpse()
 
 ## Modelos lineares ----
 
@@ -1681,7 +1681,7 @@ modelos_lm_alt <- purrr::pmap(
       as.formula()
 
     lm(formula,
-       data = alt_df |>
+       data = alt_med_df |>
          dplyr::filter(especie == sps))
 
   },
@@ -1873,7 +1873,7 @@ purrr::map(
     "Boana faber"),
   \(sps){
 
-    alt_df |>
+    alt_med_df |>
       tidyr::pivot_longer(cols = c("peso",
                                    "crc",
                                    "cmp",
@@ -1956,7 +1956,7 @@ purrr::map(
     "Boana faber"),
   \(sps){
 
-    alt_df |>
+    alt_med_df |>
       tidyr::pivot_longer(cols = c("peso",
                                    "crc",
                                    "cmp",
