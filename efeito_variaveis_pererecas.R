@@ -1591,3 +1591,40 @@ medias_alt <- alt_pererecas |>
                    .by = Especie)
 
 medias_alt
+
+### Gráfico ----
+
+alt_pererecas |>
+  ggplot(aes(Especie, `Altura média` )) +
+  ggbeeswarm::geom_quasirandom(color = "black", size = 7, stroke = 1.5) +
+  geom_errorbar(data = medias_alt,
+                aes(x = Especie, y = `Altura média` ,
+                    ymin = `Altura média`  - sd, ymax = `Altura média`  + sd),
+                linewidth = 1.25,
+                width = 0.35,
+                color = "red") +
+  geom_point(data = medias_alt,
+             aes(x = Especie, y = `Altura média` ),
+             size = 5,
+             show.legend = FALSE,
+             color = "red") +
+  labs(x = "Species",
+       y = "Men height (m)",
+       fill = NULL) +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.text.x = element_text(face = "italic"),
+        axis.title = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(color = "black", size = 20),
+        legend.position = "bottom",
+        panel.border = element_rect(color = "black", linewidth = 1))
+
+ggsave(filename = "dispersao_alt_perereca.png",
+       height = 12,
+       width = 12)
+
+"dispersao_alt_perereca.png" |>
+  googledrive::drive_upload(path = "Artigo pererecas",
+                            name = "dispersao_alt_perereca.png",
+                            overwrite = TRUE)
