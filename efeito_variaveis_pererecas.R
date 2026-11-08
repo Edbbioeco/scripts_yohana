@@ -1653,7 +1653,7 @@ alt_med_df |> dplyr::glimpse()
 
 ### Criar modelos ----
 
-modelos_lm_alt <- purrr::pmap(
+modelos_lm_alt_med <- purrr::pmap(
   tibble::tibble(sps = "Boana faber",
                  var = c("peso",
                          "crc",
@@ -1713,12 +1713,12 @@ modelos_lm_alt <- purrr::pmap(
                        sep = "_")|>
                      dplyr::pull(nome))
 
-modelos_lm_alt
+modelos_lm_alt_med
 
 ### Avaliar os modelos ----
 
 purrr::imap(
-  modelos_lm_alt,
+  modelos_lm_alt_med,
   \(modelo, id){
 
     message(id) |>
@@ -1738,7 +1738,7 @@ purrr::imap(
 ### Estatísticas do modelo ----
 
 purrr::imap_dfr(
-  modelos_lm_alt,
+  modelos_lm_alt_med,
   \(modelo, nome){
 
     modelo |>
@@ -1766,8 +1766,8 @@ qt(df = 13, p = 0.05, lower.tail = FALSE)
 
 ### Tabela das estatísticas ----
 
-df_sts_alt <- purrr::imap_dfr(
-  modelos_lm_alt,
+df_sts_alt_med <- purrr::imap_dfr(
+  modelos_lm_alt_med,
   \(modelo, nome){
 
     modelo |>
@@ -1840,9 +1840,9 @@ df_sts_alt <- purrr::imap_dfr(
                col = "ME ± SE") |>
   as.data.frame()
 
-df_sts_alt
+df_sts_alt_med
 
-tabela_sts_alt <- df_sts_alt |>
+tabela_sts_alt_med <- df_sts_alt_med |>
   flextable::flextable() |>
   flextable::align(align = "center",
                    part = "all") |>
@@ -1854,14 +1854,14 @@ tabela_sts_alt <- df_sts_alt |>
                   readr::parse_number(p) <= 0.05,
                 bg = "gray")
 
-tabela_sts_alt
+tabela_sts_alt_med
 
-tabela_sts_alt |>
-  flextable::save_as_docx(path = "tabela_sts_alt_perereca.docx")
+tabela_sts_alt_med |>
+  flextable::save_as_docx(path = "tabela_sts_alt_med_perereca.docx")
 
-"tabela_sts_alt_perereca.docx" |>
+"tabela_sts_alt_med_perereca.docx" |>
   googledrive::drive_upload(path = "Artigo pererecas",
-                            name = "tabela_sts_alt_perereca.docx",
+                            name = "tabela_sts_alt_med_perereca.docx",
                             overwrite = TRUE)
 
 ## Gráficos ----
@@ -1900,7 +1900,7 @@ purrr::map(
         "temperatura_maxima" ~ "Max temperature (°C)",
         "temperatura_minima" ~ "Min temperature (°C)"
       )) |>
-      dplyr::left_join(df_sts_alt |>
+      dplyr::left_join(df_sts_alt_med |>
                          dplyr::mutate(p = p |> readr::parse_number()) |>
                          dplyr::select(especie = Species, Predictor, t, p),
                        by = c("especie", "Predictor")) |>
@@ -1909,7 +1909,7 @@ purrr::map(
       dplyr::filter(p <= 0.05 & especie == sps) |>
       dplyr::ungroup() |>
       as.data.frame() |>
-      ggplot(aes(`Predictor value`, altura_media)) +
+      ggplot(aes(`Predictor value`, alt_medura_media)) +
       geom_point(size = 5,
                  color = "black",
                  stroke = 1.5) +
@@ -1940,85 +1940,11 @@ purrr::map(
   .progress = TRUE) |>
   patchwork::wrap_plots()
 
-ggsave(filename = "grafico_pontos_alt_meab_pererecas.png",
+ggsave(filename = "grafico_pontos_alt_med_meab_pererecas.png",
        height = 20,
        width = 25)
 
-"grafico_pontos_alt_meab_pererecas.png" |>
+"grafico_pontos_alt_med_meab_pererecas.png" |>
   googledrive::drive_upload(path = "Artigo pererecas",
-                            name = "grafico_pontos_alt_meab_pererecas.png",
+                            name = "grafico_pontos_alt_med_meab_pererecas.png",
                             overwrite = TRUE)
-
-### Gráfico com todas as variáveis ----
-
-purrr::map(
-  c("Phyllomedusa tetraploidea",
-    "Boana faber"),
-  \(sps){
-
-    alt_med_df |>
-      tidyr::pivot_longer(cols = c("peso",
-                                   "crc",
-                                   "cmp",
-                                   "cma",
-                                   "proporcao_cmp",
-                                   "precipitacao",
-                                   "umidade_relativa_maxima",
-                                   "umidade_relativa_minima",
-                                   "temperatura_maxima",
-                                   "temperatura_minima"),
-                          names_to = "Predictor",
-                          values_to = "Predictor value") |>
-      dplyr::mutate(Predictor = dplyr::case_match(
-        Predictor,
-        "peso" ~ "Body mass (g)",
-        "crc" ~ "SVL (mm)",
-        "cmp" ~ "Forelimb lenght (mm)",
-        "cma" ~ "Hidelimb lenght (mm)",
-        "proporcao_cmp" ~ "Forelimb proportion",
-        "proporcao_cma" ~ "Hidelimb proportion",
-        "precipitacao" ~ "Precipitation (mm)",
-        "umidade_relativa_maxima" ~ "Max relative humidity (%)",
-        "umidade_relativa_minima" ~ "Min relative humidity (%)",
-        "temperatura_maxima" ~ "Max temperature (°C)",
-        "temperatura_minima" ~ "Min temperature (°C)"
-      )) |>
-      dplyr::left_join(df_sts_alt |>
-                         dplyr::mutate(p = p |> readr::parse_number()) |>
-                         dplyr::select(especie = Species, Predictor, t, p),
-                       by = c("especie", "Predictor")) |>
-      as.data.frame() |>
-      dplyr::group_by(Predictor) |>
-      dplyr::filter(especie == sps) |>
-      dplyr::ungroup() |>
-      as.data.frame() |>
-      ggplot(aes(`Predictor value`, altura_media)) +
-      geom_point(size = 5,
-                 color = "black",
-                 stroke = 1.5) +
-      geom_smooth(data = . %>%
-                    dplyr::filter(abs(t) > qt(df = 13, p = 0.05,
-                                              lower.tail = FALSE) &
-                                    p <= 0.05),
-                  method = "lm",
-                  se = FALSE) +
-      facet_wrap(~Predictor, scales = "free_x", ncol = 2) +
-      labs(y = "Mean height (m)",
-           color = NULL,
-           fill = NULL,
-           title = sps) +
-      theme_bw() +
-      theme(axis.text = element_text(color = "black", size = 30),
-            axis.title = element_text(color = "black", size = 30),
-            legend.text = element_text(color = "black", size = 30),
-            legend.title = element_text(color = "black", size = 30),
-            legend.position = "bottom",
-            panel.border = element_rect(color = "black", linewidth = 1),
-            strip.text = element_text(color = "black", size = 35),
-            strip.text.y.right = element_text(size = 16.5),
-            plot.title = element_text(color = "black", size = 35, face = "italic",
-                                      hjust = 0.5))
-
-  },
-  .progress = TRUE) |>
-  patchwork::wrap_plots()
