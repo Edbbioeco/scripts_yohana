@@ -176,3 +176,12 @@ ggplot() +
         legend.direction = "horizontal",
         legend.spacing.x = unit(12, "pt"),
         plot.margin = margin(10, 14, 8, 8))
+
+ggsave(filename = "gráfico_rarefacao_04.11.2026.png",
+       height = 10,
+       width = 20)
+
+"gráfico_rarefacao_04.11.2026.png" |>
+  googledrive::drive_upload(path = "Recitech/CGH Cacatu",
+                            name = "gráfico_rarefacao_04.11.2026.png",
+                            overwrite = TRUE)
