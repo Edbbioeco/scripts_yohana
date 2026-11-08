@@ -1714,3 +1714,23 @@ modelos_lm_alt <- purrr::pmap(
                      dplyr::pull(nome))
 
 modelos_lm_alt
+
+### Avaliar os modelos ----
+
+purrr::imap(
+  modelos_lm_alt,
+  \(modelo, id){
+
+    message(id) |>
+      print()
+
+    modelo |>
+      performance::check_normality() |>
+      print()
+
+    modelo |>
+      performance::check_heteroscedasticity() |>
+      print()
+
+    },
+  .progress = TRUE)
