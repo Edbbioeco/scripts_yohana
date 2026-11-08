@@ -1571,3 +1571,12 @@ ggsave(filename = "grafico_pontos_dz_pererecas_completo.png",
                             name = "grafico_pontos_dz_pererecas_completo.png",
                             overwrite = TRUE)
 
+# Principal altura ----
+
+## Calcular ----
+
+alt_pererecas <- mov |>
+  dplyr::summarise(`Altura média` = `Altura (m)` |> mean(),
+                   .by = c(Especie, ID))
+
+alt_pererecas
