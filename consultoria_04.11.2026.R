@@ -74,3 +74,19 @@ dados <- dados |>
 dados
 
 dados |> dplyr::glimpse()
+
+# Curva de rarefação ----
+
+## Calcular a riqueza ----
+
+riq <- dados |>
+  dplyr::select(1, 3, 5) |>
+  tidyr::pivot_wider(names_from = Espécie,
+                     values_from = Quantidade,
+                     values_fill = 0,
+                     values_fn = max) |>
+  tibble::column_to_rownames(var = "Campanha") |>
+  vegan::specaccum(method = "rarefaction") |>
+  purrr::pluck("richness")
+
+riq
