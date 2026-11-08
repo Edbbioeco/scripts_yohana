@@ -1580,3 +1580,14 @@ alt_pererecas <- mov |>
                    .by = c(Especie, ID))
 
 alt_pererecas
+
+## Gráfico de dispersão ----
+
+### Gráfico de médias ----
+
+medias_alt <- alt_pererecas |>
+  dplyr::summarise(sd = `Altura média` |> sd(),
+                   `Altura média` = `Altura média` |> mean(),
+                   .by = Especie)
+
+medias_alt
