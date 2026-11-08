@@ -1909,7 +1909,7 @@ purrr::map(
       dplyr::filter(p <= 0.05 & especie == sps) |>
       dplyr::ungroup() |>
       as.data.frame() |>
-      ggplot(aes(`Predictor value`, alt_medura_media)) +
+      ggplot(aes(`Predictor value`, altura_media)) +
       geom_point(size = 5,
                  color = "black",
                  stroke = 1.5) +
@@ -1940,11 +1940,11 @@ purrr::map(
   .progress = TRUE) |>
   patchwork::wrap_plots()
 
-ggsave(filename = "grafico_pontos_alt_med_meab_pererecas.png",
+ggsave(filename = "grafico_pontos_alt_med_pererecas.png",
        height = 20,
        width = 25)
 
-"grafico_pontos_alt_med_meab_pererecas.png" |>
+"grafico_pontos_alt_med_pererecas.png" |>
   googledrive::drive_upload(path = "Artigo pererecas",
-                            name = "grafico_pontos_alt_med_meab_pererecas.png",
+                            name = "grafico_pontos_alt_med_pererecas.png",
                             overwrite = TRUE)
