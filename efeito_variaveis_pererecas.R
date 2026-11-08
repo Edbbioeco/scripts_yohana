@@ -1575,17 +1575,17 @@ ggsave(filename = "grafico_pontos_alt_pererecas_completo.png",
 
 ## Calcular ----
 
-alt_pererecas <- mov |>
+alt_med_pererecas <- mov |>
   dplyr::summarise(`Altura média` = `Altura (m)` |> mean(),
                    .by = c(Especie, ID))
 
-alt_pererecas
+alt_med_pererecas
 
 ## Gráfico de dispersão ----
 
 ### Gráfico de médias ----
 
-medias_alt <- alt_pererecas |>
+medias_alt <- alt_med_pererecas |>
   dplyr::summarise(sd = `Altura média` |> sd(),
                    `Altura média` = `Altura média` |> mean(),
                    .by = Especie)
@@ -1594,7 +1594,7 @@ medias_alt
 
 ### Gráfico ----
 
-alt_pererecas |>
+alt_med_pererecas |>
   ggplot(aes(Especie, `Altura média` )) +
   ggbeeswarm::geom_quasirandom(color = "black", size = 7, stroke = 1.5) +
   geom_errorbar(data = medias_alt,
@@ -1631,7 +1631,7 @@ ggsave(filename = "dispersao_alt_perereca.png",
 
 ## Unir os dados ----
 
-alt_df <- alt_pererecas |>
+alt_df <- alt_med_pererecas |>
   dplyr::left_join(morf |>
                      dplyr::select(-Especie),
                    by = "ID") |>
@@ -1948,3 +1948,77 @@ ggsave(filename = "grafico_pontos_alt_meab_pererecas.png",
   googledrive::drive_upload(path = "Artigo pererecas",
                             name = "grafico_pontos_alt_meab_pererecas.png",
                             overwrite = TRUE)
+
+### Gráfico com todas as variáveis ----
+
+purrr::map(
+  c("Phyllomedusa tetraploidea",
+    "Boana faber"),
+  \(sps){
+
+    alt_df |>
+      tidyr::pivot_longer(cols = c("peso",
+                                   "crc",
+                                   "cmp",
+                                   "cma",
+                                   "proporcao_cmp",
+                                   "precipitacao",
+                                   "umidade_relativa_maxima",
+                                   "umidade_relativa_minima",
+                                   "temperatura_maxima",
+                                   "temperatura_minima"),
+                          names_to = "Predictor",
+                          values_to = "Predictor value") |>
+      dplyr::mutate(Predictor = dplyr::case_match(
+        Predictor,
+        "peso" ~ "Body mass (g)",
+        "crc" ~ "SVL (mm)",
+        "cmp" ~ "Forelimb lenght (mm)",
+        "cma" ~ "Hidelimb lenght (mm)",
+        "proporcao_cmp" ~ "Forelimb proportion",
+        "proporcao_cma" ~ "Hidelimb proportion",
+        "precipitacao" ~ "Precipitation (mm)",
+        "umidade_relativa_maxima" ~ "Max relative humidity (%)",
+        "umidade_relativa_minima" ~ "Min relative humidity (%)",
+        "temperatura_maxima" ~ "Max temperature (°C)",
+        "temperatura_minima" ~ "Min temperature (°C)"
+      )) |>
+      dplyr::left_join(df_sts_alt |>
+                         dplyr::mutate(p = p |> readr::parse_number()) |>
+                         dplyr::select(especie = Species, Predictor, t, p),
+                       by = c("especie", "Predictor")) |>
+      as.data.frame() |>
+      dplyr::group_by(Predictor) |>
+      dplyr::filter(especie == sps) |>
+      dplyr::ungroup() |>
+      as.data.frame() |>
+      ggplot(aes(`Predictor value`, altura_media)) +
+      geom_point(size = 5,
+                 color = "black",
+                 stroke = 1.5) +
+      geom_smooth(data = . %>%
+                    dplyr::filter(abs(t) > qt(df = 13, p = 0.05,
+                                              lower.tail = FALSE) &
+                                    p <= 0.05),
+                  method = "lm",
+                  se = FALSE) +
+      facet_wrap(~Predictor, scales = "free_x", ncol = 2) +
+      labs(y = "Mean height (m)",
+           color = NULL,
+           fill = NULL,
+           title = sps) +
+      theme_bw() +
+      theme(axis.text = element_text(color = "black", size = 30),
+            axis.title = element_text(color = "black", size = 30),
+            legend.text = element_text(color = "black", size = 30),
+            legend.title = element_text(color = "black", size = 30),
+            legend.position = "bottom",
+            panel.border = element_rect(color = "black", linewidth = 1),
+            strip.text = element_text(color = "black", size = 35),
+            strip.text.y.right = element_text(size = 16.5),
+            plot.title = element_text(color = "black", size = 35, face = "italic",
+                                      hjust = 0.5))
+
+  },
+  .progress = TRUE) |>
+  patchwork::wrap_plots()
