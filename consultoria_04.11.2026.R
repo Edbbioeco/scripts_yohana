@@ -254,3 +254,128 @@ div_df <- purrr::pmap_dfr(
   ))
 
 div_df
+
+## Grpáficos ----
+
+### Criar ----
+
+graficos <- purrr::map2(
+  div_df$indice |> unique(),
+  paste0(c("Dominância de Simpson",
+             "Diversidade de Shannon-wiener",
+             "Equitabilidade de Pielou"),
+           " - Mastofauna"),
+  \(ind, titulo){
+
+    cores <- c(A = "#595959", B = "#B2B2B2", C = "#8C8C8C", D = "#262626")
+
+    xlim_comum <- c(0.3, 3.5)
+
+    eixo_y <- tibble::tibble(y = seq(0, 1, 0.1) |> rep(2),
+                             indice = rep(c(ind, "pielou"),
+                                          each = length(y) / 2)) |>
+      dplyr::bind_rows(tibble::tibble(y = seq(0, 1.5, 0.1),
+                                      indice = "shannon")) |>
+      dplyr::mutate(rotulo = purrr::map_chr(y, ~ format(.x, decimal.mark = ","))) |>
+      dplyr::filter(indice == ind)
+
+    grafico <- div_df |>
+      dplyr::filter(indice == ind) |>
+      tidyr::complete(Campanha, Área,
+                      fill = list(indice = ind, diversidade = 0)) |>
+      dplyr::mutate(Campanha = Campanha |>
+                      forcats::fct_relevel(c("Verão 2026",
+                                             "Outono 2026",
+                                             "Inverno 2026")),
+                    x = as.integer(Campanha)) |>
+      ggplot2::ggplot() +
+      ## Linhas de grade (começam onde começa a área das barras)
+      ggplot2::geom_segment(data = eixo_y,
+                            ggplot2::aes(x = 0.5, xend = 3.5, y = y, yend = y),
+                            color = "grey85", linewidth = 0.4) +
+      ## Rótulos do eixo y, dentro da coluna da esquerda
+      ggplot2::geom_text(data = eixo_y,
+                         ggplot2::aes(x = 0.4, y = y, label = rotulo),
+                         color = "grey20", size = 3.5) +
+      ggplot2::geom_col(ggplot2::aes(x = x, y = diversidade, fill = Área),
+                        position = ggplot2::position_dodge(width = 0.73),
+                        width = 0.73) +
+      ggplot2::scale_fill_manual(values = cores) +
+      ggplot2::scale_x_continuous(expand = c(0, 0)) +
+      ggplot2::scale_y_continuous(expand = c(0, 0)) +
+      ggplot2::coord_cartesian(xlim = xlim_comum,
+                               ylim = c(0, eixo_y$y |> max()),
+                               clip = "off") +
+      ggplot2::theme_void() +
+      ggplot2::theme(legend.position = "none",
+                     plot.margin = ggplot2::margin(t = 8, r = 0, b = 0, l = 0))
+
+    celulas <- div_df |>
+      dplyr::filter(indice == ind) |>
+      dplyr::mutate(Campanha = Campanha |>
+                      forcats::fct_relevel(c("Verão 2026",
+                                             "Outono 2026",
+                                             "Inverno 2026")),
+                    Área = Área |>
+                      forcats::fct_relevel(LETTERS[1:4])) |>
+      tidyr::complete(Campanha, Área,
+                      fill = list(indice = ind, diversidade = 0)) |>
+      dplyr::mutate(x = as.integer(Campanha),
+                    y = 5 - as.integer(Área),
+                    rotulo = diversidade |>
+                      round(2) |>
+                      format(decimal.mark = ","))
+
+    cabecalho <- tibble::tibble(x = 1:length(div_df$Campanha |> unique()),
+                                y = length(div_df$Área |> unique()) + 1,
+                                rotulo = c("Verão 2026",
+                                           "Outono 2026",
+                                           "Inverno 2026"))
+
+    legenda <- tibble::tibble(grupo = LETTERS[1:4],
+                              y = length(div_df$Área |> unique()):1)
+
+    tabela <- ggplot2::ggplot() +
+      ## Células de dados e cabeçalho
+      ggplot2::geom_tile(data = dplyr::bind_rows(celulas, cabecalho),
+                         ggplot2::aes(x = x, y = y),
+                         fill = NA, color = "grey85", width = 1, height = 1) +
+      ggplot2::geom_text(data = dplyr::bind_rows(celulas, cabecalho),
+                         ggplot2::aes(x = x, y = y, label = rotulo),
+                         color = "grey20", size = 3.5) +
+      ## Coluna da legenda (célula + quadrado + letra)
+      ggplot2::geom_tile(data = legenda,
+                         ggplot2::aes(x = 0.4, y = y),
+                         fill = NA, color = "grey85", width = 0.2, height = 1) +
+      ggplot2::geom_point(data = legenda,
+                          ggplot2::aes(x = 0.35, y = y, color = grupo),
+                          shape = 15, size = 5) +
+      ggplot2::geom_text(data = legenda,
+                         ggplot2::aes(x = 0.42, y = y, label = grupo),
+                         color = "grey20", size = 5, hjust = 0) +
+      ggplot2::scale_color_manual(values = cores, guide = "none") +
+      ggplot2::scale_x_continuous(expand = c(0, 0)) +
+      ggplot2::scale_y_continuous(expand = c(0, 0)) +
+      ggplot2::coord_cartesian(xlim = xlim_comum, ylim = c(0.5, 5.5)) +
+      ggplot2::theme_void() +
+      ggplot2::theme(plot.margin = ggplot2::margin(0, 0, 0, 0))
+
+    (grafico / tabela) +
+      patchwork::plot_layout(heights = c(4, 1.6)) +
+      patchwork::plot_annotation(
+        title = titulo,
+        theme = ggplot2::theme(
+          plot.title = ggplot2::element_text(hjust = 0.5,
+                                             size = 30,
+                                             color = "grey10"),
+          plot.margin = ggplot2::margin(10, 10, 10, 10),
+          plot.background = ggplot2::element_rect(fill = "white",
+                                                  color = "grey60",
+                                                  linewidth = 0.8)
+        )
+      )
+
+    },
+  .progress = TRUE)
+
+graficos
