@@ -376,6 +376,7 @@ graficos <- purrr::map2(
       )
 
     },
-  .progress = TRUE)
+  .progress = TRUE) |>
+  purrr::set_names(div_df$indice |> unique())
 
 graficos
