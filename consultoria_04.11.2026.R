@@ -134,17 +134,17 @@ ggplot() +
             aes(x = Campanhas, y = Espécies + sd,
                 linetype = "Desvio Padrão"),
             color = "black",
-            linewidth = 2) +
+            linewidth = 3) +
   geom_line(data = df_rare,
             aes(x = Campanhas, y = Espécies,
                 linetype = "Curva de Acumulação de Espécies"),
             color = "black",
-            linewidth = 2) +
+            linewidth = 3) +
   geom_line(data = df_rare,
             aes(x = Campanhas, y = Espécies - sd,
                 linetype = "Desvio Padrão"),
             color = "black",
-            linewidth = 2) +
+            linewidth = 3) +
   labs(y = "Número de Espécies",
        title = "Curva do coletor",
        linetype = NULL) +
