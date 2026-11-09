@@ -146,7 +146,7 @@ ggplot() +
             color = "black",
             linewidth = 3) +
   labs(y = "Número de Espécies",
-       title = "Curva do coletor",
+       title = "Curva do Coletor",
        linetype = NULL) +
   scale_x_continuous(breaks = seq(0, 3, 1),
                      limits = c(0, 3),
