@@ -288,27 +288,27 @@ graficos <- purrr::map2(
                                              "Outono 2026",
                                              "Inverno 2026")),
                     x = as.integer(Campanha)) |>
-      ggplot2::ggplot() +
+      ggplot() +
       ## Linhas de grade (começam onde começa a área das barras)
-      ggplot2::geom_segment(data = eixo_y,
-                            ggplot2::aes(x = 0.5, xend = 3.5, y = y, yend = y),
+      geom_segment(data = eixo_y,
+                            aes(x = 0.5, xend = 3.5, y = y, yend = y),
                             color = "grey85", linewidth = 0.4) +
       ## Rótulos do eixo y, dentro da coluna da esquerda
-      ggplot2::geom_text(data = eixo_y,
-                         ggplot2::aes(x = 0.4, y = y, label = rotulo),
+      geom_text(data = eixo_y,
+                         aes(x = 0.4, y = y, label = rotulo),
                          color = "grey20", size = 3.5) +
-      ggplot2::geom_col(ggplot2::aes(x = x, y = diversidade, fill = Área),
-                        position = ggplot2::position_dodge(width = 0.73),
+      geom_col(aes(x = x, y = diversidade, fill = Área),
+                        position = position_dodge(width = 0.73),
                         width = 0.73) +
-      ggplot2::scale_fill_manual(values = cores) +
-      ggplot2::scale_x_continuous(expand = c(0, 0)) +
-      ggplot2::scale_y_continuous(expand = c(0, 0)) +
-      ggplot2::coord_cartesian(xlim = xlim_comum,
+      scale_fill_manual(values = cores) +
+      scale_x_continuous(expand = c(0, 0)) +
+      scale_y_continuous(expand = c(0, 0)) +
+      coord_cartesian(xlim = xlim_comum,
                                ylim = c(0, eixo_y$y |> max()),
                                clip = "off") +
-      ggplot2::theme_void() +
-      ggplot2::theme(legend.position = "none",
-                     plot.margin = ggplot2::margin(t = 8, r = 0, b = 0, l = 0))
+      theme_void() +
+      theme(legend.position = "none",
+                     plot.margin = margin(t = 8, r = 0, b = 0, l = 0))
 
     celulas <- div_df |>
       dplyr::filter(indice == ind) |>
@@ -335,41 +335,41 @@ graficos <- purrr::map2(
     legenda <- tibble::tibble(grupo = LETTERS[1:4],
                               y = length(div_df$Área |> unique()):1)
 
-    tabela <- ggplot2::ggplot() +
+    tabela <- ggplot() +
       ## Células de dados e cabeçalho
-      ggplot2::geom_tile(data = dplyr::bind_rows(celulas, cabecalho),
-                         ggplot2::aes(x = x, y = y),
+      geom_tile(data = dplyr::bind_rows(celulas, cabecalho),
+                         aes(x = x, y = y),
                          fill = NA, color = "grey85", width = 1, height = 1) +
-      ggplot2::geom_text(data = dplyr::bind_rows(celulas, cabecalho),
-                         ggplot2::aes(x = x, y = y, label = rotulo),
+      geom_text(data = dplyr::bind_rows(celulas, cabecalho),
+                         aes(x = x, y = y, label = rotulo),
                          color = "grey20", size = 3.5) +
       ## Coluna da legenda (célula + quadrado + letra)
-      ggplot2::geom_tile(data = legenda,
-                         ggplot2::aes(x = 0.4, y = y),
+      geom_tile(data = legenda,
+                         aes(x = 0.4, y = y),
                          fill = NA, color = "grey85", width = 0.2, height = 1) +
-      ggplot2::geom_point(data = legenda,
-                          ggplot2::aes(x = 0.35, y = y, color = grupo),
+      geom_point(data = legenda,
+                          aes(x = 0.35, y = y, color = grupo),
                           shape = 15, size = 5) +
-      ggplot2::geom_text(data = legenda,
-                         ggplot2::aes(x = 0.42, y = y, label = grupo),
+      geom_text(data = legenda,
+                         aes(x = 0.42, y = y, label = grupo),
                          color = "grey20", size = 5, hjust = 0) +
-      ggplot2::scale_color_manual(values = cores, guide = "none") +
-      ggplot2::scale_x_continuous(expand = c(0, 0)) +
-      ggplot2::scale_y_continuous(expand = c(0, 0)) +
-      ggplot2::coord_cartesian(xlim = xlim_comum, ylim = c(0.5, 5.5)) +
-      ggplot2::theme_void() +
-      ggplot2::theme(plot.margin = ggplot2::margin(0, 0, 0, 0))
+      scale_color_manual(values = cores, guide = "none") +
+      scale_x_continuous(expand = c(0, 0)) +
+      scale_y_continuous(expand = c(0, 0)) +
+      coord_cartesian(xlim = xlim_comum, ylim = c(0.5, 5.5)) +
+      theme_void() +
+      theme(plot.margin = margin(0, 0, 0, 0))
 
     (grafico / tabela) +
       patchwork::plot_layout(heights = c(4, 1.6)) +
       patchwork::plot_annotation(
         title = titulo,
-        theme = ggplot2::theme(
-          plot.title = ggplot2::element_text(hjust = 0.5,
+        theme = theme(
+          plot.title = element_text(hjust = 0.5,
                                              size = 30,
                                              color = "grey10"),
-          plot.margin = ggplot2::margin(10, 10, 10, 10),
-          plot.background = ggplot2::element_rect(fill = "white",
+          plot.margin = margin(10, 10, 10, 10),
+          plot.background = element_rect(fill = "white",
                                                   color = "grey60",
                                                   linewidth = 0.8)
         )
