@@ -294,7 +294,7 @@ graficos <- purrr::map2(
                    color = "grey60", linewidth = 0.5) +
       geom_text(data = eixo_y,
                 aes(x = 0.4, y = y, label = rotulo),
-                color = "black", size = 10) +
+                color = "black", size = 10, hjust = 1) +
       geom_col(aes(x = x, y = diversidade, fill = Área),
                         position = position_dodge(width = 0.73),
                         width = 0.73) +
