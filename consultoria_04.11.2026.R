@@ -393,3 +393,17 @@ purrr::imap(
 
     },
   .progress = TRUE)
+
+### Subir para o Google Drive ----
+
+purrr::map(
+  list.files(pattern = "^grafico_.+04\\.11\\.2026\\.png$"),
+  \(arquivo){
+
+    arquivo |>
+      googledrive::drive_upload(path = "Recitech/CGH Cacatu",
+                                name = arquivo,
+                                overwrite = TRUE)
+
+  },
+  .progress = TRUE)
