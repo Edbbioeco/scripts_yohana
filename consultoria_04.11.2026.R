@@ -157,13 +157,13 @@ ggplot() +
   guides(linetype = guide_legend(keywidth = unit(90, "pt"))) +
   theme_classic() +
   theme(plot.background = element_rect(fill = "white", color = NA),
-        panel.grid.major = element_line(color = "grey88", linewidth = 0.4),
+        panel.grid.major = element_line(color = "grey60", linewidth = 0.5),
         panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
-        axis.text = element_text(color = "black", size = 25),
+        axis.text = element_text(color = "black", size = 35),
         axis.text.x = element_text(margin = margin(t = 20)),
         axis.text.y = element_text(margin = margin(r = 20)),
-        axis.title = element_text(color = "black", size = 25),
+        axis.title = element_text(color = "black", size = 35),
         axis.title.y = element_text(margin = margin(r = 6)),
         axis.title.x = element_text(margin = margin(t = 6)),
         plot.title = element_text(hjust = 0.5, size = 45,
