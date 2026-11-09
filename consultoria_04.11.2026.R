@@ -289,14 +289,12 @@ graficos <- purrr::map2(
                                              "Inverno 2026")),
                     x = as.integer(Campanha)) |>
       ggplot() +
-      ## Linhas de grade (começam onde começa a área das barras)
       geom_segment(data = eixo_y,
-                            aes(x = 0.5, xend = 3.5, y = y, yend = y),
-                            color = "grey85", linewidth = 0.4) +
-      ## Rótulos do eixo y, dentro da coluna da esquerda
+                   aes(x = 0.5, xend = 3.5, y = y, yend = y),
+                   color = "grey60", linewidth = 0.5) +
       geom_text(data = eixo_y,
-                         aes(x = 0.4, y = y, label = rotulo),
-                         color = "grey20", size = 3.5) +
+                aes(x = 0.4, y = y, label = rotulo),
+                color = "black", size = 10) +
       geom_col(aes(x = x, y = diversidade, fill = Área),
                         position = position_dodge(width = 0.73),
                         width = 0.73) +
@@ -304,11 +302,11 @@ graficos <- purrr::map2(
       scale_x_continuous(expand = c(0, 0)) +
       scale_y_continuous(expand = c(0, 0)) +
       coord_cartesian(xlim = xlim_comum,
-                               ylim = c(0, eixo_y$y |> max()),
-                               clip = "off") +
+                      ylim = c(0, eixo_y$y |> max()),
+                      clip = "off") +
       theme_void() +
       theme(legend.position = "none",
-                     plot.margin = margin(t = 8, r = 0, b = 0, l = 0))
+            plot.margin = margin(t = 8, r = 0, b = 0, l = 0))
 
     celulas <- div_df |>
       dplyr::filter(indice == ind) |>
@@ -336,23 +334,27 @@ graficos <- purrr::map2(
                               y = length(div_df$Área |> unique()):1)
 
     tabela <- ggplot() +
-      ## Células de dados e cabeçalho
       geom_tile(data = dplyr::bind_rows(celulas, cabecalho),
-                         aes(x = x, y = y),
-                         fill = NA, color = "grey85", width = 1, height = 1) +
+                aes(x = x, y = y),
+                fill = NA, color = "grey60",
+                linewidth = 0.5,
+                width = 1,
+                height = 1) +
       geom_text(data = dplyr::bind_rows(celulas, cabecalho),
                          aes(x = x, y = y, label = rotulo),
-                         color = "grey20", size = 3.5) +
-      ## Coluna da legenda (célula + quadrado + letra)
+                         color = "black", size = 10) +
       geom_tile(data = legenda,
-                         aes(x = 0.4, y = y),
-                         fill = NA, color = "grey85", width = 0.2, height = 1) +
+                aes(x = 0.3, y = y),
+                fill = NA, color = "grey60",
+                linewidth = 0.5,
+                width = 0.4,
+                height = 1) +
       geom_point(data = legenda,
                           aes(x = 0.35, y = y, color = grupo),
                           shape = 15, size = 5) +
       geom_text(data = legenda,
                          aes(x = 0.42, y = y, label = grupo),
-                         color = "grey20", size = 5, hjust = 0) +
+                         color = "black", size = 10, hjust = 0) +
       scale_color_manual(values = cores, guide = "none") +
       scale_x_continuous(expand = c(0, 0)) +
       scale_y_continuous(expand = c(0, 0)) +
@@ -368,7 +370,7 @@ graficos <- purrr::map2(
           plot.title = element_text(hjust = 0.5,
                                              size = 30,
                                              color = "grey10"),
-          plot.margin = margin(10, 10, 10, 10),
+          plot.margin = margin(10, 20, 10, 20),
           plot.background = element_rect(fill = "white",
                                                   color = "grey60",
                                                   linewidth = 0.8)
