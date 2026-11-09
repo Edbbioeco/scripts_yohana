@@ -380,3 +380,16 @@ graficos <- purrr::map2(
   purrr::set_names(div_df$indice |> unique())
 
 graficos
+
+### Salvar ----
+
+purrr::imap(
+  graficos,
+  \(grafico, ind){
+
+    ggsave(plot = grafico,
+           filename = paste0("grafico_", ind, "04.11.2026.png"),
+           height = 10, width = 16)
+
+    },
+  .progress = TRUE)
