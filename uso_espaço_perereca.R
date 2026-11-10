@@ -81,7 +81,7 @@ uso_trat
 
 ## Imagens transparentes ----
 
-imagens_sps <- tibble::tibble(x = 6,
+imagens_sps <- tibble::tibble(x = 10,
                               y = 7.75,
                               sps = paste0(c("phyllomedusa tetraploidea",
                                              "boana faber"),
