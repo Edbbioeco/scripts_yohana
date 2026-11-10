@@ -111,3 +111,11 @@ ggplot(data = uso_trat,
                                   face = "italic"),
         strip.background = element_rect(color = "black", linewidth = 1),
         panel.background = element_rect(color = "black", linewidth = 1))
+
+ggsave(filename = "uso_habitat_pererecas.png",
+       height = 12, width = 16)
+
+"uso_habitat_pererecas.png" |>
+  googledrive::drive_upload(path = "Artigo pererecas",
+                            name = "uso_habitat_pererecas.png",
+                            overwrite = TRUE)
