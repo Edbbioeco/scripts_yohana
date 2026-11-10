@@ -102,8 +102,8 @@ ggplot(data = uso_trat,
   facet_wrap(~Espécie) +
   labs(y = "Resting habitat",
        x = "Count of individuals") +
-  scale_x_continuous(breaks = seq(0, 9, 1),
-                     limits = c(0, 9)) +
+  scale_x_continuous(breaks = seq(0, 14, 1),
+                     limits = c(0, 14)) +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.title = element_text(color = "black", size = 20),
