@@ -905,10 +905,6 @@ area_df |>
         plot.title = element_text(color = "black", size = 35, face = "italic",
                                   hjust = 0.5))
 
-(grafico_area_phyllomedusa + grafico_area_boana) +
-  patchwork::plot_layout(guide = "collect") &
-  theme(legend.position = "bottom")
-
 ggsave(filename = "grafico_pontos_area_perereca.png",
        height = 12,
        width = 16)
