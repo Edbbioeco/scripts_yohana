@@ -90,3 +90,24 @@ imagens_sps <- tibble::tibble(x = 6,
                                           "Boana faber"))
 
 imagens_sps
+
+## Gráfico ----
+
+ggplot(data = uso_trat,
+       aes(`Número de indivíduos`, Habitat)) +
+  geom_col() +
+  ggimage::geom_image(data = imagens_sps,
+                      aes(x, y, image = sps),
+                      size = 0.35) +
+  facet_wrap(~Espécie) +
+  labs(y = "Resting habitat",
+       x = "Count of individuals") +
+  scale_x_continuous(breaks = seq(0, 9, 1),
+                     limits = c(0, 9)) +
+  theme_bw() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.title = element_text(color = "black", size = 20),
+        strip.text = element_text(color = "black", size = 20,
+                                  face = "italic"),
+        strip.background = element_rect(color = "black", linewidth = 1),
+        panel.background = element_rect(color = "black", linewidth = 1))
