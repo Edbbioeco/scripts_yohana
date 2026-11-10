@@ -27,3 +27,9 @@ uso <- "Artigo pererecas" |>
   readxl::read_xlsx() |>
   dplyr::filter(Espécie %in% c("Phyllomedusa tetraploidea",
                                "Boana faber"))
+
+## Visualizar ----
+
+uso
+
+uso |> dplyr::glimpse()
