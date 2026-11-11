@@ -108,6 +108,7 @@ dados |>
 ## Riqueza por campanha e área ----
 
 dados |>
+  dplyr::filter(Espécie != "Canis lupus") |>
   dplyr::summarise(riqueza = dplyr::n_distinct(Espécie),
                    .by = c(Campanha, Área)) |>
   dplyr::arrange(riqueza |> dplyr::desc())
