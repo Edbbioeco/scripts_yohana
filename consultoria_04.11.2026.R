@@ -54,16 +54,18 @@ dados |> dplyr::glimpse()
 
 dados <- dados |>
   purrr::pluck(1) |>
-  dplyr::select(Campanha, Área, Espécie:Quantidade) |>
+  dplyr::select(Campanha, Área, Espécie,
+                `Nome comum` = `Nome Vulgar`,
+                "Quantidade" = `Nº Ind.2`) |>
   dplyr::mutate(Campanha = Campanha |>
                   stringr::str_remove("2- ") |>
                   stringr::str_to_title()) |>
   dplyr::bind_rows(
     dados |>
       purrr::pluck(2) |>
-      dplyr::select(Campanha, Área, Espécie,
-                    `Nome comum` = `Nome Vulgar`,
-                    "Quantidade" = `Nº Ind.2`) |>
+      dplyr::select(Campanha,
+                    Área,
+                    Espécie:Quantidade) |>
       dplyr::mutate(Campanha = Campanha |>
                       stringr::str_replace(stringr::fixed("/"),
                                            " "),
