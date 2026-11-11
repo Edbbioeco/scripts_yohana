@@ -105,6 +105,13 @@ dados |>
   dplyr::summarise(Área = paste0(Área, collapse = ", "),
                    .by = Espécie)
 
+## Riqueza por campanha e área ----
+
+dados |>
+  dplyr::summarise(riqueza = dplyr::n_distinct(Espécie),
+                   .by = c(Campanha, Área)) |>
+  dplyr::arrange(riqueza |> dplyr::desc())
+
 # Curva de rarefação ----
 
 ## Calcular a riqueza ----
