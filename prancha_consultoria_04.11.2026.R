@@ -52,3 +52,20 @@ purrr::imap(
 
     },
   .progress = TRUE)
+
+# Prancha ----
+
+prancha <- purrr::map(
+  imagens,
+  \(imagem){
+
+    ggplot() +
+      tidyterra::geom_spatraster_rgb(data = imagem) +
+      coord_cartesian(expand = FALSE) +
+      theme_void()
+
+  },
+  .progress = TRUE) |>
+  patchwork::wrap_plots()
+
+prancha
