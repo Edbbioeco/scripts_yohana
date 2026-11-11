@@ -227,7 +227,7 @@ div_df <- purrr::pmap_dfr(
 
       shannon <- dados |>
         dplyr::select(- `Nome comum`) |>
-        dplyr::filter(Campanha == campanha) |>
+        dplyr::filter(Campanha == campanha & Espécie != "Canis lupus") |>
         tidyr::pivot_wider(names_from = Espécie,
                            values_from = Quantidade,
                            values_fill = 0,
