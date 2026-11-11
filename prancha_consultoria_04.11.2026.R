@@ -29,8 +29,7 @@ imagens <- purrr::map(
       googledrive::drive_download(file = _,
                                   path = tempfile(fileext = ".jpg")) |>
       dplyr::pull(local_path) |>
-      terra::rast() |>
-      terra::flip(direction = "vertical")
+      terra::rast()
 
     },
   .progress = TRUE) |>
