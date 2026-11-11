@@ -22,6 +22,7 @@ imagens <- purrr::map(
   "Recitech/CGH Cacatu/Fotos" |>
     googledrive::drive_get() |>
     googledrive::drive_ls() |>
+    dplyr::filter(name != "1794275042960.jpg") |>
     dplyr::pull(id),
   \(foto){
 
