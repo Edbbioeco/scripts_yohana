@@ -97,6 +97,7 @@ dados |>
 ## Lista de áreas por espécie ----
 
 dados |>
+  dplyr::filter(Espécie != "Canis lupus") |>
   dplyr::mutate(Área = Área |>
                   forcats::fct_relevel(LETTERS[1:4])) |>
   dplyr::summarise(Abundância = Quantidade |> sum(),
