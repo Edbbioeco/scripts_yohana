@@ -78,6 +78,14 @@ dados
 
 dados |> dplyr::glimpse()
 
+# Lista de espécies ----
+
+## AbundÂncia por espécie ----
+
+dados |>
+  dplyr::summarise(Abundância = Quantidade |> sum(),
+                   .by = Espécie)
+
 # Curva de rarefação ----
 
 ## Calcular a riqueza ----
