@@ -83,12 +83,14 @@ dados |> dplyr::glimpse()
 ## AbundÂncia por espécie ----
 
 dados |>
+  dplyr::filter(Espécie != "Canis lupus") |>
   dplyr::summarise(Abundância = Quantidade |> sum(),
                    .by = Espécie)
 
 ## Lista de campanhas por espécie ----
 
 dados |>
+  dplyr::filter(Espécie != "Canis lupus") |>
   dplyr::summarise(Campanha = paste0(Campanha, collapse = ", "),
                    .by = Espécie)
 
