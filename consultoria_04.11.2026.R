@@ -65,13 +65,14 @@ dados <- dados |>
       purrr::pluck(2) |>
       dplyr::select(Campanha,
                     Área,
-                    Espécie:Quantidade) |>
+                    Espécie:Quantidade)
+    ) |>
       dplyr::mutate(Campanha = Campanha |>
                       stringr::str_replace(stringr::fixed("/"),
-                                           " "),
+                                           " ") |>
+                      stringr::str_remove("2- "),
                     Área = Área |>
                       stringr::str_remove("TR."))
-    )
 
 dados
 
