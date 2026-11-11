@@ -58,8 +58,7 @@ dados <- dados |>
                 `Nome comum` = `Nome Vulgar`,
                 "Quantidade" = `Nº Ind.2`) |>
   dplyr::mutate(Campanha = Campanha |>
-                  stringr::str_remove("2- ") |>
-                  stringr::str_to_title()) |>
+                  stringr::str_remove("2- ")) |>
   dplyr::bind_rows(
     dados |>
       purrr::pluck(2) |>
@@ -70,7 +69,8 @@ dados <- dados |>
       dplyr::mutate(Campanha = Campanha |>
                       stringr::str_replace(stringr::fixed("/"),
                                            " ") |>
-                      stringr::str_remove("2- "),
+                      stringr::str_remove("2- ") |>
+                      stringr::str_to_title(),
                     Área = Área |>
                       stringr::str_remove("TR."))
 
