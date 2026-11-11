@@ -92,7 +92,9 @@ prancha <- purrr::map(
   theme(plot.tag.location = "panel",
         plot.tag.position = "topleft",
         plot.tag = element_text(color = "gold",
-                                size = 30,
-                                face = "bold"))
+                                size = 45,
+                                face = "bold",
+                                margin = margin(t = 20,
+                                                l = 20)))
 
 prancha
