@@ -26,11 +26,28 @@ imagens <- purrr::map(
     dplyr::pull(id),
   \(foto){
 
-    foto |>
+    imagem <- foto |>
       googledrive::drive_download(file = _,
                                   path = tempfile(fileext = ".jpg")) |>
       dplyr::pull(local_path) |>
       terra::rast()
+
+    orientacao <- foto |>
+      googledrive::drive_download(file = _,
+                                  path = tempfile(fileext = ".jpg")) |>
+      dplyr::pull(local_path) |>
+      exifr::read_exif() |>
+      purrr::pluck("Orientation")
+
+    if(isTRUE(orientacao == 3)){
+
+      imagem <- imagem |>
+        terra::flip(direction = "vertical") |>
+        terra::flip(direction = "horizontal")
+
+      }
+
+    imagem
 
     },
   .progress = TRUE) |>
