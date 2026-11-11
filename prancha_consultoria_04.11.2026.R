@@ -6,6 +6,8 @@ library(tidyverse)
 
 library(terra)
 
+library(exifr)
+
 library(tidyterra)
 
 library(patchwork)
