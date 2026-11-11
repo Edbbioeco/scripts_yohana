@@ -92,6 +92,16 @@ dados |>
   dplyr::summarise(Campanha = paste0(Campanha, collapse = ", "),
                    .by = Espécie)
 
+## Lista de áreas por espécie ----
+
+dados |>
+  dplyr::mutate(Área = Área |>
+                  forcats::fct_relevel(LETTERS[1:4])) |>
+  dplyr::summarise(Abundância = Quantidade |> sum(),
+                   .by = c(Espécie, Área)) |>
+  dplyr::summarise(Área = paste0(Área, collapse = ", "),
+                   .by = Espécie)
+
 # Curva de rarefação ----
 
 ## Calcular a riqueza ----
