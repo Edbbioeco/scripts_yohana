@@ -86,6 +86,12 @@ dados |>
   dplyr::summarise(Abundância = Quantidade |> sum(),
                    .by = Espécie)
 
+## Lista de campanhas por espécie ----
+
+dados |>
+  dplyr::summarise(Campanha = paste0(Campanha, collapse = ", "),
+                   .by = Espécie)
+
 # Curva de rarefação ----
 
 ## Calcular a riqueza ----
