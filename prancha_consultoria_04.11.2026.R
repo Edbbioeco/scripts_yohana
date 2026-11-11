@@ -68,6 +68,12 @@ prancha <- purrr::map(
 
   },
   .progress = TRUE) |>
-  patchwork::wrap_plots()
+  patchwork::wrap_plots() +
+  patchwork::plot_annotation(tag_levels = "A") &
+  theme(plot.tag.location = "panel",
+        plot.tag.position = "topleft",
+        plot.tag = element_text(color = "gold",
+                                size = 30,
+                                face = "bold"))
 
 prancha
