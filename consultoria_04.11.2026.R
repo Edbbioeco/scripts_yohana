@@ -83,6 +83,7 @@ dados |> dplyr::glimpse()
 ## AbundÂncia por espécie ----
 
 dados |>
+  dplyr::filter(Espécie != "Canis lupus") |>
   dplyr::summarise(Abundância = Quantidade |> sum(),
                    .by = Espécie)
 
