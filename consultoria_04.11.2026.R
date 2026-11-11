@@ -368,8 +368,8 @@ graficos <- purrr::map2(
                 width = 1,
                 height = 1) +
       geom_text(data = dplyr::bind_rows(celulas, cabecalho),
-                         aes(x = x, y = y, label = rotulo),
-                         color = "black", size = 10) +
+                aes(x = x, y = y, label = rotulo),
+                color = "black", size = 10) +
       geom_tile(data = legenda,
                 aes(x = 0.3, y = y),
                 fill = NA, color = "grey60",
@@ -377,8 +377,8 @@ graficos <- purrr::map2(
                 width = 0.4,
                 height = 1) +
       geom_point(data = legenda,
-                          aes(x = 0.35, y = y, color = grupo),
-                          shape = 15, size = 5) +
+                 aes(x = 0.35, y = y, color = grupo),
+                 shape = 15, size = 5) +
       geom_text(data = legenda,
                          aes(x = 0.42, y = y, label = grupo),
                          color = "black", size = 10, hjust = 0) +
@@ -395,8 +395,8 @@ graficos <- purrr::map2(
         title = titulo,
         theme = theme(
           plot.title = element_text(hjust = 0.5,
-                                             size = 30,
-                                             color = "grey10"),
+                                    size = 30,
+                                    color = "grey10"),
           plot.margin = margin(10, 20, 10, 20),
           plot.background = element_rect(fill = "white",
                                                   color = "grey60",
