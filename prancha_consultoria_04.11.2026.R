@@ -38,3 +38,18 @@ imagens <- purrr::map(
                      googledrive::drive_get() |>
                      googledrive::drive_ls() |>
                      dplyr::pull(name))
+
+## Visualizar imagens ----
+
+imagens
+
+purrr::imap(
+  imagens,
+  \(imagem, nome){
+
+    ggplot() +
+      tidyterra::geom_spatraster_rgb(data = imagem) +
+      labs(title = nome)
+
+    },
+  .progress = TRUE)
