@@ -159,9 +159,11 @@ jackk
 
 ## Criar data frame com as informações ----
 
-df_rare <- tibble::tibble(Campanhas = 0:3,
-                          Espécies = c(0, riq),
-                          sd = c(0, sd[1] |> rep(3)))
+df_rare <- tibble::tibble(Campanhas = 0:4,
+                          Espécies = c(rep(0, 2),
+                                       riq),
+                          sd = c(rep(0, 2),
+                                 sd[1] |> rep(3)))
 
 df_rare
 
