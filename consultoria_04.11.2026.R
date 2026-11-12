@@ -293,6 +293,20 @@ div_df <- purrr::pmap_dfr(
 
 div_df
 
+### Unir aos dados fantasmas de Primavera 2025 ----
+
+div_df <- div_df |>
+  dplyr::bind_rows(
+    tidyr::expand_grid(indice = c("simpson",
+                                  "shannon",
+                                  "pielou"),
+                       diversidade = 0,
+                       Campanha = "Primavera 2025",
+                       Área = LETTERS[1:4])
+  )
+
+div_df |> View()
+
 ## Grpáficos ----
 
 ### Criar ----
