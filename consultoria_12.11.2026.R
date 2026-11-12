@@ -101,3 +101,20 @@ div_alfa <- purrr::map_dfr(
   .progress = TRUE)
 
 div_alfa
+
+## Gráfico ----
+
+div_alfa |>
+  tidyr::pivot_longer(cols = 3:4,
+                      values_to = "Diversidade",
+                      names_to = "indice") |>
+  dplyr::group_by(`Fase de licenciamento`, Área) |>
+  dplyr::mutate(par = dplyr::row_number()) |>
+  ggplot(aes(`Fase de licenciamento`, diversidade, label = Área)) +
+  geom_line(aes(group = par)) +
+  geom_label(size = 7.5) +
+  facet_wrap(~indice) +
+  theme_classic() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.title = element_text(color = "black", size = 20),
+        strip.text = element_text(color = "black", size = 30))
