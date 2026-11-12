@@ -52,8 +52,10 @@ dados <- dados |>
       )
     ) |>
   dplyr::slice(-1) |>
-  janitor::row_to_names(row_number = 1)
+  janitor::row_to_names(row_number = 1) |>
+  dplyr::rename("Área" = `ÁREA  DE REGISTRO`)
 
 dados
 
 dados |> dplyr::glimpse()
+
