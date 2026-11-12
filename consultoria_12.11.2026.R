@@ -73,3 +73,30 @@ dados_div <- dados |>
                      values_fill = 0)
 
 dados_div
+
+## Calcular a diversidade ----
+
+div_alfa <- purrr::map_dfr(
+  dados_div$`Fase de licenciamento`,
+  \(fase){
+
+    riq <- dados_div |>
+      dplyr::filter(`Fase de licenciamento` == fase) |>
+      dplyr::select(-`Fase de licenciamento`) |>
+      tibble::column_to_rownames(var = Área) |>
+      vegan::specnumber()
+
+    shannon <-  dados_div |>
+      dplyr::filter(`Fase de licenciamento` == fase) |>
+      dplyr::select(-`Fase de licenciamento`) |>
+      tibble::column_to_rownames(var = Área) |>
+      vegan::diversity()
+
+    tibble::tibble(`Fase de licenciamento` = fase,
+                   Riqueza = riq,
+                   `H'` = shannon)
+
+  },
+  .progress = TRUE)
+
+div_alfa
