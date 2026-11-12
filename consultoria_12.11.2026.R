@@ -25,3 +25,9 @@ dados <- "Consultoria ciclo ambiental/Turvo, PR/Dados" |>
                               path = tempfile(fileext = ".xlsx")) |>
   dplyr::pull(local_path) |>
   readxl::read_xlsx()
+
+## Visualizar ----
+
+dados
+
+dados |> dplyr::glimpse()
