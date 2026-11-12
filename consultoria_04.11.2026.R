@@ -321,7 +321,7 @@ graficos <- purrr::map2(
 
     cores <- c(A = "#595959", B = "#B2B2B2", C = "#8C8C8C", D = "#262626")
 
-    xlim_comum <- c(0.3, 3.5)
+    xlim_comum <- c(0.3, 4.5)
 
     eixo_y <- tibble::tibble(y = seq(0, 1, 0.1) |> rep(2),
                              indice = rep(c(ind, "pielou"),
@@ -336,13 +336,14 @@ graficos <- purrr::map2(
       tidyr::complete(Campanha, Área,
                       fill = list(indice = ind, diversidade = 0)) |>
       dplyr::mutate(Campanha = Campanha |>
-                      forcats::fct_relevel(c("Verão 2026",
+                      forcats::fct_relevel(c("Primavera 2025",
+                                             "Verão 2026",
                                              "Outono 2026",
                                              "Inverno 2026")),
                     x = as.integer(Campanha)) |>
       ggplot() +
       geom_segment(data = eixo_y,
-                   aes(x = 0.5, xend = 3.5, y = y, yend = y),
+                   aes(x = 0.5, xend = 4.5, y = y, yend = y),
                    color = "grey60", linewidth = 0.5) +
       geom_text(data = eixo_y,
                 aes(x = 0.4, y = y, label = rotulo),
@@ -363,7 +364,8 @@ graficos <- purrr::map2(
     celulas <- div_df |>
       dplyr::filter(indice == ind) |>
       dplyr::mutate(Campanha = Campanha |>
-                      forcats::fct_relevel(c("Verão 2026",
+                      forcats::fct_relevel(c("Primavera 2025",
+                                             "Verão 2026",
                                              "Outono 2026",
                                              "Inverno 2026")),
                     Área = Área |>
@@ -378,7 +380,8 @@ graficos <- purrr::map2(
 
     cabecalho <- tibble::tibble(x = 1:length(div_df$Campanha |> unique()),
                                 y = length(div_df$Área |> unique()) + 1,
-                                rotulo = c("Verão 2026",
+                                rotulo = c("Primavera 2025",
+                                           "Verão 2026",
                                            "Outono 2026",
                                            "Inverno 2026"))
 
@@ -402,10 +405,10 @@ graficos <- purrr::map2(
                 width = 0.4,
                 height = 1) +
       geom_point(data = legenda,
-                 aes(x = 0.35, y = y, color = grupo),
+                 aes(x = 0.32, y = y, color = grupo),
                  shape = 15, size = 5) +
       geom_text(data = legenda,
-                         aes(x = 0.42, y = y, label = grupo),
+                         aes(x = 0.37, y = y, label = grupo),
                          color = "black", size = 10, hjust = 0) +
       scale_color_manual(values = cores, guide = "none") +
       scale_x_continuous(expand = c(0, 0)) +
