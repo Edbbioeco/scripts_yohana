@@ -98,3 +98,7 @@ prancha <- purrr::map(
                                                 l = 20)))
 
 prancha
+
+ggsave(filename = "prancha_consultoria_04.11.2026.png",
+       height = 12,
+       width = 16)
