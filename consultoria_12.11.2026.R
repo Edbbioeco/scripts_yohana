@@ -93,6 +93,7 @@ div_alfa <- purrr::map_dfr(
       vegan::diversity()
 
     tibble::tibble(`Fase de licenciamento` = fase,
+                   Área = shannon |> names(),
                    Riqueza = riq,
                    `H'` = shannon)
 
