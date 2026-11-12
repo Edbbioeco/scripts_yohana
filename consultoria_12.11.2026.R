@@ -75,6 +75,21 @@ rare <- dados |>
 
 rare
 
+## Transformar em Data frame ----
+
+rare_df <- purrr::imap_dfr(
+  rare,
+  \(valores, indice){
+
+    valores |>
+      dplyr::rename(Riqueza = 2) |>
+      dplyr::mutate(tipo = indice)
+
+    },
+  .progress = TRUE)
+
+rare_df
+
 # Diversidade alfa ----
 
 ## Tratar os dados ----
