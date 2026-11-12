@@ -188,8 +188,8 @@ ggplot() +
   labs(y = "Número de Espécies",
        title = "Curva do Coletor",
        linetype = NULL) +
-  scale_x_continuous(breaks = seq(0, 3, 1),
-                     limits = c(0, 3),
+  scale_x_continuous(breaks = seq(0, 4, 1),
+                     limits = c(0, 4),
                      expand = FALSE) +
   scale_y_continuous(breaks = seq(0, 12, 2),
                      limits = c(0, 12),
