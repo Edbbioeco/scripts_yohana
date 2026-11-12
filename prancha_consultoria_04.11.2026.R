@@ -102,3 +102,8 @@ prancha
 ggsave(filename = "prancha_consultoria_04.11.2026.png",
        height = 12,
        width = 16)
+
+"prancha_consultoria_04.11.2026.png" |>
+  googledrive::drive_upload(path = "Recitech/CGH Cacatu",
+                            name = "prancha_consultoria_04.11.2026.png",
+                            overwrite = TRUE)
