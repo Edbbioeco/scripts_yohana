@@ -14,6 +14,10 @@ library(ggdendro)
 
 # Dados ----
 
+## Ativar Google Drive ----
+
+googledrive::drive_auth("edson.nilton@ufpe.br")
+
 ## Importar ----
 
 dados <- "Consultoria ciclo ambiental/Turvo, PR/Dados" |>
