@@ -6,6 +6,8 @@ library(tidyverse)
 
 library(readxl)
 
+library(janitor)
+
 library(vegan)
 
 library(flextable)
