@@ -91,6 +91,27 @@ rare_df <- purrr::imap_dfr(
 
 rare_df
 
+## Visualizar os dados ----
+
+dados_div |>
+  ggplot(aes(`Quantidade de unidades amostrais`, Riqueza,
+             color = tipo,
+             fill = tipo)) +
+  geom_ribbon(aes(x = `Quantidade de unidades amostrais`,
+                  y = Riqueza,
+                  ymin = Riqueza - Std.Dev,
+                  ymax = Riqueza + Std.Dev),
+              alpha = 0.3) +
+  geom_line(linewidth = 1) +
+  geom_point(shape = 21, color = "black", stroke = 1, size = 5) +
+  theme_classic() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.title = element_text(color = "black", size = 20),
+        strip.text = element_text(color = "black", size = 30),
+        legend.position = "bottom",
+        legend.title = element_blank(),
+        legend.text = element_text(color = "black", size = 20))
+
 # Diversidade alfa ----
 
 ## Tratar os dados ----
