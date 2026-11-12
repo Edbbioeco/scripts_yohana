@@ -59,6 +59,22 @@ dados
 
 dados |> dplyr::glimpse()
 
+# Rarefação ----
+
+## Calcular rarefação ----
+
+rare <- dados |>
+  dplyr::summarise(abundancia = dplyr::n(),
+                   .by = c(Área,
+                           `Nome Científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome Científico`,
+                     values_from = abundancia,
+                     values_fill = 0) |>
+  vegan::estaccumR(permutations = 1000) |>
+  summary(display = c("S", "chao"))
+
+rare
+
 # Diversidade alfa ----
 
 ## Tratar os dados ----
