@@ -1179,9 +1179,13 @@ vars_rhinella |>
                      scales = "free",
                      independent = "all") +
   scale_color_manual(values = c("orange4", "royalblue4"),
-                     breaks = c("KDE 95%", "KDE 50%")) +
+                     breaks = c("KDE 95%", "KDE 50%"),
+                     guide = guide_legend(title.position = "top",
+                                          title.hjust = 0.5)) +
   scale_fill_manual(values = c("orange", "royalblue"),
-                    breaks = c("KDE 95%", "KDE 50%")) +
+                    breaks = c("KDE 95%", "KDE 50%"),
+                    guide = guide_legend(title.position = "top",
+                                         title.hjust = 0.5)) +
   labs(y = "Log 10 Area (m²)",
        color = "Kernel Density Estimator",
        fill = "Kernel Density Estimator") +
