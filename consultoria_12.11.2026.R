@@ -185,7 +185,7 @@ div_alfa |>
   ggplot(aes(`Fase de licenciamento`, Diversidade, label = Área,
              group = Área)) +
   geom_line() +
-  geom_label(size = 7.5) +
+  geom_label(size = 7.5, fill = "gray", linewidth = 1) +
   facet_wrap(~indice, scale = "free_y") +
   theme_classic() +
   theme(axis.text = element_text(color = "black", size = 20),
