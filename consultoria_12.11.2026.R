@@ -184,7 +184,7 @@ div_alfa |>
                       names_to = "indice") |>
   ggplot(aes(`Fase de licenciamento`, Diversidade, label = Área,
              group = Área)) +
-  geom_line() +
+  geom_line(linewidth = 1) +
   geom_label(size = 7.5, fill = "gray", linewidth = 1) +
   facet_wrap(~indice, scale = "free_y") +
   theme_classic() +
