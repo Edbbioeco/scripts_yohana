@@ -182,7 +182,9 @@ div_alfa |>
   tidyr::pivot_longer(cols = 3:4,
                       values_to = "Diversidade",
                       names_to = "indice") |>
-  ggplot(aes(`Fase de licenciamento`, Diversidade, label = Área)) +
+  ggplot(aes(`Fase de licenciamento`, Diversidade, label = Área,
+             group = Área)) +
+  geom_line() +
   geom_label(size = 7.5) +
   facet_wrap(~indice, scale = "free_y") +
   theme_classic() +
