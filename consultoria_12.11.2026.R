@@ -178,7 +178,8 @@ div_alfa <- purrr::map_dfr(
     `Fase de licenciamento` == "pré-obra" ~ "Pré-obra",
     .default = `Fase de licenciamento`
 
-    ))
+    ) |>
+      forcats::fct_relevel(c("Pré-obra", "Durante obra")))
 
 div_alfa
 
