@@ -82,6 +82,7 @@ rare_df <- purrr::imap_dfr(
   \(valores, indice){
 
     valores |>
+      as.data.frame() |>
       dplyr::rename("Quantidade de unidades amostrais" = 1,
                     Riqueza = 2) |>
       dplyr::mutate(tipo = indice)
