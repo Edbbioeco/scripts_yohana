@@ -189,6 +189,8 @@ div_alfa |>
   tidyr::pivot_longer(cols = 3:4,
                       values_to = "Diversidade",
                       names_to = "indice") |>
+  dplyr::mutate(indice = indice |>
+                  forcats::fct_relevel(c("Riqueza", "H'"))) |>
   ggplot(aes(`Fase de licenciamento`, Diversidade, label = Área,
              group = Área)) +
   geom_line(linewidth = 1) +
