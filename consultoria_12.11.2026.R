@@ -94,7 +94,7 @@ rare_df
 
 ## Visualizar os dados ----
 
-dados_div |>
+rare_df |>
   ggplot(aes(`Quantidade de unidades amostrais`, Riqueza,
              color = tipo,
              fill = tipo)) +
