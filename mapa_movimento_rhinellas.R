@@ -149,8 +149,11 @@ area_rhinella <- purrr::map_dfr(
 
     },
   .progress = TRUE) |>
-  dplyr::mutate(Tipo = Tipo |> forcats::fct_relevel(c("KDE 95%",
-                                                      "KDE 50%")))
+  dplyr::mutate(Tipo = Tipo |>
+                  stringr::str_replace("KDE",
+                                       "Kernel Density Esimator") |>
+                  forcats::fct_relevel(c("Kernel Density Esimator 95%",
+                                         "Kernel Density Esimator 50%")))
 
 area_rhinella
 
