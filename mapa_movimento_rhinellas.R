@@ -273,8 +273,9 @@ mapa_crucifer <- purrr::map(
 
   },
   .progress = TRUE) |>
+  append(list(patchwork::guide_area())) |>
   patchwork::wrap_plots(guides = "collect") &
-  theme(legend.position = "bottom")
+  theme(legend.position = c(0.75, 0.5))
 
 mapa_crucifer
 
