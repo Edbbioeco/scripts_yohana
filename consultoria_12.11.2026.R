@@ -172,7 +172,13 @@ div_alfa <- purrr::map_dfr(
                    `H'` = shannon)
 
   },
-  .progress = TRUE)
+  .progress = TRUE) |>
+  dplyr::mutate(`Fase de licenciamento` = dplyr::case_when(
+
+    `Fase de licenciamento` == "pré-obra" ~ "Pré-obra",
+    .default = `Fase de licenciamento`
+
+    ))
 
 div_alfa
 
