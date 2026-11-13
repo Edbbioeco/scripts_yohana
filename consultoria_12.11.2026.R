@@ -184,7 +184,7 @@ div_alfa |>
                       names_to = "indice") |>
   ggplot(aes(`Fase de licenciamento`, Diversidade, label = Área)) +
   geom_label(size = 7.5) +
-  facet_wrap(~indice) +
+  facet_wrap(~indice, scale = "free_y") +
   theme_classic() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.title = element_text(color = "black", size = 20),
