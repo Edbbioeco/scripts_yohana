@@ -121,7 +121,8 @@ rare_df |>
         strip.text = element_text(color = "black", size = 30),
         legend.position = "bottom",
         legend.title = element_blank(),
-        legend.text = element_text(color = "black", size = 20))
+        legend.text = element_text(color = "black", size = 20),
+        axis.line = element_line(color = "black", linewidth = 1))
 
 # Diversidade alfa ----
 
