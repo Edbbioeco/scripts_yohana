@@ -111,6 +111,10 @@ rare_df |>
               alpha = 0.3) +
   geom_line(linewidth = 1) +
   geom_point(shape = 21, color = "black", stroke = 1, size = 5) +
+  scale_fill_manual(breaks = c("Observado", "Estimado (Chao1)"),
+                    values = c("orange", "royalblue")) +
+  scale_color_manual(breaks = c("Observado", "Estimado (Chao1)"),
+                     values = c("orange", "royalblue")) +
   theme_classic() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.title = element_text(color = "black", size = 20),
