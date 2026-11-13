@@ -1156,12 +1156,16 @@ vars_rhinella |>
     Preditor == "Temperatura mínima" ~ "Min temperature (°C)"
 
     ),
-    area = area |> log()) |>
+    area = area |> log(),
+    Tipo = Tipo |>
+      stringr::str_replace("KDE",
+                           "Kernel Density Esimator")) |>
   dplyr::left_join(tabela_flex_rm$body$dataset |>
                      dplyr::rename("Espécie" = 1,
                                    "Tipo" = 2,
                                    "Preditor" = 3) |>
-                     dplyr::mutate(Tipo = paste0("KDE ", Tipo),
+                     dplyr::mutate(Tipo = paste0("Kernel Density Esimator ",
+                                                 Tipo),
                                    p = p |> readr::parse_number()) |>
                      dplyr::select(1, 2, 3, 5, 6),
                    by = c("Espécie", "Tipo", "Preditor")) |>
@@ -1179,11 +1183,13 @@ vars_rhinella |>
                      scales = "free",
                      independent = "all") +
   scale_color_manual(values = c("orange4", "royalblue4"),
-                     breaks = c("KDE 95%", "KDE 50%"),
+                     breaks = c("Kernel Density Esimator 95%",
+                                "Kernel Density Esimator 50%"),
                      guide = guide_legend(title.position = "top",
                                           title.hjust = 0.5)) +
   scale_fill_manual(values = c("orange", "royalblue"),
-                    breaks = c("KDE 95%", "KDE 50%"),
+                    breaks = c("Kernel Density Esimator 95%",
+                               "Kernel Density Esimator 50%"),
                     guide = guide_legend(title.position = "top",
                                          title.hjust = 0.5)) +
   labs(y = "Log 10 Area (m²)",
