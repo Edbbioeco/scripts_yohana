@@ -1183,8 +1183,8 @@ vars_rhinella |>
   scale_fill_manual(values = c("orange", "royalblue"),
                     breaks = c("KDE 95%", "KDE 50%")) +
   labs(y = "Log 10 Area (m²)",
-       color = NULL,
-       fill = NULL) +
+       color = "Kernel Density Estimator",
+       fill = "Kernel Density Estimator") +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.title = element_text(color = "black", size = 20),
