@@ -202,3 +202,7 @@ div_alfa |>
         strip.text = element_text(color = "black", size = 30),
         strip.background = element_rect(linewidth = 2, fill = "gray"),
         axis.line = element_line(color = "black", linewidth = 1))
+
+ggsave(filename = "diversidade_alfa_12.11.2026.png",
+       height = 12,
+       width = 16)
