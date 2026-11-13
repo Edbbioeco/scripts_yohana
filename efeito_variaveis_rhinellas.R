@@ -1187,8 +1187,8 @@ vars_rhinella |>
                     guide = guide_legend(title.position = "top",
                                          title.hjust = 0.5)) +
   labs(y = "Log 10 Area (m²)",
-       color = "Kernel Density Estimator",
-       fill = "Kernel Density Estimator") +
+       color = NULL,
+       fill = NULL) +
   theme_bw() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.title = element_text(color = "black", size = 20),
