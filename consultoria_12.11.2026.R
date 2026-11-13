@@ -197,4 +197,5 @@ div_alfa |>
   theme_classic() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.title = element_text(color = "black", size = 20),
-        strip.text = element_text(color = "black", size = 30))
+        strip.text = element_text(color = "black", size = 30),
+        axis.line = element_line(color = "black", linewidth = 1))
