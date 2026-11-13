@@ -184,7 +184,7 @@ div_alfa |>
                       names_to = "indice") |>
   dplyr::group_by(`Fase de licenciamento`, Área) |>
   dplyr::mutate(par = dplyr::row_number()) |>
-  ggplot(aes(`Fase de licenciamento`, diversidade, label = Área)) +
+  ggplot(aes(`Fase de licenciamento`, Diversidade, label = Área)) +
   geom_line(aes(group = par)) +
   geom_label(size = 7.5) +
   facet_wrap(~indice) +
