@@ -88,7 +88,13 @@ rare_df <- purrr::imap_dfr(
       dplyr::mutate(tipo = indice)
 
     },
-  .progress = TRUE)
+  .progress = TRUE) |>
+  dplyr::mutate(tipo = dplyr::case_when(
+
+    tipo == "chao" ~ "Estimado (Chao1)",
+    .default = "Observado"
+
+    ))
 
 rare_df
 
