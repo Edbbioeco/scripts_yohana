@@ -109,8 +109,8 @@ rare_df |>
                   ymin = Riqueza - Std.Dev,
                   ymax = Riqueza + Std.Dev),
               alpha = 0.3) +
-  geom_line(linewidth = 1) +
-  geom_point(shape = 21, color = "black", stroke = 1, size = 5) +
+  geom_line(linewidth = 2) +
+  geom_point(shape = 21, color = "black", stroke = 1, size = 7.5) +
   scale_fill_manual(breaks = c("Observado", "Estimado (Chao1)"),
                     values = c("orange", "royalblue")) +
   scale_color_manual(breaks = c("Observado", "Estimado (Chao1)"),
