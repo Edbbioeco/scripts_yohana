@@ -157,13 +157,13 @@ div_alfa <- purrr::map_dfr(
     riq <- dados_div |>
       dplyr::filter(`Fase de licenciamento` == fase) |>
       dplyr::select(-`Fase de licenciamento`) |>
-      tibble::column_to_rownames(var = Área) |>
+      tibble::column_to_rownames(var = "Área") |>
       vegan::specnumber()
 
     shannon <-  dados_div |>
       dplyr::filter(`Fase de licenciamento` == fase) |>
       dplyr::select(-`Fase de licenciamento`) |>
-      tibble::column_to_rownames(var = Área) |>
+      tibble::column_to_rownames(var = "Área") |>
       vegan::diversity()
 
     tibble::tibble(`Fase de licenciamento` = fase,
