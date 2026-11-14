@@ -362,6 +362,10 @@ tabela_flex <- tabela |>
                    j = 1:8,
                    border = officer::fp_border(color = "black",
                                                width = 2),
-                   part = "header")
+                   part = "header") |>
+  flextable::width(j = 1,
+                   width = 2) |>
+  flextable::width(j = 4,
+                   width = 2)
 
 tabela_flex
