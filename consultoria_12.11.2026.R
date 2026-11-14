@@ -280,26 +280,25 @@ tabela <- dados_tabela |>
   purrr::map_dfr(
     \(df){
 
-      ordem <- tibble::tibble(`Ordenamento taxonômico` = df$ordem,
+      ordem <- tibble::tibble(`Ordenamento taxonômico` = df$ordem |>
+                                unique(),
                               `Nome comum` = NA_character_,
                               Amostragem = NA_character_,
                               Área = NA_character_,
-                              Campanha = NA_character_,
-                              tipo = "ordem")
+                              Campanha = NA_character_)
 
-      familia <- tibble::tibble(`Ordenamento taxonômico` = df$familia,
+      familia <- tibble::tibble(`Ordenamento taxonômico` = df$familia |>
+                                  unique(),
                                 `Nome comum` = NA_character_,
                                 Amostragem = NA_character_,
                                 Área = NA_character_,
-                                Campanha = NA_character_,
-                                tipo = "familia")
+                                Campanha = NA_character_)
 
       sps <- tibble::tibble(`Ordenamento taxonômico` = df$`Nome Científico`,
                             `Nome comum` = df$`Nome vulgar`,
                             Amostragem = df$Amostragem,
                             Área = df$Área,
-                            Campanha = df$Campanha,
-                            tipo = "sps")
+                            Campanha = df$Campanha)
 
       dplyr::bind_rows(ordem,
                        familia,
@@ -307,16 +306,10 @@ tabela <- dados_tabela |>
 
       },
     .progress = TRUE) |>
-  dplyr::mutate(`Ordenamento taxonômico` = dplyr::case_when(
-    `Ordenamento taxonômico` == dplyr::lag(`Ordenamento taxonômico`) ~ NA,
-    .default = `Ordenamento taxonômico`
-    )) |>
-  dplyr::group_by(ordem = cumsum(tipo == "ordem")) |>
-  dplyr::filter(!(tipo == "ordem" &
-                    ordem %in% c(2:20, 22)) &
-                  !`Ordenamento taxonômico` |> is.na()) |>
-  dplyr::ungroup() |>
-  dplyr::select(-c(tipo, ordem)) |>
+  dplyr::group_by(`Ordenamento taxonômico`) |>
+  dplyr::mutate(linha = dplyr::row_number()) |>
+  dplyr::filter(linha == 1) |>
+  dplyr::select(-linha) |>
   as.data.frame()
 
 tabela
