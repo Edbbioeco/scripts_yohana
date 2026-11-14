@@ -327,7 +327,7 @@ tabela <- tabela |>
 
 tabela
 
-## abela flextable ----
+## Tabela flextable ----
 
 tabela_flex <- tabela |>
   flextable::flextable() |>
