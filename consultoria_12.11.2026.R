@@ -282,25 +282,39 @@ tabela <- dados_tabela |>
                               `Nome comum` = NA_character_,
                               Amostragem = NA_character_,
                               Área = NA_character_,
-                              Campanha = NA_character_)
+                              Campanha = NA_character_,
+                              tipo = "ordem")
 
       familia <- tibble::tibble(`Ordenamento taxonômico` = df$familia,
                                 `Nome comum` = NA_character_,
                                 Amostragem = NA_character_,
                                 Área = NA_character_,
-                                Campanha = NA_character_)
+                                Campanha = NA_character_,
+                                tipo = "familia")
 
       sps <- tibble::tibble(`Ordenamento taxonômico` = df$`Nome Científico`,
                             `Nome comum` = df$`Nome vulgar`,
                             Amostragem = df$Amostragem,
                             Área = df$Área,
-                            Campanha = df$Campanha)
+                            Campanha = df$Campanha,
+                            tipo = "sps")
 
       dplyr::bind_rows(ordem,
                        familia,
                        sps)
 
       },
-    .progress = TRUE)
+    .progress = TRUE) |>
+  dplyr::mutate(`Ordenamento taxonômico` = dplyr::case_when(
+    `Ordenamento taxonômico` == dplyr::lag(`Ordenamento taxonômico`) ~ NA,
+    .default = `Ordenamento taxonômico`
+    )) |>
+  dplyr::group_by(ordem = cumsum(tipo == "ordem")) |>
+  dplyr::filter(!(tipo == "ordem" &
+                    ordem > 1) &
+                  !`Ordenamento taxonômico` |> is.na()) |>
+  dplyr::ungroup() |>
+  dplyr::select(-c(tipo, ordem)) |>
+  as.data.frame()
 
 tabela
