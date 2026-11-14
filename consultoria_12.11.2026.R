@@ -211,3 +211,62 @@ ggsave(filename = "diversidade_alfa_12.11.2026.png",
   googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
                             name = "diversidade_alfa_12.11.2026.png",
                             overwrite = TRUE)
+
+# Tabela das espécies ----
+
+## Tratar os dados ----
+
+dados_tabela <- dados |>
+  dplyr::mutate(Campanha = dplyr::case_when(
+
+    `Fase de licenciamento` |>
+      stringr::str_detect("pré-") ~ "1",
+    .default = "2"
+
+    )) |>
+  dplyr::group_by(`Nome Científico`, `Nome vulgar`) |>
+  dplyr::summarise(Área = paste0(Área |> unique(),
+                                 collapse = ", "),
+                   Amostragem = paste0(`Metodologias empregadas` |> unique(),
+                                       collapse = ", "),
+                   Campanha = paste0(Campanha |> unique(),
+                                     collapse = ", ")) |>
+  dplyr::mutate(ordem = dplyr::case_when(
+
+    `Nome Científico` %in% c("Tomodon dorsatus",
+                             "Salvator merianae") ~ "REPTILIA",
+    .default = "AMPHIBIA"
+
+    ),
+  familia = dplyr::case_when(
+
+    `Nome Científico` |>
+      stringr::str_detect("Rhinella") ~ "Bufonidae",
+    `Nome Científico` |>
+      stringr::str_detect("Scinax|Boana|Aplastodiscus|Dendropsophus minutus") ~ "Hylidae",
+    `Nome Científico` |>
+      stringr::str_detect("Leptodactylus|Physalaemus") ~ "Leptodactylidae",
+    `Nome Científico` |>
+      stringr::str_detect("Proceratophrys|Odontophrynus") ~ "Odontophrynidae",
+    `Nome Científico` |>
+      stringr::str_detect("Iscnhnocnema") ~ "Brachycephalidae",
+    `Nome Científico` |>
+      stringr::str_detect("Phyllomedusa") ~ "Phyllomedusidae",
+    `Nome Científico` |>
+      stringr::str_detect("Salvator") ~ "Teiidae",
+    `Nome Científico` |>
+      stringr::str_detect("Tomodon") ~ "Colubridae",
+    `Nome Científico` |>
+      stringr::str_detect("Ophiodes") ~ "Diploglossidae"
+
+  )) |>
+  dplyr::select(ordem,
+                familia,
+                `Nome Científico`,
+                `Nome vulgar`,
+                Amostragem,
+                Área,
+                Campanha) |>
+  as.data.frame()
+
+dados_tabela
