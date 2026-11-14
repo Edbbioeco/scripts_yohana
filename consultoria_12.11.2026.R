@@ -369,3 +369,6 @@ tabela_flex <- tabela |>
                    width = 2)
 
 tabela_flex
+
+tabela_flex |>
+  flextable::save_as_docx(path = "tabela_especies_12.11.2026.docx")
