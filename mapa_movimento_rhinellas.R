@@ -262,7 +262,7 @@ mapa_crucifer <- purrr::map(
             axis.text = element_text(color = "black", size = 10),
             axis.text.x = element_text(angle = 90,
                                        hjust = 1, vjust = 0.5),
-            legend.text = element_text(color = "black", size = 20),
+            legend.text = element_text(color = "black", size = 25),
             legend.title = element_text(color = "black", size = 20),
             strip.text = element_text(color = "black", size = 20),
             strip.background = element_rect(color = "black",
@@ -275,7 +275,7 @@ mapa_crucifer <- purrr::map(
   .progress = TRUE) |>
   append(list(patchwork::guide_area())) |>
   patchwork::wrap_plots(guides = "collect") &
-  theme(legend.position = c(0.75, 0.5))
+  theme(legend.position = c(0.85, 0.5))
 
 mapa_crucifer
 
