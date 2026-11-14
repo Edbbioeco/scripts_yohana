@@ -234,7 +234,8 @@ dados_tabela <- dados |>
   dplyr::mutate(ordem = dplyr::case_when(
 
     `Nome Científico` %in% c("Tomodon dorsatus",
-                             "Salvator merianae") ~ "REPTILIA",
+                             "Salvator merianae",
+                             "Ophiodes fragilis") ~ "REPTILIA",
     .default = "AMPHIBIA"
 
     ),
