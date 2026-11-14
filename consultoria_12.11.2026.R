@@ -313,3 +313,16 @@ tabela <- dados_tabela |>
   as.data.frame()
 
 tabela
+
+## Adicionar as informações dos status de ameaça ----
+
+tabela <- tabela |>
+  dplyr::left_join(dados |>
+                     dplyr::distinct(`Nome Científico`, .keep_all = TRUE) |>
+                     dplyr::select("Ordenamento taxonômico" = `Nome Científico`,
+                                   IUCN,
+                                   "Brasil" = Nacional,
+                                   "PR" = Estadual),
+                   by = "Ordenamento taxonômico")
+
+tabela
