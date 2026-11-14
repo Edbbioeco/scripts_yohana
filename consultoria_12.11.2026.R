@@ -429,3 +429,17 @@ upgma_total <- matriz_sim_total |>
   hclust(method = "average")
 
 upgma_total
+
+### Por fase do licenciamento ----
+
+upgma_fases <- purrr::map(
+  matriz_sim_fases,
+  \(matriz){
+
+    matriz |>
+      hclust(method = "average")
+
+    },
+  .progress = TRUE)
+
+upgma_fases
