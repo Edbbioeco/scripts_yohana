@@ -267,7 +267,8 @@ dados_tabela <- dados |>
                 Amostragem,
                 Área,
                 Campanha) |>
-  as.data.frame()
+  as.data.frame() |>
+  dplyr::arrange(ordem, familia, `Nome Científico`)
 
 dados_tabela
 
