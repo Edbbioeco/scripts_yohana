@@ -270,3 +270,37 @@ dados_tabela <- dados |>
   as.data.frame()
 
 dados_tabela
+
+## Criar estrutura da tabela ----
+
+tabela <- dados_tabela |>
+  dplyr::group_split(ordem, familia) |>
+  purrr::map_dfr(
+    \(df){
+
+      ordem <- tibble::tibble(`Ordenamento taxonômico` = df$ordem,
+                              `Nome comum` = NA_character_,
+                              Amostragem = NA_character_,
+                              Área = NA_character_,
+                              Campanha = NA_character_)
+
+      familia <- tibble::tibble(`Ordenamento taxonômico` = df$familia,
+                                `Nome comum` = NA_character_,
+                                Amostragem = NA_character_,
+                                Área = NA_character_,
+                                Campanha = NA_character_)
+
+      sps <- tibble::tibble(`Ordenamento taxonômico` = df$`Nome Científico`,
+                            `Nome comum` = df$`Nome vulgar`,
+                            Amostragem = df$Amostragem,
+                            Área = df$Área,
+                            Campanha = df$Campanha)
+
+      dplyr::bind_rows(ordem,
+                       familia,
+                       sps)
+
+      },
+    .progress = TRUE)
+
+tabela
