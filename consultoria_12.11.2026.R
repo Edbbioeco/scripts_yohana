@@ -313,7 +313,7 @@ tabela <- dados_tabela |>
     )) |>
   dplyr::group_by(ordem = cumsum(tipo == "ordem")) |>
   dplyr::filter(!(tipo == "ordem" &
-                    ordem > 1) &
+                    ordem %in% c(2:20, 22)) &
                   !`Ordenamento taxonômico` |> is.na()) |>
   dplyr::ungroup() |>
   dplyr::select(-c(tipo, ordem)) |>
