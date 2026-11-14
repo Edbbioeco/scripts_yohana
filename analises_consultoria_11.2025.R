@@ -175,7 +175,6 @@ ggsave(filename = "curva_de_rarefacao.png", height = 10, width = 12)
 
 # Diversidade taxonômica ----
 
-<<<<<<< HEAD
 ## Shannon-Wiener, Gini-Simpson e Equitabilidade de Pielou ----
 
 ### Riqueza ----
@@ -228,56 +227,6 @@ div_df_flex
 
 div_df_flex |>
   flextable::save_as_docx(path = "tabela_diversidade_novo.docx")
-
-=======
->>>>>>> 8656e017870f143bf4234eb179a88c763bf6eaa6
-## Riqueza e diversidade ----
-
-div_tax <- matriz |>
-  vegan::renyi(scales = c(0, 1), hill = TRUE) |>
-  tibble::rownames_to_column() |>
-  dplyr::rename("Área" = 1,
-                "q = 0" = 2,
-                "q = 1" = 3)
-
-div_tax
-
-## Equitabilidade de Hill ----
-
-eq_hill <- matriz |>
-  vegan::renyi(scales = c(1, 2), hill = TRUE) |>
-  tibble::rownames_to_column() |>
-  dplyr::rename("Área" = 1) |>
-  dplyr::mutate(`Equitabilidade de Hill` = `2` / `1`) |>
-  dplyr::select(1, 4)
-
-eq_hill
-
-## Tabela ----
-
-### Unindo os dados ----
-
-tabela_div <- div_tax |>
-  dplyr::left_join(eq_hill,
-                   by = "Área") |>
-  dplyr::mutate(dplyr::across(.cols = 3:4, ~round(., 2)))
-
-tabela_div
-
-### Criando a tabela flextable ----
-
-flex_dic <- tabela_div |>
-  flextable::flextable() |>
-  flextable::align(align = "center", part = "all") |>
-  flextable::width(width = 1.75, j = 4) |>
-  flextable::bg(bg = "white", part = "all")
-
-flex_dic
-
-### Salvanso a tabela -----
-
-flex_dic |>
-  flextable::save_as_docx(path = "tabela_valores_diversidade.docx")
 
 # Diagrama de Whitaker ----
 
