@@ -12,6 +12,8 @@ library(vegan)
 
 library(flextable)
 
+library(officer)
+
 library(ggdendro)
 
 # Dados ----
