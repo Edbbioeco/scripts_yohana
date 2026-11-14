@@ -379,3 +379,21 @@ tabela_flex |>
   googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
                             name = "tabela_especies_12.11.2026.docx",
                             overwrite = TRUE)
+
+# Diversidade beta ----
+
+## Calcular matrizes de similaridade ----
+
+### Total ----
+
+matriz_sim_total <- 1- dados |>
+  dplyr::summarise(abundancia = dplyr::n(),
+                   .by = c(Área,
+                           `Nome Científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome Científico`,
+                     values_from = abundancia,
+                     values_fill = 0) |>
+  tibble::column_to_rownames(var = "Área") |>
+  vegan::vegdist()
+
+matriz_sim_total
