@@ -601,3 +601,7 @@ upgma_grafico_durante
     theme = theme(plot.caption = element_text(hjust = 0.5,
                                               color = "black",
                                               size = 35)))
+
+ggsave(filename = "upgma_fases_12.11.2026.png",
+       height = 12,
+       width = 16)
