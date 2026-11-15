@@ -610,3 +610,33 @@ ggsave(filename = "upgma_fases_12.11.2026.png",
   googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
                             name = "upgma_fases_12.11.2026.png",
                             overwrite = TRUE)
+
+## Permanova ----
+
+### Callcular matriz de similaridade ----
+
+matriz_permanova <- 1- dados |>
+  dplyr::summarise(abundancia = dplyr::n(),
+                   .by = c(Área,
+                           `Nome Científico`,
+                           `Fase de licenciamento`)) |>
+  tidyr::pivot_wider(names_from = `Nome Científico`,
+                     values_from = abundancia,
+                     values_fill = 0) |>
+  dplyr::arrange(Área) |>
+  dplyr::arrange(`Fase de licenciamento` |> dplyr::desc()) |>
+  dplyr::mutate(area = purrr::pmap_chr(
+    list(Área, `Fase de licenciamento`),
+    \(Área, `Fase de licenciamento`){
+
+      paste0(Área,
+             "_",
+             `Fase de licenciamento`)
+
+      },
+    .progress = TRUE)) |>
+  tibble::column_to_rownames(var = "area") |>
+  dplyr::select_if(is.numeric) |>
+  vegan::vegdist()
+
+matriz_permanova
