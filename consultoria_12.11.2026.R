@@ -615,7 +615,7 @@ ggsave(filename = "upgma_fases_12.11.2026.png",
 
 ### Callcular matriz de similaridade ----
 
-matriz_permanova <- 1- dados |>
+matriz_permanova <- 1 - dados |>
   dplyr::summarise(abundancia = dplyr::n(),
                    .by = c(Área,
                            `Nome Científico`,
