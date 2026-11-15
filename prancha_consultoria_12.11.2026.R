@@ -62,3 +62,18 @@ imagens <- purrr::map(
                      dplyr::pull(name) |>
                      stringr::str_remove_all("prancha_herp_|.jpg") |>
                      stringr::str_replace("_", " "))
+
+## Visualizar imagens ----
+
+imagens
+
+purrr::imap(
+  imagens,
+  \(imagem, sps){
+
+    ggplot() +
+      tidyterra::geom_spatraster_rgb(data = imagem) +
+      labs(title = sps)
+
+    },
+  .progress = TRUE)
