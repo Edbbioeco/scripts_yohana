@@ -493,3 +493,31 @@ ggsave(filename = "upgma_total_12.11.2026.png",
   googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
                             name = "upgma_total_12.11.2026.png",
                             overwrite = TRUE)
+
+### Por fases ----
+
+### Extrair valores ----
+
+upgma_data_fases <- purrr::map(
+  upgma_fases,
+  \(upgma){
+
+    upgma_data <- upgma |>
+      as.dendrogram() |>
+      ggdendro::dendro_data()
+
+    ramos <- upgma_data$segments
+
+    area <- upgma_data$label
+
+    list(upgma_data,
+         ramos,
+         area) |>
+      purrr::set_names(c("Dados brutos",
+                         "Ramo",
+                         "Áreas"))
+
+    },
+  .progress = TRUE)
+
+upgma_data_fases
