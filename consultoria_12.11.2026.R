@@ -555,3 +555,35 @@ upgma_grafico_pre <- ggplot() +
         panel.grid.minor.x = element_blank())
 
 upgma_grafico_pre
+
+upgma_grafico_pos <- ggplot() +
+  geom_segment(data = upgma_data_fases |>
+                 purrr::pluck(2) |>
+                 purrr::pluck("Ramo"),
+               aes(x = y, y = x,
+                   xend = yend, yend = xend),
+               linewidth = 2) +
+  labs(x = NULL,
+       y = "Similaridade de Bray-Curtis") +
+  scale_y_continuous(breaks = 1:4,
+                     labels = upgma_data_fases |>
+                       purrr::pluck(1) |>
+                       purrr::pluck("Áreas") |>
+                       purrr::pluck("label"),
+                     name = NULL,
+                     sec.axis = dup_axis(
+                       breaks = 1:4,
+                       labels = NULL,
+                       name = "Similaridade de Bray-Curtis")) +
+  scale_x_continuous(limits = c(0, 0.4)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(vjust = 0,
+                                   color = "black", size = 35),
+        axis.text = element_text(color = "black", size = 35),
+        axis.title = element_text(color = "black", size = 35),
+        panel.grid.major.y = element_line(linewidth = 1, color = "gray80"),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank())
+
+upgma_grafico_pos
