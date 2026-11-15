@@ -61,7 +61,7 @@ imagens <- purrr::map(
                                      !name |> stringr::str_detect("_[2-8]\\.jpg")) |>
                      dplyr::pull(name) |>
                      stringr::str_remove_all("prancha_herp_|.jpg") |>
-                     stringr::str_replace("_", " "))
+                     stringr::str_replace_all("_", " "))
 
 ## Visualizar imagens ----
 
