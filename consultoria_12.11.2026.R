@@ -568,7 +568,8 @@ upgma_grafico_durante <- ggplot() +
                    xend = yend, yend = xend),
                linewidth = 2) +
   labs(y = NULL,
-       x = NULL) +
+       x = NULL,
+       title = "Durante-obra") +
   scale_y_continuous(breaks = 1:4,
                      labels = upgma_data_fases |>
                        purrr::pluck(1) |>
@@ -587,7 +588,10 @@ upgma_grafico_durante <- ggplot() +
         panel.grid.major.y = element_line(linewidth = 1, color = "gray80"),
         panel.grid.minor.y = element_blank(),
         panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank())
+        panel.grid.minor.x = element_blank(),
+        plot.title = element_text(hjust = 0.5,
+                                  color = "black",
+                                  size = 35))
 
 upgma_grafico_durante
 
