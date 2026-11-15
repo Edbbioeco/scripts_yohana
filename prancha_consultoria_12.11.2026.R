@@ -77,3 +77,21 @@ purrr::imap(
 
     },
   .progress = TRUE)
+
+## Alterar a ordem dos elementos ----
+
+### Importar dados da taxonomia das espécies ----
+
+tax <- "Consultoria ciclo ambiental/Turvo, PR" |>
+  googledrive::drive_get() |>
+  googledrive::drive_ls() |>
+  dplyr::filter(name == "lista_sps.xlsx") |>
+  dplyr::pull(id) |>
+  googledrive::drive_download(file = _,
+                              path = tempfile(fileext = ".xlsx")) |>
+  dplyr::pull(local_path) |>
+  readxl::read_xlsx()
+
+tax
+
+tax |> dplyr::glimpse()
