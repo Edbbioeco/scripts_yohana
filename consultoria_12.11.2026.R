@@ -488,3 +488,8 @@ ggplot() +
 ggsave(filename = "upgma_total_12.11.2026.png",
        height = 12,
        width = 16)
+
+"upgma_total_12.11.2026.png" |>
+  googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
+                            name = "upgma_total_12.11.2026.png",
+                            overwrite = TRUE)
