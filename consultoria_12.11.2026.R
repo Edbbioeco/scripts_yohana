@@ -640,3 +640,21 @@ matriz_permanova <- 1 - dados |>
   vegan::vegdist()
 
 matriz_permanova
+
+### Calcular permanova ----
+
+permanova <- vegan::adonis2(matriz_permanova ~ `Fase de licenciamento`,
+                            data = dados |>
+                              dplyr::summarise(abundancia = dplyr::n(),
+                                               .by = c(Área,
+                                                       `Nome Científico`,
+                                                       `Fase de licenciamento`)) |>
+                              tidyr::pivot_wider(names_from = `Nome Científico`,
+                                                 values_from = abundancia,
+                                                 values_fill = 0) |>
+                              dplyr::arrange(Área) |>
+                              dplyr::arrange(`Fase de licenciamento` |>
+                                               dplyr::desc()),
+                            permutations = 999)
+
+permanova
