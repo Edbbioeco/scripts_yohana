@@ -535,14 +535,14 @@ upgma_grafico_pre <- ggplot() +
        y = "Similaridade de Bray-Curtis") +
   scale_y_continuous(breaks = 1:4,
                      labels = NULL,
-                     sec.axis = ggplot2::dup_axis(
+                     sec.axis =dup_axis(
                        breaks = 1:4,
                        labels = upgma_data_fases |>
                          purrr::pluck(1) |>
                          purrr::pluck("Áreas") |>
                          purrr::pluck("label"),
                        name = NULL)) +
-  scale_x_continuous(limits = c(0, 0.04), expand = FALSE,
+  scale_x_continuous(limits = c(0, 0.04),
                      transform = "reverse") +
   theme_minimal() +
   theme(axis.text.x = element_text(vjust = 0,
