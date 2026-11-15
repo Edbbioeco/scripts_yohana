@@ -532,7 +532,7 @@ upgma_grafico_pre <- ggplot() +
                    xend = yend, yend = xend),
                linewidth = 2) +
   labs(y = NULL,
-       x = "Similaridade de Bray-Curtis") +
+       x = NULL) +
   scale_y_continuous(breaks = 1:4,
                      labels = NULL,
                      sec.axis =dup_axis(
@@ -564,7 +564,7 @@ upgma_grafico_durante <- ggplot() +
                    xend = yend, yend = xend),
                linewidth = 2) +
   labs(y = NULL,
-       x = "Similaridade de Bray-Curtis") +
+       x = NULL) +
   scale_y_continuous(breaks = 1:4,
                      labels = upgma_data_fases |>
                        purrr::pluck(1) |>
