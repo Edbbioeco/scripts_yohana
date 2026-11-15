@@ -563,8 +563,8 @@ upgma_grafico_pos <- ggplot() +
                aes(x = y, y = x,
                    xend = yend, yend = xend),
                linewidth = 2) +
-  labs(x = NULL,
-       y = "Similaridade de Bray-Curtis") +
+  labs(y = NULL,
+       x = "Similaridade de Bray-Curtis") +
   scale_y_continuous(breaks = 1:4,
                      labels = upgma_data_fases |>
                        purrr::pluck(1) |>
@@ -573,8 +573,7 @@ upgma_grafico_pos <- ggplot() +
                      name = NULL,
                      sec.axis = dup_axis(
                        breaks = 1:4,
-                       labels = NULL,
-                       name = "Similaridade de Bray-Curtis")) +
+                       labels = NULL)) +
   scale_x_continuous(limits = c(0, 0.4)) +
   theme_minimal() +
   theme(axis.text.x = element_text(vjust = 0,
