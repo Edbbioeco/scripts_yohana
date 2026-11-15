@@ -556,7 +556,7 @@ upgma_grafico_pre <- ggplot() +
 
 upgma_grafico_pre
 
-upgma_grafico_pos <- ggplot() +
+upgma_grafico_durante <- ggplot() +
   geom_segment(data = upgma_data_fases |>
                  purrr::pluck(2) |>
                  purrr::pluck("Ramo"),
@@ -585,4 +585,5 @@ upgma_grafico_pos <- ggplot() +
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank())
 
-upgma_grafico_pos
+upgma_grafico_durante
+
