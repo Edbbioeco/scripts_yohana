@@ -531,8 +531,8 @@ upgma_grafico_pre <- ggplot() +
                aes(x = y, y = x,
                    xend = yend, yend = xend),
                linewidth = 2) +
-  labs(x = NULL,
-       y = "Similaridade de Bray-Curtis") +
+  labs(y = NULL,
+       x = "Similaridade de Bray-Curtis") +
   scale_y_continuous(breaks = 1:4,
                      labels = NULL,
                      sec.axis =dup_axis(
