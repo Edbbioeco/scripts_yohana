@@ -532,7 +532,8 @@ upgma_grafico_pre <- ggplot() +
                    xend = yend, yend = xend),
                linewidth = 2) +
   labs(y = NULL,
-       x = NULL) +
+       x = NULL,
+       title = "Pré-obra") +
   scale_y_continuous(breaks = 1:4,
                      labels = NULL,
                      sec.axis =dup_axis(
@@ -552,7 +553,10 @@ upgma_grafico_pre <- ggplot() +
         panel.grid.major.y = element_line(linewidth = 1, color = "gray80"),
         panel.grid.minor.y = element_blank(),
         panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank())
+        panel.grid.minor.x = element_blank(),
+        plot.title = element_text(hjust = 0.5,
+                                  color = "black",
+                                  size = 35))
 
 upgma_grafico_pre
 
