@@ -149,3 +149,7 @@ prancha <- purrr::map2(
   patchwork::wrap_plots(ncol = 4)
 
 prancha
+
+ggsave(filename = "prancha_consultoria_12.11.2026.png",
+       height = 16,
+       width = 16)
