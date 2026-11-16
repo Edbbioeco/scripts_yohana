@@ -730,3 +730,8 @@ scores |>
 ggsave(filename = "grafico_nmds.png",
        height = 12,
        width = 16)
+
+"grafico_nmds.png" |>
+  googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
+                            name = "grafico_nmds.png",
+                            overwrite = TRUE)
