@@ -158,7 +158,10 @@ pranchas <- 1:length(imagens) |>
         patchwork::wrap_plots(ncol = 2)
 
       },
-    .progress = TRUE)
+    .progress = TRUE) |>
+  purrr::set_names(paste0("prancha_",
+                          1:4,
+                          "_consultoria_12.11.2026"))
 
 pranchas
 
