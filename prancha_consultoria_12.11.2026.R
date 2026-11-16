@@ -162,35 +162,35 @@ pranchas <- 1:length(imagens) |>
 
 pranchas
 
-prancha <- purrr::map2(
-  imagens,
-  1:length(imagens),
-  \(imagem, id){
-
-    ggplot() +
-      tidyterra::geom_spatraster_rgb(data = imagem) +
-      shadowtext::geom_shadowtext(data = data.frame(x = -Inf,
-                                                    y = Inf,
-                                                    label = LETTERS[id]),
-                                  mapping = aes(x = x,
-                                                y = y,
-                                                label = label),
-                                  hjust = -0.4,
-                                  vjust = 1.4,
-                                  size = 15,
-                                  fontface = "bold",
-                                  color = "gold",
-                                  bg.color = "black",
-                                  bg.r = 0.1) +
-      coord_cartesian(expand = FALSE) +
-      theme_void() +
-      theme(aspect.ratio = 1)
-
-  },
-  .progress = TRUE) |>
-  patchwork::wrap_plots(ncol = 4)
-
-prancha
+# prancha <- purrr::map2(
+#   imagens,
+#   1:length(imagens),
+#   \(imagem, id){
+#
+#     ggplot() +
+#       tidyterra::geom_spatraster_rgb(data = imagem) +
+#       shadowtext::geom_shadowtext(data = data.frame(x = -Inf,
+#                                                     y = Inf,
+#                                                     label = LETTERS[id]),
+#                                   mapping = aes(x = x,
+#                                                 y = y,
+#                                                 label = label),
+#                                   hjust = -0.4,
+#                                   vjust = 1.4,
+#                                   size = 15,
+#                                   fontface = "bold",
+#                                   color = "gold",
+#                                   bg.color = "black",
+#                                   bg.r = 0.1) +
+#       coord_cartesian(expand = FALSE) +
+#       theme_void() +
+#       theme(aspect.ratio = 1)
+#
+#   },
+#   .progress = TRUE) |>
+#   patchwork::wrap_plots(ncol = 4)
+#
+# prancha
 
 ggsave(filename = "prancha_consultoria_12.11.2026.png",
        height = 16,
