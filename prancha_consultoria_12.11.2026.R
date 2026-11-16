@@ -153,3 +153,8 @@ prancha
 ggsave(filename = "prancha_consultoria_12.11.2026.png",
        height = 16,
        width = 16)
+
+"prancha_consultoria_12.11.2026.png" |>
+  googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
+                            name = "prancha_consultoria_12.11.2026.png",
+                            overwrite = TRUE)
