@@ -192,6 +192,7 @@ rare_sd_total |>
                     values = c("orange", "royalblue")) +
   scale_color_manual(breaks = c("Observado", "Estimado (Chao1)"),
                      values = c("orange", "royalblue")) +
+  scale_y_continuous(breaks = seq(0, 30, 5)) +
   theme_classic() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.title = element_text(color = "black", size = 20),
