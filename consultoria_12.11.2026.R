@@ -207,6 +207,11 @@ ggsave(filename = "rarefacao_total_12.11.2026.png",
        height = 12,
        width = 16)
 
+"rarefacao_total_12.11.2026.png" |>
+  googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
+                            name = "rarefacao_total_12.11.2026.png",
+                            overwrite = TRUE)
+
 # Diversidade alfa ----
 
 ## Tratar os dados ----
