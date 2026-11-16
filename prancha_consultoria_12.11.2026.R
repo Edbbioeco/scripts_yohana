@@ -124,6 +124,44 @@ imagens
 
 # Prancha ----
 
+pranchas <- 1:length(imagens) |>
+  split(ceiling(1:length(imagens) / 4)) |>
+  purrr::map(
+    \(conjunto){
+
+      purrr::map2(
+        conjunto,
+        LETTERS[1:length(conjunto)],
+        \(id, letra){
+
+            ggplot() +
+              tidyterra::geom_spatraster_rgb(data = imagens[[id]]) +
+              shadowtext::geom_shadowtext(data = data.frame(x = -Inf,
+                                                            y = Inf,
+                                                            label = letra),
+                                          mapping = aes(x = x,
+                                                        y = y,
+                                                        label = label),
+                                          hjust = -0.4,
+                                          vjust = 1.4,
+                                          size = 15,
+                                          fontface = "bold",
+                                          color = "gold",
+                                          bg.color = "black",
+                                          bg.r = 0.1) +
+              coord_cartesian(expand = FALSE) +
+              theme_void() +
+              theme(aspect.ratio = 1)
+
+            },
+          .progress = TRUE) |>
+        patchwork::wrap_plots(ncol = 2)
+
+      },
+    .progress = TRUE)
+
+pranchas
+
 prancha <- purrr::map2(
   imagens,
   1:length(imagens),
