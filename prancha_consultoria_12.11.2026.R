@@ -10,6 +10,8 @@ library(exifr)
 
 library(tidyterra)
 
+library(readxl)
+
 library(patchwork)
 
 # Dados ----
