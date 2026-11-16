@@ -135,6 +135,23 @@ ggsave(filename = "rarefacao_12.11.2026.png",
                             name = "rarefacao_12.11.2026.png",
                             overwrite = TRUE)
 
+## Rarefação baseado no número de visitas ----
+
+### Calcular ----
+
+rare_total <- dados |>
+  dplyr::summarise(abundancia = dplyr::n(),
+                   .by = c(Área,
+                           `Fase de licenciamento`,
+                           `Nome Científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome Científico`,
+                     values_from = abundancia,
+                     values_fill = 0) |>
+  vegan::estaccumR(permutations = 1000) |>
+  summary(display = c("S", "chao"))
+
+rare_total
+
 # Diversidade alfa ----
 
 ## Tratar os dados ----
