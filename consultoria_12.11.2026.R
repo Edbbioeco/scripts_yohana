@@ -695,3 +695,15 @@ nmds <- matriz_permanova |>
   vegan::metaMDS(k = 2)
 
 nmds
+
+### Extrair os scores ----
+
+scores <- nmds |>
+  vegan::scores() |>
+  as.data.frame() |>
+  tibble::rownames_to_column(var = "id") |>
+  tidyr::separate(col = 1,
+                  sep = "_",
+                  into = c("Área", "Campanha"))
+
+scores
