@@ -203,6 +203,10 @@ rare_sd_total |>
         legend.text = element_text(color = "black", size = 20),
         axis.line = element_line(color = "black", linewidth = 1))
 
+ggsave(filename = "rarefacao_total_12.11.2026.png",
+       height = 12,
+       width = 16)
+
 # Diversidade alfa ----
 
 ## Tratar os dados ----
