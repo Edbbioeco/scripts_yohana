@@ -104,3 +104,16 @@ sps_lista <- tax |>
   c("ovos Boana faber", "ninho Leptodactylidae")
 
 sps_lista
+
+### Alterar a ordem da lista ----
+
+imagens <- sps_lista |>
+  purrr::set_names() |>
+  purrr::map(\(sps){
+
+    imagens[[sps]]
+
+    },
+    .progress = TRUE)
+
+imagens
