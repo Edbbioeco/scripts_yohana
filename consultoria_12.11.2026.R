@@ -707,3 +707,22 @@ scores <- nmds |>
                   into = c("Área", "Campanha"))
 
 scores
+
+### Gráfico ----
+
+scores |>
+  ggplot(aes(NMDS1, NMDS2, fill = Campanha, label = Área)) +
+  geom_label(size = 7.5, linewidth = 1) +
+  scale_fill_manual(breaks = c("pré-obra", "Durante obra"),
+                    labels = c("Pré-obra", "Durante obra"),
+                    values = c("orange", "royalblue")) +
+  labs(fill = NULL) +
+  theme_classic() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.title = element_text(color = "black", size = 20),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(color = "black", size = 20),
+        strip.text = element_text(color = "black", size = 30),
+        strip.background = element_rect(linewidth = 2, fill = "gray"),
+        axis.line = element_line(color = "black", linewidth = 1),
+        legend.position = "bottom")
