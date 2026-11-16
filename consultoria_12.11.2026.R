@@ -716,7 +716,7 @@ scores |>
   scale_fill_manual(breaks = c("pré-obra", "Durante obra"),
                     labels = c("Pré-obra", "Durante obra"),
                     values = c("orange", "royalblue")) +
-  labs(fill = NULL) +
+  labs(fill = NULL)+
   theme_classic() +
   theme(axis.text = element_text(color = "black", size = 20),
         axis.title = element_text(color = "black", size = 20),
@@ -726,3 +726,7 @@ scores |>
         strip.background = element_rect(linewidth = 2, fill = "gray"),
         axis.line = element_line(color = "black", linewidth = 1),
         legend.position = "bottom")
+
+ggsave(filename = "grafico_nmds.png",
+       height = 12,
+       width = 16)
