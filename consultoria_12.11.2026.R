@@ -160,7 +160,7 @@ rare_sd_total <- purrr::imap_dfr(
 
     valores |>
       as.data.frame() |>
-      dplyr::rename("Quantidade de unidades amostrais" = 1,
+      dplyr::rename("Quantidade de amostragens nas áreas" = 1,
                     Riqueza = 2) |>
       dplyr::mutate(tipo = indice)
 
