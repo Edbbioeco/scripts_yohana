@@ -141,11 +141,11 @@ prancha <- purrr::map2(
                                   bg.color = "black",
                                   bg.r = 0.1) +
       coord_cartesian(expand = FALSE) +
-      theme_void()
+      theme_void() +
+      theme(aspect.ratio = 1)
 
   },
   .progress = TRUE) |>
-  patchwork::wrap_plots(ncol = 3) +
-  theme(aspect.ratio = 1)
+  patchwork::wrap_plots(ncol = 4)
 
 prancha
