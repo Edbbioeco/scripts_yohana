@@ -178,10 +178,10 @@ rare_sd_total
 ### Visualizar os dados ----
 
 rare_sd_total |>
-  ggplot(aes(`Quantidade de unidades amostrais`, Riqueza,
+  ggplot(aes(`Quantidade de amostragens nas áreas`, Riqueza,
              color = tipo,
              fill = tipo)) +
-  geom_ribbon(aes(x = `Quantidade de unidades amostrais`,
+  geom_ribbon(aes(x = `Quantidade de amostragens nas áreas`,
                   y = Riqueza,
                   ymin = Riqueza - Std.Dev,
                   ymax = Riqueza + Std.Dev),
