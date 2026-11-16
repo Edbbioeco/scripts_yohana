@@ -686,3 +686,12 @@ permanova <- vegan::adonis2(matriz_permanova ~ `Fase de licenciamento`,
                             permutations = 999)
 
 permanova
+
+## NMDS ----
+
+### Calcular NMDS ----
+
+nmds <- matriz_permanova |>
+  vegan::metaMDS(k = 2)
+
+nmds
