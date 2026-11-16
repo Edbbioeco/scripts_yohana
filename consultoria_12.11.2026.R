@@ -168,10 +168,17 @@ div_alfa <- purrr::map_dfr(
       tibble::column_to_rownames(var = "Área") |>
       vegan::diversity()
 
+    pielou <- shannon / log(riq)
+
     tibble::tibble(`Fase de licenciamento` = fase,
                    Área = shannon |> names(),
                    Riqueza = riq,
-                   `H'` = shannon)
+                   `H'` = shannon,
+                   J = dplyr::if_else(
+                     pielou |> is.nan(),
+                     0,
+                     pielou
+                   ))
 
   },
   .progress = TRUE) |>
