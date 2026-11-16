@@ -380,6 +380,15 @@ tabela_flex |>
                             name = "tabela_especies_12.11.2026.docx",
                             overwrite = TRUE)
 
+## Estatística das espécies ----
+
+### Número de espécies por ordem e campanha ----
+
+dados_tabela |>
+  tidyr::separate_rows(Campanha, sep = ", ") |>
+  dplyr::summarise(riqueza = dplyr::n(),
+                   .by = c(ordem, Campanha))
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
