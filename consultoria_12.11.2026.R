@@ -16,6 +16,8 @@ library(officer)
 
 library(ggdendro)
 
+library(patchwork)
+
 # Dados ----
 
 ## Ativar Google Drive ----
