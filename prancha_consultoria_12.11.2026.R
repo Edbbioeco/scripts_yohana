@@ -12,6 +12,8 @@ library(tidyterra)
 
 library(readxl)
 
+library(shadowtext)
+
 library(patchwork)
 
 # Dados ----
