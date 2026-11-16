@@ -152,6 +152,29 @@ rare_total <- dados |>
 
 rare_total
 
+### Transformar em data frame ----
+
+rare_sd_total <- purrr::imap_dfr(
+  rare_total,
+  \(valores, indice){
+
+    valores |>
+      as.data.frame() |>
+      dplyr::rename("Quantidade de unidades amostrais" = 1,
+                    Riqueza = 2) |>
+      dplyr::mutate(tipo = indice)
+
+  },
+  .progress = TRUE) |>
+  dplyr::mutate(tipo = dplyr::case_when(
+
+    tipo == "chao" ~ "Estimado (Chao1)",
+    .default = "Observado"
+
+  ))
+
+rare_sd_total
+
 # Diversidade alfa ----
 
 ## Tratar os dados ----
