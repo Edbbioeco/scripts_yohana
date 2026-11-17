@@ -245,8 +245,10 @@ legendas
 
 arquivo <- base::tempfile(fileext = ".html")
 
-legendas |>
-  stringr::str_c("<p>", ... = _, "</p>") |>
-  writeLines(arquivo)
+c('<meta charset="UTF-8">',
+  legendas |>
+    stringr::str_c("<p>", ... = _, "</p>")) |>
+  base::enc2utf8() |>
+  writeLines(arquivo, useBytes = TRUE)
 
 rstudioapi::viewer(arquivo)
