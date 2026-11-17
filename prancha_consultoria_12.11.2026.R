@@ -231,7 +231,7 @@ legendas <- 1:length(imagens) |>
         conjunto,
         \(letra, id){
 
-          stringr::str_glue("**[{letra}]**: *{imagens[id] |> names()}*;")
+         stringr::str_glue("<b>[{letra}]</b>: <i>{imagens[id] |> names()}</i>;")
 
           }
         ) |>
