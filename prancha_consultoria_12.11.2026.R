@@ -218,3 +218,26 @@ purrr::map(
 
     },
   .progress = TRUE)
+
+## Legenda das figuras ----
+
+legendas <- 1:length(imagens) |>
+  split(ceiling(1:length(imagens) / 4)) |>
+  purrr::map(
+    \(conjunto){
+
+      purrr::map2_chr(
+        LETTERS[1:length(conjunto)],
+        conjunto,
+        \(letra, id){
+
+          stringr::str_glue("**[{letra}]**: *{imagens[id] |> names()}*;")
+
+          }
+        ) |>
+        stringr::str_flatten(collapse = " ")
+
+      },
+    .progress = TRUE)
+
+legendas
