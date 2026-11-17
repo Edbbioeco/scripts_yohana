@@ -195,6 +195,18 @@ pranchas
 #
 # prancha
 
+purrr::imap(
+  pranchas,
+  \(pranhca, nome){
+
+    ggsave(plot = pranchas,
+           filename = paste0(nome, ".png"),
+           height = 16,
+           width = 16)
+
+    },
+  .progress = TRUE)
+
 ggsave(filename = "prancha_consultoria_12.11.2026.png",
        height = 16,
        width = 16)
