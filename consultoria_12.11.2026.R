@@ -502,12 +502,14 @@ dados_tabela |>
 ### Espécies endêmicas da Mata Atlântica ----
 
 end_ma <- amphiBR::segalla2021 |>
-  dplyr::filter(AF == 1 &
-                  PAN == 0 &
-                  PAM == 0 &
-                  AMZ == 0 &
-                  CER == 0 &
-                  CAA == 0 &
+  tidyr::pivot_longer(cols = AF:CAA,
+                      values_to = "presenca",
+                      names_to = "bioma") |>
+  dplyr::select(species, bioma, presenca) |>
+  dplyr::filter(presenca == 1) |>
+  dplyr::group_by(species) |>
+  dplyr::filter(dplyr::n() == 1 &
+                  bioma == "AF" &
                   species %in% dados_tabela$`Nome Científico`) |>
   dplyr::pull(species)
 
