@@ -14,6 +14,8 @@ library(flextable)
 
 library(officer)
 
+library(writexl)
+
 library(ggdendro)
 
 library(patchwork)
