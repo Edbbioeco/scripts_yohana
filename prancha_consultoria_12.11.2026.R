@@ -231,11 +231,12 @@ legendas <- 1:length(imagens) |>
         conjunto,
         \(letra, id){
 
-         stringr::str_glue("<b>[{letra}]</b>: <i>{imagens[id] |> names()}</i>;")
+         stringr::str_glue("<b>[{letra}]</b> = <i>{imagens[id] |> names()}</i>;")
 
           }
         ) |>
-        stringr::str_flatten(collapse = " ")
+        stringr::str_flatten(collapse = " ") %>%
+        paste0("Espécies amostradas no estudo: ", .)
 
       },
     .progress = TRUE)
