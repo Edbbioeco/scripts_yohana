@@ -513,6 +513,22 @@ end_ma <- amphiBR::segalla2021 |>
 
 end_ma
 
+### Espécies endêmicas do Paraná ----
+
+end_pr <- amphiBR::segalla2021 |>
+  tidyr::pivot_longer(cols = AC:TO,
+                      values_to = "presenca",
+                      names_to = "estado") |>
+  dplyr::select(species, estado, presenca) |>
+  dplyr::filter(presenca == 1) |>
+  dplyr::group_by(species) |>
+  dplyr::filter(dplyr::n() == 1 &
+                  estado == "PR" &
+                  species %in% dados_tabela$`Nome Científico`) |>
+  dplyr::pull(species)
+
+end_pr
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
