@@ -251,7 +251,7 @@ div_alfa <- purrr::map_dfr(
 
     tibble::tibble(`Fase de licenciamento` = fase,
                    Área = shannon |> names(),
-                   Riqueza = riq,
+                   S = riq,
                    `H'` = shannon,
                    J = dplyr::if_else(
                      pielou |> is.nan(),
