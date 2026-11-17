@@ -497,6 +497,22 @@ dados_tabela |>
   dplyr::summarise(riqueza = dplyr::n(),
                    .by = c(ordem, Campanha))
 
+## Endemicidade das espécies ----
+
+### Espécies endêmicas da Mata Atlântica ----
+
+end_ma <- amphiBR::segalla2021 |>
+  dplyr::filter(AF == 1 &
+                  PAN == 0 &
+                  PAM == 0 &
+                  AMZ == 0 &
+                  CER == 0 &
+                  CAA == 0 &
+                  species %in% dados_tabela$`Nome Científico`) |>
+  dplyr::pull(species)
+
+end_ma
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
