@@ -338,7 +338,7 @@ dados_tabela <- dados |>
     `Nome Científico` |>
       stringr::str_detect("Proceratophrys|Odontophrynus") ~ "Odontophrynidae",
     `Nome Científico` |>
-      stringr::str_detect("Iscnhnocnema") ~ "Brachycephalidae",
+      stringr::str_detect("Ischnocnema") ~ "Brachycephalidae",
     `Nome Científico` |>
       stringr::str_detect("Phyllomedusa") ~ "Phyllomedusidae",
     `Nome Científico` |>
