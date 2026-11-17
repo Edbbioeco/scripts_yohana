@@ -466,6 +466,12 @@ tabela_flex |>
                             name = "tabela_especies_12.11.2026.docx",
                             overwrite = TRUE)
 
+## Exportar os dados de taxonomia ----
+
+dados_tabela |>
+  dplyr::select(ordem, familia, especie = `Nome Científico`) |>
+  writexl::write_xlsx("tax.xlsx")
+
 ## Estatística das espécies ----
 
 ### Número de espécies por ordem e campanha ----
