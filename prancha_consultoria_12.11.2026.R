@@ -241,3 +241,11 @@ legendas <- 1:length(imagens) |>
     .progress = TRUE)
 
 legendas
+
+arquivo <- base::tempfile(fileext = ".html")
+
+legendas |>
+  stringr::str_c("<p>", ... = _, "</p>") |>
+  writeLines(arquivo)
+
+rstudioapi::viewer(arquivo)
