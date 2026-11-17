@@ -197,12 +197,24 @@ pranchas
 
 purrr::imap(
   pranchas,
-  \(pranhca, nome){
+  \(prancha, nome){
 
     ggsave(plot = prancha,
            filename = paste0(nome, ".png"),
            height = 16,
            width = 16)
+
+    },
+  .progress = TRUE)
+
+purrr::map(
+  list.files(pattern = "prancha_[1-4]_consultoria_12.11.2026.png"),
+  \(arquivo){
+
+    arquivo |>
+      googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
+                                name = arquivo,
+                                overwrite = TRUE)
 
     },
   .progress = TRUE)
