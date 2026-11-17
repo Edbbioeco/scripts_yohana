@@ -199,7 +199,7 @@ purrr::imap(
   pranchas,
   \(pranhca, nome){
 
-    ggsave(plot = pranchas,
+    ggsave(plot = prancha,
            filename = paste0(nome, ".png"),
            height = 16,
            width = 16)
