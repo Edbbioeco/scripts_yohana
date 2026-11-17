@@ -218,8 +218,3 @@ purrr::map(
 
     },
   .progress = TRUE)
-
-"prancha_consultoria_12.11.2026.png" |>
-  googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
-                            name = "prancha_consultoria_12.11.2026.png",
-                            overwrite = TRUE)
