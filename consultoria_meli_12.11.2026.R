@@ -178,3 +178,31 @@ rare_sd_total <- purrr::imap_dfr(
   ))
 
 rare_sd_total
+
+### Visualizar os dados ----
+
+rare_sd_total |>
+  ggplot(aes(`Quantidade de amostragens nas áreas`, Riqueza,
+             color = tipo,
+             fill = tipo)) +
+  geom_ribbon(aes(x = `Quantidade de amostragens nas áreas`,
+                  y = Riqueza,
+                  ymin = Riqueza - Std.Dev,
+                  ymax = Riqueza + Std.Dev),
+              alpha = 0.3) +
+  geom_line(linewidth = 2) +
+  geom_point(shape = 21, color = "black", stroke = 1, size = 7.5) +
+  scale_fill_manual(breaks = c("Observado", "Estimado (Chao1)"),
+                    values = c("orange", "royalblue")) +
+  scale_color_manual(breaks = c("Observado", "Estimado (Chao1)"),
+                     values = c("orange", "royalblue")) +
+  scale_x_continuous(breaks = seq(0, 8, 1)) +
+  scale_y_continuous(breaks = seq(0, 30, 5)) +
+  theme_classic() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.title = element_text(color = "black", size = 20),
+        strip.text = element_text(color = "black", size = 30),
+        legend.position = "bottom",
+        legend.title = element_blank(),
+        legend.text = element_text(color = "black", size = 20),
+        axis.line = element_line(color = "black", linewidth = 1))
