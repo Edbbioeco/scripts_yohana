@@ -43,3 +43,24 @@ dados <- "Consultoria ciclo ambiental/Turvo, PR/Dados" |>
 dados
 
 dados |> dplyr::glimpse()
+
+## Tratar ----
+
+dados <- dados |>
+  dplyr::select(-1) |>
+  dplyr::slice(-1) |>
+  dplyr::mutate(
+    dplyr::across(
+      .cols = dplyr::everything(),
+      .fns = ~dplyr::if_else(dplyr::row_number() == 2 & is.na(.x),
+                             dplyr::lag(.x),
+                             .x)
+    )
+  ) |>
+  dplyr::slice(-1) |>
+  janitor::row_to_names(row_number = 1) |>
+  dplyr::rename("Área" = `Área de Registro`)
+
+dados
+
+dados |> dplyr::glimpse()
