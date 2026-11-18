@@ -230,3 +230,45 @@ dados_div <- dados |>
                      values_fill = 0)
 
 dados_div
+
+## Calcular a diversidade ----
+
+div_alfa <- purrr::map_dfr(
+  dados_div$`Fase de licenciamento`,
+  \(fase){
+
+    riq <- dados_div |>
+      dplyr::filter(`Fase de licenciamento` == fase) |>
+      dplyr::select(-`Fase de licenciamento`) |>
+      tibble::column_to_rownames(var = "Área") |>
+      vegan::specnumber()
+
+    shannon <-  dados_div |>
+      dplyr::filter(`Fase de licenciamento` == fase) |>
+      dplyr::select(-`Fase de licenciamento`) |>
+      tibble::column_to_rownames(var = "Área") |>
+      vegan::diversity()
+
+    pielou <- shannon / log(riq)
+
+    tibble::tibble(`Fase de licenciamento` = fase,
+                   Área = shannon |> names(),
+                   S = riq,
+                   `H'` = shannon,
+                   J = dplyr::if_else(
+                     pielou |> is.nan(),
+                     0,
+                     pielou
+                   ))
+
+  },
+  .progress = TRUE) |>
+  dplyr::mutate(`Fase de licenciamento` = dplyr::case_when(
+
+    `Fase de licenciamento` == "pré-obra" ~ "Pré-obra",
+    .default = `Fase de licenciamento`
+
+  ) |>
+    forcats::fct_relevel(c("Pré-obra", "Durante obra")))
+
+div_alfa
