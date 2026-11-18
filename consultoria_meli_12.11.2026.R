@@ -80,3 +80,26 @@ rare <- dados |>
   summary(display = c("S", "chao"))
 
 rare
+
+## Transformar em Data frame ----
+
+rare_df <- purrr::imap_dfr(
+  rare,
+  \(valores, indice){
+
+    valores |>
+      as.data.frame() |>
+      dplyr::rename("Quantidade de unidades amostrais" = 1,
+                    Riqueza = 2) |>
+      dplyr::mutate(tipo = indice)
+
+  },
+  .progress = TRUE) |>
+  dplyr::mutate(tipo = dplyr::case_when(
+
+    tipo == "chao" ~ "Estimado (Chao1)",
+    .default = "Observado"
+
+  ))
+
+rare_df
