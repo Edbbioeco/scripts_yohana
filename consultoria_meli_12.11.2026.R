@@ -215,3 +215,18 @@ ggsave(filename = "rarefacao_meli_total_12.11.2026.png",
   googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
                             name = "rarefacao_meli_total_12.11.2026.png",
                             overwrite = TRUE)
+
+# Diversidade alfa ----
+
+## Tratar os dados ----
+
+dados_div <- dados |>
+  dplyr::summarise(abundancia = dplyr::n(),
+                   .by = c(`Fase de licenciamento`,
+                           Área,
+                           `Nome Científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome Científico`,
+                     values_from = abundancia,
+                     values_fill = 0)
+
+dados_div
