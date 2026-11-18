@@ -206,3 +206,12 @@ rare_sd_total |>
         legend.title = element_blank(),
         legend.text = element_text(color = "black", size = 20),
         axis.line = element_line(color = "black", linewidth = 1))
+
+ggsave(filename = "rarefacao_meli_total_12.11.2026.png",
+       height = 12,
+       width = 16)
+
+"rarefacao_total_12.11.2026.png" |>
+  googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
+                            name = "rarefacao_meli_total_12.11.2026.png",
+                            overwrite = TRUE)
