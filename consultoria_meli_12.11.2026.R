@@ -296,3 +296,8 @@ div_alfa |>
 ggsave(filename = "diversidade_alfa_meli_12.11.2026.png",
        height = 12,
        width = 16)
+
+"diversidade_alfa_meli_12.11.2026.png" |>
+  googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
+                            name = "diversidade_alfa_meli_12.11.2026.png",
+                            overwrite = TRUE)
