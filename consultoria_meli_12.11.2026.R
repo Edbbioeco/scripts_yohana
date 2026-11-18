@@ -272,3 +272,27 @@ div_alfa <- purrr::map_dfr(
     forcats::fct_relevel(c("Pré-obra", "Durante obra")))
 
 div_alfa
+
+## Gráfico ----
+
+div_alfa |>
+  tidyr::pivot_longer(cols = 3:5,
+                      values_to = "Diversidade",
+                      names_to = "indice") |>
+  dplyr::mutate(indice = indice |>
+                  forcats::fct_relevel(c("S", "H'", "J"))) |>
+  ggplot(aes(`Fase de licenciamento`, Diversidade, label = Área,
+             group = Área)) +
+  geom_line(linewidth = 1) +
+  geom_label(size = 7.5, fill = "gray", linewidth = 1) +
+  facet_wrap(~indice, scale = "free_y") +
+  theme_classic() +
+  theme(axis.text = element_text(color = "black", size = 20),
+        axis.title = element_text(color = "black", size = 20),
+        strip.text = element_text(color = "black", size = 30),
+        strip.background = element_rect(linewidth = 2, fill = "gray"),
+        axis.line = element_line(color = "black", linewidth = 1))
+
+ggsave(filename = "diversidade_alfa_meli_12.11.2026.png",
+       height = 12,
+       width = 16)
