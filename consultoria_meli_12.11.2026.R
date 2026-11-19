@@ -301,3 +301,21 @@ ggsave(filename = "diversidade_alfa_meli_12.11.2026.png",
   googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
                             name = "diversidade_alfa_meli_12.11.2026.png",
                             overwrite = TRUE)
+
+# Diversidade beta ----
+
+## Calcular matrizes de similaridade ----
+
+### Total ----
+
+matriz_sim_total <- 1- dados |>
+  dplyr::summarise(abundancia = dplyr::n(),
+                   .by = c(Área,
+                           `Nome Científico`)) |>
+  tidyr::pivot_wider(names_from = `Nome Científico`,
+                     values_from = abundancia,
+                     values_fill = 0) |>
+  tibble::column_to_rownames(var = "Área") |>
+  vegan::vegdist()
+
+matriz_sim_total
