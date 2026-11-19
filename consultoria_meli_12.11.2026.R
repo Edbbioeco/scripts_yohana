@@ -319,3 +319,26 @@ matriz_sim_total <- 1- dados |>
   vegan::vegdist()
 
 matriz_sim_total
+
+### Por fase do licenciamento ----
+
+matriz_sim_fases <- purrr::map(
+  dados$`Fase de licenciamento` |> unique(),
+  \(fase){
+
+    1 - dados |>
+      dplyr::filter(`Fase de licenciamento` == fase) |>
+      dplyr::summarise(abundancia = dplyr::n(),
+                       .by = c(Área,
+                               `Nome Científico`)) |>
+      tidyr::pivot_wider(names_from = `Nome Científico`,
+                         values_from = abundancia,
+                         values_fill = 0) |>
+      tibble::column_to_rownames(var = "Área") |>
+      vegan::vegdist()
+
+  },
+  .progress = TRUE) |>
+  purrr::set_names(dados$`Fase de licenciamento` |> unique())
+
+matriz_sim_fases
