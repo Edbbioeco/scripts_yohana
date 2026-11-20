@@ -472,6 +472,11 @@ tabela_flex
 tabela_flex |>
   flextable::save_as_docx(path = "tabela_especies_meli_12.11.2026.docx")
 
+"tabela_especies_meli_12.11.2026.docx" |>
+  googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
+                            name = "tabela_especies_meli_12.11.2026.docx",
+                            overwrite = TRUE)
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
