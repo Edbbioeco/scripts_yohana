@@ -329,7 +329,10 @@ dados_tabela <- dados |>
                                        collapse = ", "),
                    Campanha = paste0(Campanha |> unique(),
                                      collapse = ", ")) |>
-  dplyr::mutate(ordem = "HYMENOPTERA",
+  dplyr::mutate(`Nome Científico` = stringr::str_c("*", `Nome Científico`, "*") |>
+                  stringr::str_replace_all(c(" s\\. str\\. sp\\*" = "* s. str. sp",
+                                             " sp\\*" = "* sp")),
+                ordem = "HYMENOPTERA",
                 familia = dplyr::case_when(
 
                   `Nome Científico` |>
