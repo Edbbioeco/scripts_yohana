@@ -487,6 +487,9 @@ matriz_sim_total <- 1- dados |>
   dplyr::summarise(abundancia = dplyr::n(),
                    .by = c(Área,
                            `Nome Científico`)) |>
+  tidyr::complete(Área,
+                  `Nome Científico`,
+                  fill = list(abundancia = 0)) |>
   tidyr::pivot_wider(names_from = `Nome Científico`,
                      values_from = abundancia,
                      values_fill = 0) |>
