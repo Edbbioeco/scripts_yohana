@@ -329,7 +329,7 @@ dados_tabela <- dados |>
                                        collapse = ", "),
                    Campanha = paste0(Campanha |> unique(),
                                      collapse = ", ")) |>
-  dplyr::mutate(ordem = "Hymenoptera",
+  dplyr::mutate(ordem = "HYMENOPTERA",
                 familia = dplyr::case_when(
 
                   `Nome Científico` |>
@@ -444,11 +444,11 @@ tabela_flex <- tabela |>
   flextable::align(align = "center", part = "all") |>
   flextable::bold(j = 1,
                   i = ~`Ordenamento taxonômico` |>
-                    stringr::str_detect("Hym|idae|Tribo")) |>
+                    stringr::str_detect("HYM|idae|Tribo")) |>
   flextable::bold(part = "header") |>
   flextable::italic(j = 1,
                     i = ~!`Ordenamento taxonômico` |>
-                      stringr::str_detect("Hym|idae|Tribo")) |>
+                      stringr::str_detect("HYM|idae|Tribo")) |>
   flextable::bg(bg = "gray",
                 part = "header") |>
   flextable::border_inner_v(border = officer::fp_border(color = "black",
