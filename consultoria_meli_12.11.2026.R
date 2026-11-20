@@ -505,14 +505,20 @@ matriz_sim_fases <- purrr::map(
   \(fase){
 
     1 - dados |>
-      dplyr::filter(`Fase de licenciamento` == fase) |>
       dplyr::summarise(abundancia = dplyr::n(),
                        .by = c(Área,
+                               `Fase de licenciamento`,
                                `Nome Científico`)) |>
+      tidyr::complete(Área,
+                      `Fase de licenciamento`,
+                      `Nome Científico`,
+                      fill = list(abundancia = 0)) |>
+      dplyr::filter(`Fase de licenciamento` == fase) |>
       tidyr::pivot_wider(names_from = `Nome Científico`,
                          values_from = abundancia,
                          values_fill = 0) |>
       tibble::column_to_rownames(var = "Área") |>
+      dplyr::select_if(is.numeric) |>
       vegan::vegdist()
 
   },
