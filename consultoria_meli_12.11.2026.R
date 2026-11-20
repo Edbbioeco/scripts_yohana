@@ -148,6 +148,10 @@ rare_total <- dados |>
                    .by = c(Área,
                            `Fase de licenciamento`,
                            `Nome Científico`)) |>
+  tidyr::complete(`Fase de licenciamento`,
+                  Área,
+                  `Nome Científico`,
+                  fill = list(abundancia = 0)) |>
   tidyr::pivot_wider(names_from = `Nome Científico`,
                      values_from = abundancia,
                      values_fill = 0) |>
