@@ -425,6 +425,49 @@ tabela <- tabela |>
 
 tabela
 
+## Tabela flextable ----
+
+tabela_flex <- tabela |>
+  flextable::flextable() |>
+  flextable::add_header_row(top = TRUE,
+                            values = c("Ordenamento taxonômico",
+                                       "Nome comum",
+                                       "Amostragem",
+                                       "Área",
+                                       "Campanha",
+                                       "Status"),
+                            colwidths = c(1, 1, 1, 1, 1, 3)) |>
+  flextable::merge_v(part = "header") |>
+  flextable::hline(i = 1,
+                   border = officer::fp_border(width = 0),
+                   part = "header") |>
+  flextable::align(align = "center", part = "all") |>
+  flextable::bold(j = 1,
+                  i = ~`Ordenamento taxonômico` |>
+                    stringr::str_detect("Hym|idae|Tribo")) |>
+  flextable::bold(part = "header") |>
+  flextable::italic(j = 1,
+                    i = ~!`Ordenamento taxonômico` |>
+                      stringr::str_detect("Hym|idae|Tribo")) |>
+  flextable::bg(bg = "gray",
+                part = "header") |>
+  flextable::border_inner_v(border = officer::fp_border(color = "black",
+                                                        width = 2),
+                            part = "all") |>
+  flextable::border_outer(border = officer::fp_border(width = 0),
+                          part = "all") |>
+  flextable::hline(i = 2,
+                   j = 1:8,
+                   border = officer::fp_border(color = "black",
+                                               width = 2),
+                   part = "header") |>
+  flextable::width(j = 1,
+                   width = 2) |>
+  flextable::width(j = 4,
+                   width = 2)
+
+tabela_flex
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
