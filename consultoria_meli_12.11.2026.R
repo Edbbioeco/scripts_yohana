@@ -310,6 +310,59 @@ ggsave(filename = "diversidade_alfa_meli_12.11.2026.png",
                             name = "diversidade_alfa_meli_12.11.2026.png",
                             overwrite = TRUE)
 
+# Tabela das espécies ----
+
+## Tratar os dados ----
+
+dados_tabela <- dados |>
+  dplyr::mutate(Campanha = dplyr::case_when(
+
+    `Fase de licenciamento` |>
+      stringr::str_detect("pré-") ~ "1",
+    .default = "2"
+
+  )) |>
+  dplyr::group_by(`Nome Científico`, `Nome vulgar`) |>
+  dplyr::summarise(Área = paste0(Área |> unique(),
+                                 collapse = ", "),
+                   Amostragem = paste0(`Metodologias empregadas` |> unique(),
+                                       collapse = ", "),
+                   Campanha = paste0(Campanha |> unique(),
+                                     collapse = ", ")) |>
+  dplyr::mutate(ordem = "Hymenoptera",
+                familia = dplyr::case_when(
+
+                  `Nome Científico` |>
+                    stringr::str_detect("Apis|Bombus|Exomalopsis|Melipona|Plebeia|Trigona") ~ "Apidae",
+                  `Nome Científico` |>
+                    stringr::str_detect("Augochlora|Augochloropsis|Halictidae|Pseudagapostemon") ~ "Halictidae",
+                  `Nome Científico` |>
+                    stringr::str_detect("Megachile") ~ "Megachilidae",
+                  `Nome Científico` |>
+                    stringr::str_detect("Panurginae") ~ "Andrenidae"
+
+                  ),
+                Tribo = dplyr::case_when(
+
+                  `Nome Científico` |>
+                    stringr::str_detect("Apis") ~ "Tribo Apini",
+                  `Nome Científico` |>
+                    stringr::str_detect("Augochlora|Augochloropsis") ~ "Tribo Augochlorini",
+                  `Nome Científico` |>
+                    stringr::str_detect("Bombus|Exomalopsis|Melipona|Plebeia droryana|Trigona") ~ "Tribo Meliponini",
+                  `Nome Científico` |>
+                    stringr::str_detect("Megachile") ~ "Tribo Megachilini",
+                  `Nome Científico` |>
+                    stringr::str_detect("Panurginae|Halictidae|Halictidae sp") ~ "Tribo não identificada",
+                  `Nome Científico` |>
+                    stringr::str_detect("Pseudagapostemon") ~ "Tribo THalictini"
+
+                )) |>
+  as.data.frame() |>
+  dplyr::arrange(ordem, familia, Tribo, `Nome Científico`)
+
+dados_tabela
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
