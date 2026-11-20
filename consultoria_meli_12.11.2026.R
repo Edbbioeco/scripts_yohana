@@ -363,6 +363,55 @@ dados_tabela <- dados |>
 
 dados_tabela
 
+## Criar estrutura da tabela ----
+
+tabela <- dados_tabela |>
+  dplyr::group_split(ordem, familia, Tribo) |>
+  purrr::map_dfr(
+    \(df){
+
+      ordem <- tibble::tibble(`Ordenamento taxonômico` = df$ordem |>
+                                unique(),
+                              `Nome comum` = NA_character_,
+                              Amostragem = NA_character_,
+                              Área = NA_character_,
+                              Campanha = NA_character_)
+
+      familia <- tibble::tibble(`Ordenamento taxonômico` = df$familia |>
+                                  unique(),
+                                `Nome comum` = NA_character_,
+                                Amostragem = NA_character_,
+                                Área = NA_character_,
+                                Campanha = NA_character_)
+
+      tribo <- tibble::tibble(`Ordenamento taxonômico` = df$Tribo |>
+                                  unique(),
+                                `Nome comum` = NA_character_,
+                                Amostragem = NA_character_,
+                                Área = NA_character_,
+                                Campanha = NA_character_)
+
+      sps <- tibble::tibble(`Ordenamento taxonômico` = df$`Nome Científico`,
+                            `Nome comum` = df$`Nome vulgar`,
+                            Amostragem = df$Amostragem,
+                            Área = df$Área,
+                            Campanha = df$Campanha)
+
+      dplyr::bind_rows(ordem,
+                       familia,
+                       tribo,
+                       sps)
+
+    },
+    .progress = TRUE) |>
+  dplyr::group_by(`Ordenamento taxonômico`) |>
+  dplyr::mutate(linha = dplyr::row_number()) |>
+  dplyr::filter(linha == 1) |>
+  dplyr::select(-linha) |>
+  as.data.frame()
+
+tabela
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
