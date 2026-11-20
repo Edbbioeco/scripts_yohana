@@ -449,9 +449,6 @@ tabela_flex <- tabela |>
                   i = ~`Ordenamento taxonômico` |>
                     stringr::str_detect("HYM|idae|Tribo")) |>
   flextable::bold(part = "header") |>
-  flextable::italic(j = 1,
-                    i = ~!`Ordenamento taxonômico` |>
-                      stringr::str_detect("HYM|idae|Tribo")) |>
   flextable::bg(bg = "gray",
                 part = "header") |>
   flextable::border_inner_v(border = officer::fp_border(color = "black",
@@ -467,7 +464,8 @@ tabela_flex <- tabela |>
   flextable::width(j = 1,
                    width = 2) |>
   flextable::width(j = 4,
-                   width = 2)
+                   width = 2) |>
+  ftExtra::colformat_md()
 
 tabela_flex
 
