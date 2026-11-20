@@ -469,6 +469,9 @@ tabela_flex <- tabela |>
 
 tabela_flex
 
+tabela_flex |>
+  flextable::save_as_docx(path = "tabela_especies_meli_12.11.2026.docx")
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
