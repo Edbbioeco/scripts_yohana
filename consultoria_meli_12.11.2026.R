@@ -447,7 +447,7 @@ tabela_flex <- tabela |>
   flextable::align(align = "center", part = "all") |>
   flextable::bold(j = 1,
                   i = ~`Ordenamento taxonômico` |>
-                    stringr::str_detect("HYM|idae|Tribo")) |>
+                    stringr::str_detect("HYM|idae$|Tribo")) |>
   flextable::bold(part = "header") |>
   flextable::bg(bg = "gray",
                 part = "header") |>
