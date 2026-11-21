@@ -338,7 +338,7 @@ dados_tabela <- dados |>
                   `Nome Científico` |>
                     stringr::str_detect("Apis|Bombus|Exomalopsis|Melipona|Plebeia|Trigona") ~ "Apidae",
                   `Nome Científico` |>
-                    stringr::str_detect("Augochlora|Augochloropsis|Halictidae|Pseudagapostemon") ~ "Halictidae",
+                    stringr::str_detect("Augochlora|Augochloropsis|Halictidae|Halictini|Pseudagapostemon") ~ "Halictidae",
                   `Nome Científico` |>
                     stringr::str_detect("Megachile") ~ "Megachilidae",
                   `Nome Científico` |>
@@ -356,7 +356,7 @@ dados_tabela <- dados |>
                   `Nome Científico` |>
                     stringr::str_detect("Megachile") ~ "Tribo Megachilini",
                   `Nome Científico` |>
-                    stringr::str_detect("Panurginae") ~ "Tribo não identificada",
+                    stringr::str_detect("Panurginae|Halictidae") ~ "Tribo não identificada",
                   `Nome Científico` |>
                     stringr::str_detect("Pseudagapostemon") ~ "Tribo Halictini"
 
@@ -378,27 +378,34 @@ tabela <- dados_tabela |>
                               `Nome comum` = NA_character_,
                               Amostragem = NA_character_,
                               Área = NA_character_,
-                              Campanha = NA_character_)
+                              Campanha = NA_character_,
+                              chave = df$ordem |>
+                                unique())
 
       familia <- tibble::tibble(`Ordenamento taxonômico` = df$familia |>
                                   unique(),
                                 `Nome comum` = NA_character_,
                                 Amostragem = NA_character_,
                                 Área = NA_character_,
-                                Campanha = NA_character_)
+                                Campanha = NA_character_,
+                                chave = df$familia |>
+                                  unique())
 
       tribo <- tibble::tibble(`Ordenamento taxonômico` = df$Tribo |>
-                                  unique(),
-                                `Nome comum` = NA_character_,
-                                Amostragem = NA_character_,
-                                Área = NA_character_,
-                                Campanha = NA_character_)
+                                unique(),
+                              `Nome comum` = NA_character_,
+                              Amostragem = NA_character_,
+                              Área = NA_character_,
+                              Campanha = NA_character_,
+                              chave = paste(df$familia |> unique(),
+                                            df$Tribo |> unique()))
 
       sps <- tibble::tibble(`Ordenamento taxonômico` = df$`Nome Científico`,
                             `Nome comum` = df$`Nome vulgar`,
                             Amostragem = df$Amostragem,
                             Área = df$Área,
-                            Campanha = df$Campanha)
+                            Campanha = df$Campanha,
+                            chave = df$`Nome Científico`)
 
       dplyr::bind_rows(ordem,
                        familia,
@@ -407,10 +414,8 @@ tabela <- dados_tabela |>
 
     },
     .progress = TRUE) |>
-  dplyr::group_by(`Ordenamento taxonômico`) |>
-  dplyr::mutate(linha = dplyr::row_number()) |>
-  dplyr::filter(linha == 1) |>
-  dplyr::select(-linha) |>
+  dplyr::distinct(chave, .keep_all = TRUE) |>
+  dplyr::select(-chave) |>
   as.data.frame()
 
 tabela
