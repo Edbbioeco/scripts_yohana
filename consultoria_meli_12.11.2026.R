@@ -738,3 +738,8 @@ upgma_grafico_durante
 ggsave(filename = "upgma_meli_fases_12.11.2026.png",
        height = 12,
        width = 16)
+
+"upgma_meli_fases_12.11.2026.png" |>
+  googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
+                            name = "upgma_meli_fases_12.11.2026.png",
+                            overwrite = TRUE)
