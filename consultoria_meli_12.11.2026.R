@@ -509,6 +509,12 @@ dados_tabela |>
   dplyr::summarise(riqueza = dplyr::n(),
                    .by = c(Campanha))
 
+## Quantidade de espécies exóticas ----
+
+dados |>
+  dplyr::filter(`Nativa/Exótica` == "Exótica") |>
+  dplyr::select(`Nome Científico`)
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
