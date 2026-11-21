@@ -483,6 +483,15 @@ dados_tabela |>
   dplyr::select(ordem, familia, tribo = Tribo, especie = `Nome Científico`) |>
   writexl::write_xlsx("tax_meli.xlsx")
 
+## Estatística das espécies ----
+
+### Número de espécies por família e campanha ----
+
+dados_tabela |>
+  tidyr::separate_rows(Campanha, sep = ", ") |>
+  dplyr::summarise(riqueza = dplyr::n(),
+                   .by = c(familia, Campanha))
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
