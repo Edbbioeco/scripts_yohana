@@ -33,7 +33,7 @@ imagens <- purrr::map(
 
     pasta |>
       googledrive::drive_ls() |>
-      dplyr::filter(!name |> stringr::str_detect("_[2-5].jpeg$")) |>
+      dplyr::filter(!name |> stringr::str_detect("_[2-6].jpeg$")) |>
       dplyr::pull(id) |>
       purrr::map(
         \(foto){
@@ -77,7 +77,7 @@ imagens <- purrr::map(
 
         pasta |>
           googledrive::drive_ls() |>
-          dplyr::filter(!name |> stringr::str_detect("_[2-5].jpeg$")) |>
+          dplyr::filter(!name |> stringr::str_detect("_[2-6].jpeg$")) |>
           dplyr::pull(name) |>
           stringr::str_remove_all("prancha_meli_|.jpeg") |>
           stringr::str_replace("_", " ")
