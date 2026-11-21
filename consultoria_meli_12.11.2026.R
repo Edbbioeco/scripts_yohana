@@ -356,7 +356,7 @@ dados_tabela <- dados |>
                   `Nome Científico` |>
                     stringr::str_detect("Megachile") ~ "Tribo Megachilini",
                   `Nome Científico` |>
-                    stringr::str_detect("Panurginae|Halictidae|Halictidae sp") ~ "Tribo não identificada",
+                    stringr::str_detect("Panurginae") ~ "Tribo não identificada",
                   `Nome Científico` |>
                     stringr::str_detect("Pseudagapostemon") ~ "Tribo Halictini"
 
