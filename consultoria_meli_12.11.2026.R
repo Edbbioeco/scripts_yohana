@@ -498,6 +498,12 @@ dados_tabela |>
   dplyr::pull(familia) |>
   unique()
 
+## Riqueza em campanhas isoladas ----
+
+dados_tabela |>
+  dplyr::summarise(riqueza = dplyr::n(),
+                   .by = c(Campanha))
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
