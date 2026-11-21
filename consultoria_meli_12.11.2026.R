@@ -728,3 +728,10 @@ upgma_grafico_durante <- ggplot() +
                                   size = 35))
 
 upgma_grafico_durante
+
+(upgma_grafico_pre + upgma_grafico_durante) +
+  patchwork::plot_annotation(
+    caption = "Similaridade de Bray-Curtis",
+    theme = theme(plot.caption = element_text(hjust = 0.5,
+                                              color = "black",
+                                              size = 35)))
