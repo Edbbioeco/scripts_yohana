@@ -483,6 +483,11 @@ dados_tabela |>
   dplyr::select(ordem, familia, tribo = Tribo, especie = `Nome Científico`) |>
   writexl::write_xlsx("tax_meli.xlsx")
 
+"tax_meli.xlsx" |>
+  googledrive::drive_upload(path = "Consultoria ciclo ambiental/Turvo, PR",
+                            name = "tax_meli.xlsx",
+                            overwrite = TRUE)
+
 ## Estatística das espécies ----
 
 ### Número de espécies por família e campanha ----
