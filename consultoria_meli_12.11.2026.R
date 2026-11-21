@@ -596,3 +596,25 @@ ramos_total
 area_total <- upgma_data_total$label
 
 area_total
+
+#### Gráfico ----
+
+ggplot() +
+  geom_segment(data = ramos_total, aes(x = x, y = y,
+                                       xend = xend, yend = yend),
+               linewidth = 2) +
+  labs(x = NULL,
+       y = "Similaridade de Bray-Curtis") +
+  scale_x_continuous(breaks = 1:4,
+                     labels = area_total$label) +
+  scale_y_continuous(limits = c(0, 0.2)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(vjust = 0,
+                                   color = "black", size = 35),
+        axis.text = element_text(color = "black", size = 35),
+        axis.title = element_text(color = "black", size = 35),
+        panel.grid.major.y = element_line(linewidth = 1,
+                                          color = "gray80"),
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank())
