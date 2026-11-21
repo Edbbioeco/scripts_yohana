@@ -492,6 +492,12 @@ dados_tabela |>
   dplyr::summarise(riqueza = dplyr::n(),
                    .by = c(familia, Campanha))
 
+### Quantidade de famílias ----
+
+dados_tabela |>
+  dplyr::pull(familia) |>
+  unique()
+
 # Diversidade beta ----
 
 ## Calcular matrizes de similaridade ----
