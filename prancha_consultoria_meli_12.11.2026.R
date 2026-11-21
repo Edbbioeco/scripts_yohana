@@ -132,3 +132,16 @@ sps_lista <- tax |>
   dplyr::pull(especie)
 
 sps_lista
+
+### Alterar a ordem da lista ----
+
+imagens <- sps_lista |>
+  purrr::set_names() |>
+  purrr::map(\(sps){
+
+    imagens[[sps]]
+
+  },
+  .progress = TRUE)
+
+imagens
