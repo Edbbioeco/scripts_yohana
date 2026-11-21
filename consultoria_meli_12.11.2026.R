@@ -576,3 +576,23 @@ upgma_fases <- purrr::map(
   .progress = TRUE)
 
 upgma_fases
+
+## Dendogramas ----
+
+### Total ----
+
+#### Extrait valores ----
+
+upgma_data_total <- upgma_total |>
+  as.dendrogram() |>
+  ggdendro::dendro_data()
+
+upgma_data_total
+
+ramos_total <- upgma_data_total$segments
+
+ramos_total
+
+area_total <- upgma_data_total$label
+
+area_total
