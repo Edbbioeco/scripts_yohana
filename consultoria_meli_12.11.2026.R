@@ -553,3 +553,12 @@ matriz_sim_fases <- purrr::map(
   purrr::set_names(dados$`Fase de licenciamento` |> unique())
 
 matriz_sim_fases
+
+## UPGMA ----
+
+### Total ----
+
+upgma_total <- matriz_sim_total |>
+  hclust(method = "average")
+
+upgma_total
