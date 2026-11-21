@@ -124,3 +124,11 @@ tax <- "Consultoria ciclo ambiental/Turvo, PR" |>
 tax
 
 tax |> dplyr::glimpse()
+
+### Filtrar espécies ----
+
+sps_lista <- tax |>
+  dplyr::filter(especie %in% names(imagens)) |>
+  dplyr::pull(especie)
+
+sps_lista
