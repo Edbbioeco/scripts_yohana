@@ -618,3 +618,7 @@ ggplot() +
         panel.grid.minor.y = element_blank(),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank())
+
+ggsave(filename = "upgma_mali_total_12.11.2026.png",
+       height = 12,
+       width = 16)
