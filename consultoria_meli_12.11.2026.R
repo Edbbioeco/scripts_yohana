@@ -155,6 +155,7 @@ rare_total <- dados |>
   tidyr::pivot_wider(names_from = `Nome Científico`,
                      values_from = abundancia,
                      values_fill = 0) |>
+  dplyr::select_if(is.numeric) |>gi
   vegan::estaccumR(permutations = 1000) |>
   summary(display = c("S", "chao"))
 
