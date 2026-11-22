@@ -730,7 +730,7 @@ upgma_grafico_durante <- ggplot() +
                      sec.axis = dup_axis(
                        breaks = 1:4,
                        labels = NULL)) +
-  scale_x_continuous(limits = c(0, 0.35)) +
+  scale_x_continuous(limits = c(0, 0.25)) +
   theme_minimal() +
   theme(axis.text.x = element_text(vjust = 0,
                                    color = "black", size = 35),
