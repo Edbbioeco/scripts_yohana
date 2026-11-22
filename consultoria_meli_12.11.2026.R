@@ -694,7 +694,7 @@ upgma_grafico_pre <- ggplot() +
                          purrr::pluck("Áreas") |>
                          purrr::pluck("label"),
                        name = NULL)) +
-  scale_x_continuous(limits = c(0, 0.35),
+  scale_x_continuous(limits = c(0, 0.25),
                      transform = "reverse") +
   theme_minimal() +
   theme(axis.text.x = element_text(vjust = 0,
