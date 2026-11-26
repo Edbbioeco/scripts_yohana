@@ -309,6 +309,11 @@ div_df <- div_df |>
 
 div_df |> View()
 
+div_df |>
+  dplyr::arrange(Campanha) |>
+  dplyr::arrange(indice) |>
+  as.data.frame()
+
 ## Grpáficos ----
 
 ### Criar ----
