@@ -112,8 +112,8 @@ div_func_alfa_trat <- div_func_alfa |>
   tibble::rownames_to_column() |>
   dplyr::select(1, 6:7) |>
   dplyr::rename("Local" = 1,
-                "Funcional Eveness" = 2,
-                "Funcional Divergence" = 3) |>
+                "Functional Eveness" = 2,
+                "Functional Divergence" = 3) |>
   dplyr::mutate(Local = com |> rownames()) |>
   tidyr::pivot_longer(cols = dplyr::where(is.numeric),
                       names_to = "indice",
