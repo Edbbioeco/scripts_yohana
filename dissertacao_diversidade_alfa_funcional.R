@@ -126,11 +126,10 @@ div_func_alfa_trat
 ### Gráfico ----
 
 div_func_alfa_trat |>
-  ggplot(aes(Local, `Funcional Diversity`)) +
+  ggplot(aes(Local, `Functional Diversity`)) +
   geom_col(color = "black", width = 0.5) +
   facet_wrap(~indice, scales = "free_y",
              ncol = 2) +
-  labs(y = "Functional diversity") +
   theme_classic() +
   theme(axis.text = element_text(color = "black", size = 25),
         axis.title = element_text(color = "black", size = 25),
