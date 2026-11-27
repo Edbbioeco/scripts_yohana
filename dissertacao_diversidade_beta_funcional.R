@@ -121,7 +121,7 @@ matriz_em_df_func <- function(id, indice){
 
 id <- 1:3
 
-indice <- c("Beta Diversity", "Species Replacement", "Specis Gain/Loss")
+indice <- c("Beta Diversity", "Species Replacement", "Species Gain/Loss")
 
 indice
 
