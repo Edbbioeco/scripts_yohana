@@ -117,7 +117,7 @@ div_func_alfa_trat <- div_func_alfa |>
   dplyr::mutate(Local = com |> rownames()) |>
   tidyr::pivot_longer(cols = dplyr::where(is.numeric),
                       names_to = "indice",
-                      values_to = "Funcional Diversity") |>
+                      values_to = "Functional Diversity") |>
   dplyr::mutate(indice = indice |> forcats::fct_relevel(c("Funcional Eveness",
                                                           "Funcional Divergence")))
 
